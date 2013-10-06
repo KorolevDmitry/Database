@@ -1,0 +1,17 @@
+Database application
+Dmitry Korolev, Computer Science Center, 2013
+
+Database designed to use simple key-value (string-string) storage.
+You can launch program under 3 different modes (depends on arguments):
+1. Memory - to store values only in memory.
+2. File {path_to_store_files_with_last_dash} {fileSplitSize} - to store values only in file storage.
+3. Combined {path_to_store_files_with_last_dash} {fileSplitSize} {memoryMaxSize} - to store values only in combined storage mode.
+path_to_store_files_with_last_dash - directory where to store files of database.
+fileSplitSize - how many files will database be kept in.
+memoryMaxSize - size of elements that will be kept in memory.
+
+There are number of commands: GET, ADD, UPDATE, DELETE, HELP, QUIT.
+
+You can generate initial data to database by providing 2 additional arguments:
+valueSize - size of value in bytes
+elementsCount - count of generated elements

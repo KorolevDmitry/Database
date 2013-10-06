@@ -32,8 +32,8 @@ public class Program {
         System.out.println(DataStorageType.FILE + " {fileBaseDirectory} {fileSplitSize} - to store values only in file storage.");
         System.out.println(DataStorageType.COMBINED + " {fileBaseDirectory} {fileSplitSize} {memoryMaxSize} - to store values only in combined storage mode.");
         System.out.println("fileBaseDirectory - directory where to store files of database.");
-        System.out.println("fileSplitSize - how many files will keep database.");
-        System.out.println("memoryMaxSize - number of elements that will be kept in memory.");
+        System.out.println("fileSplitSize - how many files will database be kept in.");
+        System.out.println("memoryMaxSize - size of elements that will be kept in memory.");
     }
 
     private static Database<String, String> InitDatabase(String[] args) throws Exception {
@@ -75,24 +75,24 @@ public class Program {
         switch (dataStorageType)
         {
             case MEMORY:
-                if(args.length >= 2)
+                if(args.length >= 3)
                 {
-                    valueSize = Integer.parseInt(args[0]);
-                    elementsCount = Integer.parseInt(args[1]);
+                    valueSize = Integer.parseInt(args[1]);
+                    elementsCount = Integer.parseInt(args[2]);
                 }
                 break;
             case FILE:
-                if(args.length >= 4)
-                {
-                    valueSize = Integer.parseInt(args[2]);
-                    elementsCount = Integer.parseInt(args[3]);
-                }
-                break;
-            case COMBINED:
                 if(args.length >= 5)
                 {
                     valueSize = Integer.parseInt(args[3]);
                     elementsCount = Integer.parseInt(args[4]);
+                }
+                break;
+            case COMBINED:
+                if(args.length >= 6)
+                {
+                    valueSize = Integer.parseInt(args[4]);
+                    elementsCount = Integer.parseInt(args[5]);
                 }
                 break;
         }
