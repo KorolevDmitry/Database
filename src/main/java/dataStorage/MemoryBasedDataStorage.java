@@ -54,6 +54,11 @@ public class MemoryBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, 
         WrappedKeyValue<TKey, TValue> item = _storage.get(tKey);
         if (item != null) {
             item.IsDeleted = true;
+            item.Value = null;
+        }
+        else
+        {
+            _storage.put(tKey, new WrappedKeyValue<TKey, TValue>(tKey, null, true));
         }
     }
 

@@ -26,7 +26,17 @@ public class CombinedDataStorage<TKey, TValue> implements IDataStorage<TKey, TVa
     }
 
     private void AddItemToMemory(WrappedKeyValue<TKey, TValue> item) {
-        _memoryStorage.AddOrUpdate(item.Key, item.Value);
+        if(item.IsDeleted)
+        {
+            WrappedKeyValue oldItem = _memoryStorage.Get(item.Key);
+            _currentMemorySize -= oldItem == null ? 0 : oldItem.Size;
+            _memoryStorage.Delete(item.Key);
+            _currentMemorySize += oldItem == null ? 0 : item.Size;
+        }
+        else
+        {
+            _memoryStorage.AddOrUpdate(item.Key, item.Value);
+        }
         if (!_freqElements.contains(item.Key)) {
             _freqElements.add(item.Key);
             _currentMemorySize += item.Size;
