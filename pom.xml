@@ -6,7 +6,14 @@
 
     <groupId>Database</groupId>
     <artifactId>Database</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>DatabaseClient</module>
+        <module>DatabaseServer</module>
+        <module>DatabaseBase</module>
+        <module>DatabaseTests</module>
+    </modules>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

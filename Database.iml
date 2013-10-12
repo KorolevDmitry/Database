@@ -12,7 +12,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="org.junit:com.springsource.org.junit:4.8.2" level="project" />
   </component>
 </module>
 
