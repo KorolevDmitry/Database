@@ -30,10 +30,11 @@ public class Lexer {
         // Begin matching tokens
         Matcher matcher = tokenPatterns.matcher(input);
         while (matcher.find()) {
-            if (matcher.group(LexemType.NUMBER.name()) != null) {
+            /*if (matcher.group(LexemType.NUMBER.name()) != null) {
                 tokens.add(new Lexem(LexemType.NUMBER, matcher.group(LexemType.NUMBER.name())));
                 continue;
-            } else if (matcher.group(LexemType.LITERAL.name()) != null) {
+            } else*/
+            if (matcher.group(LexemType.LITERAL.name()) != null) {
                 tokens.add(new Lexem(LexemType.LITERAL, matcher.group(LexemType.LITERAL.name())));
                 continue;
             } else if (matcher.group(LexemType.STRING.name()) != null) {

@@ -25,7 +25,7 @@ public class CombinedDataStorageTest {
 
     @Before
     public void setUp() throws Exception {
-        _storage = new CombinedDataStorage<String, String>(System.getProperty("user.dir"), 1, 1024);
+        _storage = new CombinedDataStorage<String, String>(System.getProperty("user.dir"), "_fileStorage", 1, 1024);
     }
 
     @Test
@@ -52,11 +52,11 @@ public class CombinedDataStorageTest {
         assertTrue(_storage.Get(defaultKey1).IsDeleted);
     }
 
-    //@Test
+    @Test
     public void StressTest_16MbKeysAnd1KbValues()
     {
         //extend memory size for this test 4x16Mb
-        _storage = new CombinedDataStorage<String, String>(System.getProperty("user.dir"), 1, 67108864);
+        _storage = new CombinedDataStorage<String, String>(System.getProperty("user.dir"), "fileStorage", 1, 67108864);
         byte[] keyBytes = new byte[16777216]; //16Mb
         byte[] valueBytes = new byte[1024]; //1Kb
         int elementsCount = 10;

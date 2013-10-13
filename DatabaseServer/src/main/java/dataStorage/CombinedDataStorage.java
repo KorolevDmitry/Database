@@ -21,9 +21,9 @@ public class CombinedDataStorage<TKey, TValue> implements IDataStorage<TKey, TVa
     private int _maxMemorySize;
     private int _currentMemorySize;
 
-    public CombinedDataStorage(String baseDirectory, int fileSplitSize, int memorySize) {
+    public CombinedDataStorage(String baseDirectory, String filePrefix, int fileSplitSize, int memorySize) {
         _memoryStorage = new MemoryBasedDataStorage<TKey, TValue>();
-        _fileStorage = new FileBasedDataStorage<TKey, TValue>(baseDirectory, fileSplitSize);
+        _fileStorage = new FileBasedDataStorage<TKey, TValue>(baseDirectory, filePrefix, fileSplitSize);
         _freqElements = new ConcurrentLinkedQueue<TKey>();
         _maxMemorySize = memorySize;
     }

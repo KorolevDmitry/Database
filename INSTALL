@@ -4,23 +4,23 @@ Dmitry Korolev, Computer Science Center, 2013
 In order to build project 'Database', print:
 mvn package
 In order to run server, print:
-java -cp DatabaseBase/target/DatabaseBase-1.0-SNAPSHOT.jar;DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT.jar Program {args}
+java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar {args}
 In order to run client, print:
-java -cp DatabaseBase/target/DatabaseBase-1.0-SNAPSHOT.jar;DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT.jar Program {args}
+java -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar {args}
 
-In order to know about all {args} please read README
+In order to know about all {args} please see README
 
 !!!!FR1!!!!
 To generate initial big data you can use next command:
 --run server
-java -cp DatabaseBase/target/DatabaseBase-1.0-SNAPSHOT.jar;DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT.jar Program 1107 combined {path_to_store_files_with_last_dash} 10 104857600 16384 100000
+java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode combined --directory . --split-rate 10 --memory-max-size 104857600 --generate-elements-count 16384 --generate-value_size 100000
 --run client
-java -cp DatabaseBase/target/DatabaseBase-1.0-SNAPSHOT.jar;DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT.jar Program localhost:1107
+java -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1107
 
 !!!!FR2!!!!
 --run server 1
-java -cp DatabaseBase/target/DatabaseBase-1.0-SNAPSHOT.jar;DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT.jar Program 1107 memory
+java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
 --run server 2
-java -cp DatabaseBase/target/DatabaseBase-1.0-SNAPSHOT.jar;DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT.jar Program 1108 memory
+java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1108 --mode memory
 --run client
-java -cp DatabaseBase/target/DatabaseBase-1.0-SNAPSHOT.jar;DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT.jar Program localhost:1107;localhost:1108
+java -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1107;localhost:1108

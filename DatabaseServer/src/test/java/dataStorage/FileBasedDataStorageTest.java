@@ -2,6 +2,7 @@ package dataStorage;
 
 import entities.WrappedKeyValue;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Random;
 
@@ -24,10 +25,10 @@ public class FileBasedDataStorageTest {
 
     @Before
     public void setUp() throws Exception {
-        _storage = new FileBasedDataStorage<String, String>(System.getProperty("user.dir"), 1);
+        _storage = new FileBasedDataStorage<String, String>(System.getProperty("user.dir"), "_fileStorage", 1);
     }
 
-    //@Test
+    @Test
     public void Get_ItemExists_Returned() throws Exception {
         //arrange
         _storage.AddOrUpdate(defaultKey1, defaultValue1);
@@ -39,7 +40,7 @@ public class FileBasedDataStorageTest {
         assertEquals(defaultValue1, item.Value);
     }
 
-    //@Test
+    @Test
     public void Delete_ItemExist_ItemMarkedAsDeleted() throws Exception {
         //arrange
         _storage.AddOrUpdate(defaultKey1, defaultValue1);
@@ -51,7 +52,7 @@ public class FileBasedDataStorageTest {
         assertTrue(_storage.Get(defaultKey1).IsDeleted);
     }
 
-    //@Test
+    @Test
     public void StressTest_16MbKeysAnd1KbValues()
     {
         byte[] keyBytes = new byte[16777216]; //16Mb

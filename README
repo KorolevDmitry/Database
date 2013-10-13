@@ -4,23 +4,30 @@ Dmitry Korolev, Computer Science Center, 2013
 Database designed to use simple key-value (string-string) storage.
 
 -----SERVER-----
---Program [port] [mode and args]
-You can launch program under 3 different modes (depends on arguments):
-1. Memory - to store values only in memory.
-2. File {path_to_store_files_with_last_dash} {fileSplitSize} - to store values only in file storage.
-3. Combined {path_to_store_files_with_last_dash} {fileSplitSize} {memoryMaxSize} - to store values only in combined storage mode.
-path_to_store_files_with_last_dash - directory where to store files of database.
-fileSplitSize - how many files will database be kept in.
-memoryMaxSize - size of elements that will be kept in memory.
-
-You can generate initial data to database by providing 2 additional arguments:
-valueSize - size of value in bytes
-elementsCount - count of generated elements
+You can use program with next arguments:
+        --help - Print description of acceptable arguments
+        --port {port} - Port number to listen requests.
+        --mode {mode} - Opportunity to run server in different modes:
+                Memory - to store values only in memory.
+                File - to store values only in file storage.
+                Combined - to store values only in combined storage mode.
+        --directory {directory} - Directory for storing files of database. Applied only for Memory and Combined modes.
+        --split-rate {split-rate} - Count of files to store database in. Applied only for Memory and Combined modes.
+        --memory-max-size {memory-max-size} - Size of database in bytes that will be cached in memory. Applied only for Combined mode.
+        --generate-elements-count {generate-elements-count} - Count of sample items to generate (key is integer from 0 till count-1).
+        --generate-value_size {generate-value_size} - Size of values in bytes to generate.
 --EXAMPLE
-Program 1107 memory
+--port 1107 --mode memory
 
 -----CLIENT-----
---Program [server_list]
-server_list - ';' separated string of values: "server:port"
+You can use program with next arguments:
+        --list-of-servers {hostname:port[;hostname:port]*} - List of servers to connect to.
 
-There are number of commands: GET, ADD, UPDATE, DELETE, HELP, QUIT.
+There are number of commands:
+        get {key} - Get value from storage.
+        add {key} {value} - Add value to storage.
+        update {key} {value} - Update value from storage.
+        add_or_update {key} {value} - Add value to storage if it is not exists and update it in another case.
+        delete {key} - Delete value from storage.
+        help - Print list of accessible commands.
+        quit - Quit.

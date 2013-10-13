@@ -29,7 +29,7 @@ public class MemoryBasedDataStorageTest {
     }
 
     @Test
-    public void RemoveCompletly_ItemExist_GetReturnNull() throws Exception {
+    public void RemoveCompletely_ItemExist_GetReturnNull() throws Exception {
         //arrange
         _storage.AddOrUpdate(defaultKey1, defaultValue1);
 
@@ -52,7 +52,7 @@ public class MemoryBasedDataStorageTest {
         assertEquals(defaultValue1, item.Value);
     }
 
-   @Test
+    @Test
     public void Delete_ItemExist_ItemMarkedAsDeleted() throws Exception {
         //arrange
         _storage.AddOrUpdate(defaultKey1, defaultValue1);

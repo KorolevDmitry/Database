@@ -18,10 +18,13 @@ public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TV
 
     private String _baseDirectory;
     private int _fileSplitSize;
-    private final String _prefix = "fileStorage_";
+    private String _prefix;
 
-    public FileBasedDataStorage(String baseDirectory, int fileSplitSize) {
-        _baseDirectory = baseDirectory;
+    public FileBasedDataStorage(String baseDirectory, String filePrefix, int fileSplitSize) {
+        _baseDirectory = baseDirectory == "." ? System.getProperty("user.dir") : baseDirectory;
+        if(_baseDirectory.charAt(_baseDirectory.length()-1) != '\\')
+            _baseDirectory = _baseDirectory + "\\";
+        _prefix = filePrefix;
         _fileSplitSize = fileSplitSize;
     }
 
@@ -96,7 +99,7 @@ public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TV
     }
 
     private String GetFilePath(TKey key) {
-        return _baseDirectory + "" + GetIndex(key);
+        return _baseDirectory + _prefix + GetIndex(key);
     }
 
     private void Add(String filePath, List<WrappedKeyValue<TKey, TValue>> value) throws IOException {

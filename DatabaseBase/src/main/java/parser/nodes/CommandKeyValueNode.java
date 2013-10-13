@@ -40,6 +40,7 @@ public class CommandKeyValueNode<TKey, TValue> extends CommandKeyNode<TKey, TVal
                 if (item == null || item.IsDeleted)
                     throw new InvalidKeyException();
                 dataStorage.AddOrUpdate(Key, Value);
+                return null;
             default:
                 throw new EvaluateException();
         }
