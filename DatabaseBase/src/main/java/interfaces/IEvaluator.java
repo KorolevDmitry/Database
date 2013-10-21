@@ -2,6 +2,7 @@ package interfaces;
 
 import exceptions.EvaluateException;
 
+import java.io.IOException;
 import java.security.InvalidKeyException;
 
 /**
@@ -12,5 +13,5 @@ import java.security.InvalidKeyException;
  * To change this template use File | Settings | File Templates.
  */
 public interface IEvaluator<TKey, TValue> {
-    TValue Evaluate(IDataStorage<TKey, TValue> dataStorage) throws EvaluateException, InvalidKeyException;
+    TValue Evaluate(IDataStorage<TKey, TValue> dataStorage) throws EvaluateException, InvalidKeyException, IOException;
 }

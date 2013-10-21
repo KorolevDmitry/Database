@@ -5,6 +5,7 @@ import interfaces.IDataStorage;
 import interfaces.IEvaluator;
 import parser.ParsedTree;
 
+import java.io.IOException;
 import java.security.InvalidKeyException;
 
 /**
@@ -21,11 +22,11 @@ public class Evaluator<TKey, TValue> {
         _dataStorage = dataStorage;
     }
 
-    public TValue Evaluate(ParsedTree tree) throws EvaluateException, InvalidKeyException {
+    public TValue Evaluate(ParsedTree tree) throws EvaluateException, InvalidKeyException, IOException {
         return Evaluate(tree.Command);
     }
 
-    private TValue Evaluate(IEvaluator<TKey, TValue> evaluator) throws EvaluateException, InvalidKeyException {
+    private TValue Evaluate(IEvaluator<TKey, TValue> evaluator) throws EvaluateException, InvalidKeyException, IOException {
         return evaluator.Evaluate(_dataStorage);
     }
 }

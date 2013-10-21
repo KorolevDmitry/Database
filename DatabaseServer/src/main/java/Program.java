@@ -32,12 +32,14 @@ import java.util.Random;
  */
 public class Program {
 
+    private static Random random = new Random();
+
     private static void PrintMainHelp() {
         System.out.println("You can use program with next arguments:");
         ArgumentsHelper.PrintDescription(ServerArguments.values());
     }
 
-    private static IDataStorage<String, String> InitDatabase(HashMap<INameUsageDescriptionPattern, String> arguments) {
+    private static IDataStorage<String, String> InitDatabase(HashMap<INameUsageDescriptionPattern, String> arguments) throws IOException, ClassNotFoundException {
         IDataStorage<String, String> storage = null;
         if (!arguments.containsKey(ServerArguments.Mode))
             throw new IllegalArgumentException("Missed required argument: " + ServerArguments.Mode.GetName());
@@ -70,7 +72,7 @@ public class Program {
         return storage;
     }
 
-    private static void InitTestData(IDataStorage<String, String> database, HashMap<INameUsageDescriptionPattern, String> arguments) {
+    private static void InitTestData(IDataStorage<String, String> database, HashMap<INameUsageDescriptionPattern, String> arguments) throws IOException {
         if (!arguments.containsKey(ServerArguments.GenerateElementsCount) && !arguments.containsKey(ServerArguments.GenerateValueSize))
         return;
         int elementsCount = ArgumentsHelper.GetPositiveIntArgument(arguments, ServerArguments.GenerateElementsCount);
@@ -81,13 +83,24 @@ public class Program {
             byte[] r = new byte[valueSize];
             for (int i = 0; i < elementsCount; i++) {
                 String s = String.valueOf(i);
-                random.nextBytes(r);
-                database.AddOrUpdate(s, new String(r));
+                database.AddOrUpdate(s, GenerateStringAllCharacters(valueSize));
                 if ((i + 1) % 100 == 0)
                     System.out.println((i + 1) + " of " + elementsCount + " items generated.");
             }
             System.out.println("Initialized.");
         }
+    }
+
+    private static String GenerateStringAllCharacters(int countOfBytes)    {
+        byte[] bytes = new byte[countOfBytes];
+        for(int i = 0; i<countOfBytes;i++)
+        {
+            bytes[i]= (byte) (i%256);
+        }
+        String str = new String(bytes);
+        str = str.replace("\0", "");
+
+        return str;
     }
 
     public static void main(String[] args) throws IOException {
@@ -139,6 +152,9 @@ public class Program {
         } catch (IllegalArgumentException exception)
         {
             System.out.println(exception.getMessage());
+            PrintMainHelp();
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());
             PrintMainHelp();
         }
     }

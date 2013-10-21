@@ -4,6 +4,7 @@ import entities.WrappedKeyValue;
 import exceptions.EvaluateException;
 import interfaces.IDataStorage;
 
+import java.io.IOException;
 import java.security.InvalidKeyException;
 
 /**
@@ -27,7 +28,7 @@ public class CommandKeyNode<TKey, TValue> extends CommandSingleNode<TKey, TValue
     }
 
     @Override
-    public TValue Evaluate(IDataStorage<TKey, TValue> dataStorage) throws EvaluateException, InvalidKeyException {
+    public TValue Evaluate(IDataStorage<TKey, TValue> dataStorage) throws EvaluateException, InvalidKeyException, IOException {
         switch (GetCommand())
         {
             case GET:

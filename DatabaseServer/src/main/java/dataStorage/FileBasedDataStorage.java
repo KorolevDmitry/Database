@@ -1,11 +1,14 @@
 package dataStorage;
 
-import interfaces.IDataStorage;
 import entities.WrappedKeyValue;
+import interfaces.IDataStorage;
 import utils.AppendingObjectOutputStream;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,17 +18,24 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TValue> {
-
+    private String _indexFileName = "indexFileStorage.dat";
+    private String _indexFilePath;
     private String _baseDirectory;
     private int _fileSplitSize;
     private String _prefix;
+    private String[] _storageFilePaths;
+    ConcurrentHashMap<TKey, Long> _index;
 
-    public FileBasedDataStorage(String baseDirectory, String filePrefix, int fileSplitSize) {
+    public FileBasedDataStorage(String baseDirectory, String filePrefix, int fileSplitSize) throws IOException, ClassNotFoundException {
         _baseDirectory = baseDirectory == "." ? System.getProperty("user.dir") : baseDirectory;
-        if(_baseDirectory.charAt(_baseDirectory.length()-1) != '\\')
+        if (_baseDirectory.charAt(_baseDirectory.length() - 1) != '\\')
             _baseDirectory = _baseDirectory + "\\";
         _prefix = filePrefix;
         _fileSplitSize = fileSplitSize;
+        _index = new ConcurrentHashMap<TKey, Long>();
+        _indexFilePath = _baseDirectory + _indexFileName + "\\";
+        _storageFilePaths = GetStorageFilePaths();
+        LoadIndexFile();
     }
 
     @Override
@@ -46,43 +56,28 @@ public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TV
     }
 
     @Override
-    public void AddOrUpdate(TKey tKey, TValue tValue) {
-        try {
-            Add(new WrappedKeyValue<TKey, TValue>(tKey, tValue));
-        } catch (IOException e) {
-            e.printStackTrace();
-            //TODO: logging
+    public void AddOrUpdate(TKey tKey, TValue tValue) throws IOException {
+        Add(new WrappedKeyValue<TKey, TValue>(tKey, tValue));
+    }
+
+    @Override
+    public void AddOrUpdate(List<WrappedKeyValue<TKey, TValue>> values) throws IOException {
+        HashMap<String, List<WrappedKeyValue<TKey, TValue>>> splittedValues = new HashMap<String, List<WrappedKeyValue<TKey, TValue>>>();
+        for (int i = 0; i < values.size(); i++) {
+            String filePath = GetFilePath(values.get(i).Key);
+            if (!splittedValues.containsKey(filePath)) {
+                splittedValues.put(filePath, new ArrayList<WrappedKeyValue<TKey, TValue>>());
+            }
+            splittedValues.get(filePath).add(values.get(i));
+        }
+        for (String entry : splittedValues.keySet()) {
+            Add(entry, splittedValues.get(entry));
         }
     }
 
     @Override
-    public void AddOrUpdate(List<WrappedKeyValue<TKey, TValue>> values) {
-        try {
-            HashMap<String, List<WrappedKeyValue<TKey, TValue>>> splittedValues = new HashMap<String, List<WrappedKeyValue<TKey, TValue>>>();
-            for (int i = 0; i < values.size(); i++) {
-                String filePath = GetFilePath(values.get(i).Key);
-                if (!splittedValues.containsKey(filePath)) {
-                    splittedValues.put(filePath, new ArrayList<WrappedKeyValue<TKey, TValue>>());
-                }
-                splittedValues.get(filePath).add(values.get(i));
-            }
-            for (String entry : splittedValues.keySet()) {
-                Add(entry, splittedValues.get(entry));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            //TODO: logging
-        }
-    }
-
-    @Override
-    public void Delete(TKey tKey) {
-        try {
-            Add(new WrappedKeyValue<TKey, TValue>(tKey, null, true));
-        } catch (IOException e) {
-            e.printStackTrace();
-            //TODO: logging
-        }
+    public void Delete(TKey tKey) throws IOException {
+        Add(new WrappedKeyValue<TKey, TValue>(tKey, null, true));
     }
 
     @Override
@@ -91,72 +86,169 @@ public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TV
     }
 
     @Override
-    public void Close() {
+    public void Close() throws IOException {
+        FlushIndexFile();
+    }
+
+    public String GetIndexFilePath() {
+        return _indexFilePath;
+    }
+
+    public String[] GetStorageFilePaths() {
+        String[] paths = new String[_fileSplitSize];
+        for (int i = 0; i < _fileSplitSize; i++) {
+            paths[i] = _baseDirectory + _prefix + i + "\\";
+        }
+
+        return paths;
+    }
+
+    private void LoadIndexFile() throws IOException, ClassNotFoundException {
+        String filePath = GetIndexFilePath();
+        synchronized (filePath) {
+            File file = new File(filePath);
+            if (file.exists()) {
+                FileInputStream fileInputStream = null;
+                ObjectInputStream in = null;
+                try {
+                    fileInputStream = new FileInputStream(file);
+                    in = new ObjectInputStream(fileInputStream);
+                    _index = (ConcurrentHashMap<TKey, Long>) in.readObject();
+                } finally {
+                    in.close();
+                }
+            }
+            if (_index == null) {
+                _index = new ConcurrentHashMap<TKey, Long>();
+            }
+        }
     }
 
     private int GetIndex(TKey key) {
-        return Math.abs(key.hashCode()) % 5;
+        return Math.abs(key.hashCode()) % _fileSplitSize;
     }
 
     private String GetFilePath(TKey key) {
-        return _baseDirectory + _prefix + GetIndex(key);
+        return _storageFilePaths[GetIndex(key)];
+    }
+
+    private void FlushIndexFile() throws IOException {
+        String filePath = GetIndexFilePath();
+        synchronized (filePath) {
+            File file = new File(filePath);
+            if (file.exists()) {
+                file.delete();
+            }
+            file.createNewFile();
+            FileOutputStream fileOutputStream;
+            ObjectOutputStream out = null;
+            try {
+                fileOutputStream = new FileOutputStream(file);
+                out = new ObjectOutputStream(fileOutputStream);
+                out.writeObject(_index);
+            } finally {
+                if (out != null) {
+                    out.flush();
+                    out.close();
+                }
+            }
+        }
     }
 
     private void Add(String filePath, List<WrappedKeyValue<TKey, TValue>> value) throws IOException {
-        File file = new File(filePath);
-        ObjectOutputStream out;
-        if (file.exists()) {
-            FileOutputStream fileOutputStream = new FileOutputStream(file, true);
-            out = new AppendingObjectOutputStream(fileOutputStream);
-        } else {
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            out = new ObjectOutputStream(fileOutputStream);
+        synchronized (filePath) {
+            File file = new File(filePath);
+            ObjectOutputStream out = null;
+            FileOutputStream fileOutputStream;
+            long position;
+            try {
+                if (file.exists()) {
+                    fileOutputStream = new FileOutputStream(file, true);
+                    out = new AppendingObjectOutputStream(fileOutputStream);
+                } else {
+                    file.createNewFile();
+                    fileOutputStream = new FileOutputStream(file);
+                    out = new ObjectOutputStream(fileOutputStream);
+                }
+                for (int i = 0; i < value.size(); i++) {
+                    position = fileOutputStream.getChannel().position();
+                    out.writeObject(value.get(i));
+                    _index.put(value.get(i).Key, position);
+                }
+            } finally {
+                if (out != null) {
+                    out.flush();
+                    out.close();
+                }
+            }
         }
-        for (int i = 0; i < value.size(); i++) {
-            out.writeObject(value.get(i));
-        }
-        out.flush();
-        out.close();
     }
 
     private void Add(WrappedKeyValue<TKey, TValue> value) throws IOException {
-        File file = new File(GetFilePath(value.Key));
-        ObjectOutputStream out;
-        if (file.exists()) {
-            FileOutputStream fileOutputStream = new FileOutputStream(file, true);
-            out = new AppendingObjectOutputStream(fileOutputStream);
-        } else {
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            out = new ObjectOutputStream(fileOutputStream);
+        String filePath = GetFilePath(value.Key);
+        synchronized (filePath) {
+            File file = new File(filePath);
+            ObjectOutputStream out = null;
+            FileOutputStream fileOutputStream;
+            long position;
+            try {
+                if (file.exists()) {
+                    fileOutputStream = new FileOutputStream(file, true);
+                    out = new AppendingObjectOutputStream(fileOutputStream);
+                } else {
+                    file.createNewFile();
+                    fileOutputStream = new FileOutputStream(file);
+                    out = new ObjectOutputStream(fileOutputStream);
+                }
+                position = fileOutputStream.getChannel().position();
+                out.writeObject(value);
+                _index.put(value.Key, position);
+            } finally {
+                if (out != null) {
+                    out.flush();
+                    out.close();
+                }
+            }
         }
-
-        out.writeObject(value);
-        out.flush();
-        out.close();
     }
 
     private WrappedKeyValue<TKey, TValue> Find(TKey key) throws IOException {
         File file = new File(GetFilePath(key));
         WrappedKeyValue<TKey, TValue> result = null;
+        if (!_index.containsKey(key)) {
+            return result;
+        }
         if (!file.exists()) {
             return result;
         }
-        FileInputStream fileInputStream = new FileInputStream(file);
-        ObjectInputStream in = new ObjectInputStream(fileInputStream);
+        long localFileIndex = _index.get(key);
+        FileInputStream fileInputStream = null;
+        ObjectInputStream in = null;
         try {
+            fileInputStream = new FileInputStream(file);
+            in = new ObjectInputStream(fileInputStream);
+            fileInputStream.getChannel().position(localFileIndex);
             WrappedKeyValue<TKey, TValue> value;
             while (true) {
-
                 value = (WrappedKeyValue<TKey, TValue>) in.readObject();
-                if (value.Key.equals(key))
+                if (value.Key.equals(key)) {
                     result = value;
+                    break;
+                }
             }
         } catch (EOFException e) {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             //TODO: logging
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } finally {
+            if (in != null) {
+                in.close();
+            }
         }
-        in.close();
         return result;
     }
 }

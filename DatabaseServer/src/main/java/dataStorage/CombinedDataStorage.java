@@ -1,8 +1,9 @@
 package dataStorage;
 
-import interfaces.IDataStorage;
 import entities.WrappedKeyValue;
+import interfaces.IDataStorage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -21,14 +22,14 @@ public class CombinedDataStorage<TKey, TValue> implements IDataStorage<TKey, TVa
     private int _maxMemorySize;
     private int _currentMemorySize;
 
-    public CombinedDataStorage(String baseDirectory, String filePrefix, int fileSplitSize, int memorySize) {
+    public CombinedDataStorage(String baseDirectory, String filePrefix, int fileSplitSize, int memorySize) throws IOException, ClassNotFoundException {
         _memoryStorage = new MemoryBasedDataStorage<TKey, TValue>();
         _fileStorage = new FileBasedDataStorage<TKey, TValue>(baseDirectory, filePrefix, fileSplitSize);
         _freqElements = new ConcurrentLinkedQueue<TKey>();
         _maxMemorySize = memorySize;
     }
 
-    private void AddItemToMemory(WrappedKeyValue<TKey, TValue> item) {
+    private void AddItemToMemory(WrappedKeyValue<TKey, TValue> item) throws IOException {
         if (item.IsDeleted) {
             WrappedKeyValue oldItem = _memoryStorage.Get(item.Key);
             _currentMemorySize -= oldItem == null ? 0 : oldItem.Size;
@@ -44,7 +45,7 @@ public class CombinedDataStorage<TKey, TValue> implements IDataStorage<TKey, TVa
 
         if (_currentMemorySize >= _maxMemorySize) {
             List<WrappedKeyValue<TKey, TValue>> items = new ArrayList<WrappedKeyValue<TKey, TValue>>();
-            while (_currentMemorySize >= _maxMemorySize / 2) {
+            while (_currentMemorySize > _maxMemorySize / 2) {
                 item = _memoryStorage.Get(_freqElements.poll());
                 items.add(item);
                 _currentMemorySize -= item.Size;
@@ -56,14 +57,14 @@ public class CombinedDataStorage<TKey, TValue> implements IDataStorage<TKey, TVa
         }
     }
 
-    private void AddItemToMemory(List<WrappedKeyValue<TKey, TValue>> wrappedKeyValue) {
+    private void AddItemToMemory(List<WrappedKeyValue<TKey, TValue>> wrappedKeyValue) throws IOException {
         for (WrappedKeyValue<TKey, TValue> item : wrappedKeyValue) {
             AddItemToMemory(item);
         }
     }
 
     @Override
-    public WrappedKeyValue<TKey, TValue> Get(TKey tKey) {
+    public WrappedKeyValue<TKey, TValue> Get(TKey tKey) throws IOException {
         WrappedKeyValue<TKey, TValue> value = _memoryStorage.Get(tKey);
         if (value == null) {
             value = _fileStorage.Get(tKey);
@@ -81,17 +82,17 @@ public class CombinedDataStorage<TKey, TValue> implements IDataStorage<TKey, TVa
     }
 
     @Override
-    public void AddOrUpdate(TKey tKey, TValue tValue) {
+    public void AddOrUpdate(TKey tKey, TValue tValue) throws IOException {
         AddItemToMemory(new WrappedKeyValue<TKey, TValue>(tKey, tValue));
     }
 
     @Override
-    public void AddOrUpdate(List<WrappedKeyValue<TKey, TValue>> wrappedKeyValues) {
+    public void AddOrUpdate(List<WrappedKeyValue<TKey, TValue>> wrappedKeyValues) throws IOException {
         AddItemToMemory(wrappedKeyValues);
     }
 
     @Override
-    public void Delete(TKey tKey) {
+    public void Delete(TKey tKey) throws IOException {
         AddItemToMemory(new WrappedKeyValue<TKey, TValue>(tKey, null, true));
     }
 
@@ -102,9 +103,19 @@ public class CombinedDataStorage<TKey, TValue> implements IDataStorage<TKey, TVa
     }
 
     @Override
-    public void Close() {
+    public void Close() throws IOException {
         _fileStorage.AddOrUpdate(_memoryStorage.GetElements());
         _memoryStorage.Close();
         _fileStorage.Close();
+    }
+
+    public String GetIndexFilePath()
+    {
+        return _fileStorage.GetIndexFilePath();
+    }
+
+    public String[] GetStorageFilePaths()
+    {
+        return _fileStorage.GetStorageFilePaths();
     }
 }

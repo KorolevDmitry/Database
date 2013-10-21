@@ -3,6 +3,7 @@ package parser.nodes;
 import exceptions.EvaluateException;
 import interfaces.IDataStorage;
 
+import java.io.IOException;
 import java.security.InvalidKeyException;
 
 /**
@@ -18,7 +19,7 @@ public class CommandSingleNode<TKey, TValue> extends CommandNode<TKey, TValue> {
     }
 
     @Override
-    public TValue Evaluate(IDataStorage<TKey, TValue> dataStorage) throws EvaluateException, InvalidKeyException {
+    public TValue Evaluate(IDataStorage<TKey, TValue> dataStorage) throws EvaluateException, InvalidKeyException, IOException {
         switch (GetCommand())
         {
             case QUIT:

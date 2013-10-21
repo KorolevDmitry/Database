@@ -4,6 +4,9 @@ import entities.WrappedKeyValue;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 import static junit.framework.Assert.*;
@@ -21,6 +24,7 @@ public class MemoryBasedDataStorageTest {
     private String defaultKey2 = "defaultKey2";
     private String defaultValue1 = "defaultValue1";
     private String defaultValue2 = "defaultValue2";
+    private Random random = new Random();
 
 
     @Before
@@ -53,6 +57,19 @@ public class MemoryBasedDataStorageTest {
     }
 
     @Test
+    public void Get_ItemWasUpdated_ReturnedUpdatedValue() throws Exception {
+        //arrange
+        _storage.AddOrUpdate(defaultKey1, defaultValue1);
+        _storage.AddOrUpdate(defaultKey1, defaultValue2);
+
+        //act
+        WrappedKeyValue item = _storage.Get(defaultKey1);
+
+        //assert
+        assertEquals(defaultValue2, item.Value);
+    }
+
+    @Test
     public void Delete_ItemExist_ItemMarkedAsDeleted() throws Exception {
         //arrange
         _storage.AddOrUpdate(defaultKey1, defaultValue1);
@@ -65,20 +82,17 @@ public class MemoryBasedDataStorageTest {
     }
 
     @Test
-    public void StressTest_16MbKeysAnd1KbValues()
-    {
-        byte[] keyBytes = new byte[16777216]; //16Mb
-        byte[] valueBytes = new byte[1024]; //1Kb
+    public void StressTest_16MbKeysAnd1KbValues() throws IOException, ClassNotFoundException {
+        //extend memory size for this test 4x16Mb
+        int keyBytes = 16777216; //16Mb
+        int valueBytes = 1024; //1Kb
         int elementsCount = 10;
         String[] arrayOfKeys = new String[elementsCount];
         String[] arrayOfValues = new String[elementsCount];
-        Random random = new Random();
 
         for (int i = 0; i < elementsCount; i++) {
-            random.nextBytes(keyBytes);
-            arrayOfKeys[i] = new String(keyBytes);
-            random.nextBytes(valueBytes);
-            arrayOfValues[i] = new String(valueBytes);
+            arrayOfKeys[i] = GenerateStringAllCharacters(keyBytes);
+            arrayOfValues[i] = GenerateStringAllCharacters(valueBytes);
         }
 
         for (int i = 0; i < elementsCount; i++) {
@@ -87,7 +101,30 @@ public class MemoryBasedDataStorageTest {
 
         for (int i = 0; i < elementsCount; i++) {
             WrappedKeyValue value = _storage.Get(arrayOfKeys[i]);
+            if(value.Value == null)
+            {
+                FileOutputStream outputStream = new FileOutputStream("error");
+                FileWriter writer = new FileWriter("error");
+                writer.write("key:");
+                writer.write(arrayOfKeys[i]);
+                writer.write("\nvalue:");
+                writer.write(arrayOfValues[i]);
+                writer.flush();
+                writer.close();
+            }
             assertEquals(arrayOfValues[i], value.Value);
         }
+    }
+
+    private String GenerateStringAllCharacters(int countOfBytes)    {
+        byte[] bytes = new byte[countOfBytes];
+        for(int i = 0; i<countOfBytes;i++)
+        {
+            bytes[i]= (byte) (i%256);
+        }
+        String str = new String(bytes);
+        str = str.replace("\0", "");
+
+        return str;
     }
 }
