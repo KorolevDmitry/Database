@@ -1,25 +1,22 @@
-import api.Evaluator;
+import api.ServerEvaluator;
 import dataStorage.CombinedDataStorage;
 import dataStorage.DataStorageType;
 import dataStorage.FileBasedDataStorage;
 import dataStorage.MemoryBasedDataStorage;
-import exceptions.EvaluateException;
+import entities.EvaluationResult;
+import entities.Query;
 import exceptions.LexerException;
 import exceptions.ParserException;
 import interfaces.IDataStorage;
 import interfaces.INameUsageDescriptionPattern;
 import parser.Lexer;
-import parser.ParsedTree;
 import parser.Parser;
+import parser.ServerParser;
 import utils.ArgumentsHelper;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.InvalidKeyException;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -105,46 +102,47 @@ public class Program {
 
     public static void main(String[] args) throws IOException {
         String clientSentence;
-        String capitalizedSentence = null;
         ServerSocket welcomeSocket;
         IDataStorage<String, String> storage;
+        EvaluationResult result = null;
         try {
             HashMap<INameUsageDescriptionPattern, String> arguments = ArgumentsHelper.ParseArguments(args, ServerArguments.values());
             int port = ArgumentsHelper.GetPositiveIntArgument(arguments, ServerArguments.Port);
             storage = InitDatabase(arguments);
             System.out.println("Database initialized.");
             InitTestData(storage, arguments);
-            Parser parser = new Parser(new Lexer());
-            Evaluator evaluator = new Evaluator(storage);
+            Parser parser = new ServerParser(new Lexer());
+            ServerEvaluator<String, String> evaluator = new ServerEvaluator<String, String>(storage);
             welcomeSocket = new ServerSocket(port);
             while (true) {
                 Socket connectionSocket = welcomeSocket.accept();
                 BufferedReader inFromClient =
                         new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-                DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
+                ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
                 clientSentence = inFromClient.readLine();
                 if (clientSentence == null || clientSentence.isEmpty())
                     continue;
                 System.out.println("Received: " + clientSentence);
                 try {
-                    ParsedTree parsedTree = parser.Parse(clientSentence);
-                    Object value = evaluator.Evaluate(parsedTree);
-                    capitalizedSentence = value == null ? "Done" : value.toString() + '\n';
+                    Query query = parser.Parse(clientSentence);
+                    result = evaluator.Evaluate(query);
+                    if(result.Exit)
+                    {
+                        return;
+                    }
                 } catch (LexerException e) {
-                    capitalizedSentence = e.toString();
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    result = new EvaluationResult();
+                    result.HasError = true;
+                    result.ErrorDescription = e.toString();
+                    e.printStackTrace();
                 } catch (ParserException e) {
-                    capitalizedSentence = e.toString();
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (EvaluateException e) {
-                    capitalizedSentence = e.toString();
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (InvalidKeyException e) {
-                    capitalizedSentence = e.toString();
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    result = new EvaluationResult();
+                    result.HasError = true;
+                    result.ErrorDescription = e.toString();
+                    e.printStackTrace();
                 } finally {
-                    if (outToClient != null && capitalizedSentence != null) {
-                        outToClient.writeBytes(capitalizedSentence);
+                    if (outToClient != null) {
+                        outToClient.writeObject(result);
                         outToClient.close();
                     }
                 }

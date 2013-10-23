@@ -3,6 +3,7 @@ package dataStorage;
 import entities.WrappedKeyValue;
 import interfaces.IDataStorage;
 import utils.AppendingObjectOutputStream;
+import utils.FileUtils;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -114,8 +115,16 @@ public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TV
                     fileInputStream = new FileInputStream(file);
                     in = new ObjectInputStream(fileInputStream);
                     _index = (ConcurrentHashMap<TKey, Long>) in.readObject();
-                } finally {
-                    in.close();
+                } catch (EOFException eOFException)
+                {
+                }
+                finally {
+                    if (in != null) {
+                        in.close();
+                    }
+                    if (fileInputStream != null) {
+                        fileInputStream.close();
+                    }
                 }
             }
             if (_index == null) {
@@ -137,10 +146,11 @@ public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TV
         synchronized (filePath) {
             File file = new File(filePath);
             if (file.exists()) {
-                file.delete();
+                //file.delete();
             }
-            file.createNewFile();
-            FileOutputStream fileOutputStream;
+            //file.createNewFile();
+            FileUtils.CreateFile(file);
+            FileOutputStream fileOutputStream = null;
             ObjectOutputStream out = null;
             try {
                 fileOutputStream = new FileOutputStream(file);
@@ -151,6 +161,9 @@ public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TV
                     out.flush();
                     out.close();
                 }
+                if(fileOutputStream != null){
+                    fileOutputStream.close();
+                }
             }
         }
     }
@@ -159,14 +172,14 @@ public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TV
         synchronized (filePath) {
             File file = new File(filePath);
             ObjectOutputStream out = null;
-            FileOutputStream fileOutputStream;
+            FileOutputStream fileOutputStream = null;
             long position;
             try {
                 if (file.exists()) {
                     fileOutputStream = new FileOutputStream(file, true);
                     out = new AppendingObjectOutputStream(fileOutputStream);
                 } else {
-                    file.createNewFile();
+                    FileUtils.CreateFile(file);
                     fileOutputStream = new FileOutputStream(file);
                     out = new ObjectOutputStream(fileOutputStream);
                 }
@@ -180,6 +193,9 @@ public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TV
                     out.flush();
                     out.close();
                 }
+                if(fileOutputStream != null){
+                    fileOutputStream.close();
+                }
             }
         }
     }
@@ -189,14 +205,14 @@ public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TV
         synchronized (filePath) {
             File file = new File(filePath);
             ObjectOutputStream out = null;
-            FileOutputStream fileOutputStream;
+            FileOutputStream fileOutputStream = null;
             long position;
             try {
                 if (file.exists()) {
                     fileOutputStream = new FileOutputStream(file, true);
                     out = new AppendingObjectOutputStream(fileOutputStream);
                 } else {
-                    file.createNewFile();
+                    FileUtils.CreateFile(file);
                     fileOutputStream = new FileOutputStream(file);
                     out = new ObjectOutputStream(fileOutputStream);
                 }
@@ -207,6 +223,9 @@ public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TV
                 if (out != null) {
                     out.flush();
                     out.close();
+                }
+                if(fileOutputStream != null){
+                    fileOutputStream.close();
                 }
             }
         }
@@ -247,6 +266,9 @@ public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TV
         } finally {
             if (in != null) {
                 in.close();
+            }
+            if(fileInputStream != null) {
+                fileInputStream.close();
             }
         }
         return result;

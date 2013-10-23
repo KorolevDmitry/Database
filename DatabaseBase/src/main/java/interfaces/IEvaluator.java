@@ -1,9 +1,7 @@
 package interfaces;
 
-import exceptions.EvaluateException;
-
-import java.io.IOException;
-import java.security.InvalidKeyException;
+import entities.EvaluationResult;
+import entities.Query;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,6 +10,6 @@ import java.security.InvalidKeyException;
  * Time: 7:12 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface IEvaluator<TKey, TValue> {
-    TValue Evaluate(IDataStorage<TKey, TValue> dataStorage) throws EvaluateException, InvalidKeyException, IOException;
+public interface IEvaluator {
+    EvaluationResult Evaluate(Query tree);
 }

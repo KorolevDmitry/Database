@@ -26,18 +26,6 @@ public class LexerTest {
         assertEquals(LexemType.LITERAL, lexems.get(0).LexemType);
     }
 
-    //@Test
-    public void Lex_Number_Number() throws Exception {
-        //arrange
-        Lexer lexer = new Lexer();
-
-        //act
-        ArrayList<Lexem> lexems = lexer.Lex("123");
-
-        //assert
-        //assertEquals(LexemType.NUMBER, lexems.get(0).LexemType);
-    }
-
     @Test
     public void Lex_String_String() throws Exception {
         //arrange
@@ -50,7 +38,7 @@ public class LexerTest {
         assertEquals(LexemType.STRING, lexems.get(0).LexemType);
     }
 
-    //@Test
+    @Test
     public void Lex_Whitespace_Whitespace() throws Exception {
         //arrange
         Lexer lexer = new Lexer();
@@ -59,6 +47,20 @@ public class LexerTest {
         ArrayList<Lexem> lexems = lexer.Lex("   ");
 
         //assert
-        assertEquals(LexemType.WHITESPACE, lexems.get(0).LexemType);
+        assertEquals(0, lexems.size());
+    }
+
+    @Test
+    public void Lex_Combination_Combination() throws Exception {
+        //arrange
+        Lexer lexer = new Lexer();
+        String str = "open \"C:\\deploy\\add\\out.txt\" -verbose";
+        //act
+        ArrayList<Lexem> lexems = lexer.Lex(str);
+
+        //assert
+        assertEquals(LexemType.LITERAL, lexems.get(0).LexemType);
+        assertEquals(LexemType.STRING, lexems.get(1).LexemType);
+        assertEquals(LexemType.LITERAL, lexems.get(2).LexemType);
     }
 }

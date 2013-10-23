@@ -5,8 +5,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import utils.AppendingObjectOutputStream;
+import utils.FileUtils;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.Random;
 
 import static junit.framework.Assert.assertEquals;
@@ -38,7 +40,8 @@ public class FileBasedDataStorageTest {
         File file = new File(_storage.GetIndexFilePath());
         if(file.exists())
         {
-            file.delete();
+            FileUtils.DeleteFile(file);
+//            file.delete();
         }
         String[] paths = _storage.GetStorageFilePaths();
         for(int i=0;i<paths.length;i++)
@@ -46,7 +49,8 @@ public class FileBasedDataStorageTest {
             file = new File(paths[i]);
             if(file.exists())
             {
-                file.delete();
+                FileUtils.DeleteFile(file);
+//                file.delete();
             }
         }
     }
@@ -235,7 +239,6 @@ public class FileBasedDataStorageTest {
             WrappedKeyValue value = _storage.Get(arrayOfKeys[i]);
             if(value.Value == null)
             {
-                FileOutputStream outputStream = new FileOutputStream("error");
                 FileWriter writer = new FileWriter("error");
                 writer.write("key:");
                 writer.write(arrayOfKeys[i]);
@@ -250,13 +253,14 @@ public class FileBasedDataStorageTest {
 
     private String GenerateStringAllCharacters(int countOfBytes)    {
         byte[] bytes = new byte[countOfBytes];
+        //random.nextBytes(bytes);
         for(int i = 0; i<countOfBytes;i++)
         {
             bytes[i]= (byte) (i%256);
         }
-        String str = new String(bytes);
-        str = str.replace("\0", "");
+//        String str = new String(bytes);
+//        str = str.replace("\0", "");
 
-        return str;
+        return new String(bytes, Charset.forName("UTF-8"));
     }
 }

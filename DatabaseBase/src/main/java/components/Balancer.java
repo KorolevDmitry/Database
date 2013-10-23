@@ -1,7 +1,8 @@
 package components;
 
 import entities.Route;
-import parser.ParsedTree;
+import parser.commands.CommandKeyNode;
+import parser.commands.CommandNode;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -34,12 +35,12 @@ public class Balancer<TKey, TValue> {
         //TODO: loading from config
     }
 
-    private Integer GetIndex(ParsedTree<TKey, TValue> tree) {
-        TKey key = tree.Command.GetKey();
+    private Integer GetIndex(CommandNode command) {
+        TKey key = ((CommandKeyNode<TKey>)command).Key;
         return key == null ? 0 : key.hashCode() % _routs.size();
     }
 
-    public Route GetRoute(ParsedTree tree) {
-        return _routs.get(GetIndex(tree));
+    public Route GetRoute(CommandNode command) {
+        return _routs.get(GetIndex(command));
     }
 }

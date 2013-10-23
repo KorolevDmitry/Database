@@ -109,13 +109,11 @@ public class CombinedDataStorage<TKey, TValue> implements IDataStorage<TKey, TVa
         _fileStorage.Close();
     }
 
-    public String GetIndexFilePath()
-    {
+    public String GetIndexFilePath() {
         return _fileStorage.GetIndexFilePath();
     }
 
-    public String[] GetStorageFilePaths()
-    {
+    public String[] GetStorageFilePaths() {
         return _fileStorage.GetStorageFilePaths();
     }
 }

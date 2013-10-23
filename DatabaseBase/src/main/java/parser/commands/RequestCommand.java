@@ -1,4 +1,4 @@
-package parser.nodes;
+package parser.commands;
 
 import interfaces.INameUsageDescriptionPattern;
 

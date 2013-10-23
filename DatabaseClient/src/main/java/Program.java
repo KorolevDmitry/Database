@@ -1,17 +1,18 @@
-import entities.Route;
+import api.ClientEvaluator;
 import components.Balancer;
+import entities.EvaluationResult;
+import entities.Query;
 import exceptions.LexerException;
 import exceptions.ParserException;
 import interfaces.INameUsageDescriptionPattern;
-import parser.*;
-import parser.nodes.RequestCommand;
+import parser.ClientParser;
+import parser.Lexer;
+import parser.Parser;
 import utils.ArgumentsHelper;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.Socket;
 import java.util.HashMap;
 
 /**
@@ -28,62 +29,55 @@ public class Program {
         ArgumentsHelper.PrintDescription(ClientArguments.values());
     }
 
-    private static void PrintHelp() {
-        System.out.println("You can use next commands:");
-        ArgumentsHelper.PrintDescription(RequestCommand.values());
-    }
+
 
     public static void main(String args[]) {
         String sentence;
         String answer;
         Balancer<String, String> balancer;
+        ClientEvaluator<String, String> evaluator;
+        Parser parser;
         BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-        Socket clientSocket = null;
         try {
             HashMap<INameUsageDescriptionPattern, String> arguments = ArgumentsHelper.ParseArguments(args, ClientArguments.values());
             String listOfServers = ArgumentsHelper.GetStringArgument(arguments, ClientArguments.LIST_OF_SERVERS);
             balancer = new Balancer<String, String>(listOfServers);
+            evaluator = new ClientEvaluator<String, String>(balancer);
+            parser = new ClientParser(new Lexer());
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
             PrintMainHelp();
             return;
         }
-        PrintHelp();
         while (true) {
             try {
-                Parser parser = new Parser(new Lexer());
                 sentence = inFromUser.readLine();
-                ParsedTree tree = parser.Parse(sentence);
-                if (tree.Command.GetCommand() == RequestCommand.QUIT)
-                    break;
-                if (tree.Command.GetCommand() == RequestCommand.HELP) {
-                    PrintHelp();
-                    continue;
+                Query tree = parser.Parse(sentence);
+                EvaluationResult result = evaluator.Evaluate(tree);
+                if (result.Exit)
+                {
+                    return;
                 }
-                Route route = balancer.GetRoute(tree);
-                clientSocket = new Socket(route.Address, route.Port);
-                DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-                BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                outToServer.writeBytes(tree.toString() + '\n');
-                answer = inFromServer.readLine();
-                System.out.println("FROM SERVER: " + answer);
+                else if(result.HasError)
+                {
+                    System.out.println(result.ErrorDescription);
+                }
+                else if(result.HasReturnResult)
+                {
+                    System.out.println(result.Result.toString());
+                }
+                else
+                {
+                    System.out.println("Done");
+                }
             } catch (LexerException e) {
                 System.out.println("Unrecognized lexem");
-                //e.printStackTrace();
+                e.printStackTrace();
             } catch (ParserException e) {
                 System.out.println("Wrong command");
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                if (clientSocket != null) {
-                    try {
-                        clientSocket.shutdownOutput();
-                        clientSocket.shutdownInput();
-                    } catch (IOException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }
-                }
             }
         }
     }

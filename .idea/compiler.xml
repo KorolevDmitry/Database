@@ -22,7 +22,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="Database" />
+        <module name="DatabaseBase" />
+        <module name="DatabaseClient" />
+        <module name="DatabaseServer" />
+        <module name="DatabaseTests" />
       </profile>
     </annotationProcessing>
   </component>

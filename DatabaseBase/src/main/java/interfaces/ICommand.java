@@ -1,6 +1,6 @@
 package interfaces;
 
-import parser.nodes.RequestCommand;
+import parser.commands.RequestCommand;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,7 +9,6 @@ import parser.nodes.RequestCommand;
  * Time: 7:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface ICommand<TKey> {
+public interface ICommand {
     RequestCommand GetCommand();
-    TKey GetKey();
 }

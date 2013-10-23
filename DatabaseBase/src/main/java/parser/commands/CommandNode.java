@@ -1,7 +1,8 @@
-package parser.nodes;
+package parser.commands;
 
 import interfaces.ICommand;
-import interfaces.IEvaluator;
+
+import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,7 +11,7 @@ import interfaces.IEvaluator;
  * Time: 4:27 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class CommandNode<TKey, TValue> implements ICommand<TKey>, IEvaluator<TKey, TValue>{
+public abstract class CommandNode implements ICommand, Serializable {
     protected final String SEPARATOR = " ";
     private RequestCommand _command;
 

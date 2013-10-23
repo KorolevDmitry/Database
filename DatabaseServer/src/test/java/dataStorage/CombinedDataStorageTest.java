@@ -4,6 +4,7 @@ import entities.WrappedKeyValue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import utils.FileUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,7 +41,7 @@ public class CombinedDataStorageTest {
         File file = new File(_storage.GetIndexFilePath());
         if(file.exists())
         {
-            file.delete();
+            FileUtils.DeleteFile(file);
         }
         String[] paths = _storage.GetStorageFilePaths();
         for(int i=0;i<paths.length;i++)
@@ -48,7 +49,7 @@ public class CombinedDataStorageTest {
             file = new File(paths[i]);
             if(file.exists())
             {
-                file.delete();
+                FileUtils.DeleteFile(file);
             }
         }
     }

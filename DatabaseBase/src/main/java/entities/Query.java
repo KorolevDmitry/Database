@@ -1,6 +1,8 @@
-package parser;
+package entities;
 
-import parser.nodes.CommandNode;
+import parser.commands.CommandNode;
+
+import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,8 +11,8 @@ import parser.nodes.CommandNode;
  * Time: 12:02 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ParsedTree<TKey, TValue> {
-    public CommandNode<TKey, TValue> Command;
+public class Query implements Serializable {
+    public CommandNode Command;
 
     @Override
     public String toString() {
