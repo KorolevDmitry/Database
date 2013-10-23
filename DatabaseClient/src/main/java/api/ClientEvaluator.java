@@ -57,7 +57,7 @@ public class ClientEvaluator<TKey, TValue> implements IEvaluator {
                 PrintHelp();
                 break;
             case QUIT:
-                evaluationResult.Exit = true;
+                evaluationResult.Quit = true;
                 break;
             default:
                 throw new EvaluateException();

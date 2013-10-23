@@ -48,6 +48,8 @@ public class ClientParser extends Parser
                         switch (requestCommand) {
                             case QUIT:
                             case HELP:
+                                if (lexems.hasNext())
+                                    throw new ParserException();
                                 return new CommandSingleNode(requestCommand);
                             case GET:
                             case DELETE:

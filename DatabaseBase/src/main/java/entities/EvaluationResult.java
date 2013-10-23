@@ -15,5 +15,5 @@ public class EvaluationResult<TKey, TValue> implements Serializable {
     public boolean HasReturnResult;
     public boolean HasError;
     public String ErrorDescription;
-    public boolean Exit;
+    public boolean Quit;
 }

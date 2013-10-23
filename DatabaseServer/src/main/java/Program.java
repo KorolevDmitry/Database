@@ -126,7 +126,7 @@ public class Program {
                 try {
                     Query query = parser.Parse(clientSentence);
                     result = evaluator.Evaluate(query);
-                    if(result.Exit)
+                    if(result.Quit)
                     {
                         return;
                     }

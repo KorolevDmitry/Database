@@ -23,8 +23,7 @@ import java.security.InvalidKeyException;
 public class ServerEvaluator<TKey, TValue> implements IEvaluator {
     IDataStorage<TKey, TValue> _dataStorage;
 
-    public ServerEvaluator(IDataStorage<TKey, TValue> dataStorage)
-    {
+    public ServerEvaluator(IDataStorage<TKey, TValue> dataStorage)    {
         _dataStorage = dataStorage;
     }
 
@@ -33,6 +32,20 @@ public class ServerEvaluator<TKey, TValue> implements IEvaluator {
         EvaluationResult<TKey, TValue> evaluationResult = new EvaluationResult<TKey, TValue>();
         evaluationResult.ExecutionQuery = tree;
         evaluationResult.HasReturnResult = true;
+        if(tree == null)
+        {
+            evaluationResult.HasReturnResult = false;
+            evaluationResult.HasError = true;
+            evaluationResult.ErrorDescription = "Null query";
+            return evaluationResult;
+        }
+        if(tree.Command == null)
+        {
+            evaluationResult.HasReturnResult = false;
+            evaluationResult.HasError = true;
+            evaluationResult.ErrorDescription = "Null command";
+            return evaluationResult;
+        }
         try {
             if (tree.Command instanceof CommandKeyValueNode)
                 Evaluate((CommandKeyValueNode<TKey, TValue>) tree.Command, evaluationResult);
@@ -55,19 +68,20 @@ public class ServerEvaluator<TKey, TValue> implements IEvaluator {
             switch (command.GetCommand()) {
                 case GET:
                     WrappedKeyValue<TKey, TValue> value = _dataStorage.Get(command.Key);
-                    if (value == null || value.IsDeleted)
-                        throw new InvalidKeyException();
-                    evaluationResult.Result = value.Value;
+//                    if (value == null || value.IsDeleted)
+//                        throw new InvalidKeyException();
+                    evaluationResult.Result = value == null ? null : value.Value;
                     break;
                 case DELETE:
                     _dataStorage.Delete(command.Key);
+                    evaluationResult.HasReturnResult = false;
                     evaluationResult.Result = null;
                     break;
                 default:
                     throw new EvaluateException();
             }
-        } catch (InvalidKeyException invalidKeyException) {
-            throw new EvaluateException();
+//        } catch (InvalidKeyException invalidKeyException) {
+//            throw new EvaluateException();
         } catch (IOException iOException) {
             throw new EvaluateException();
         }
@@ -80,7 +94,10 @@ public class ServerEvaluator<TKey, TValue> implements IEvaluator {
                 case QUIT:
                     _dataStorage.Close();
                     evaluationResult.Result = null;
-                    evaluationResult.Exit = true;
+                    evaluationResult.Quit = true;
+                    break;
+                case HELP:
+                    PrintHelp();
                     break;
                 default:
                     throw new EvaluateException();
@@ -121,5 +138,9 @@ public class ServerEvaluator<TKey, TValue> implements IEvaluator {
         } catch (IOException iOException) {
             throw new EvaluateException();
         }
+    }
+
+    private void PrintHelp()    {
+
     }
 }

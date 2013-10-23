@@ -49,16 +49,22 @@ public class ServerParser extends Parser {
                         switch (requestCommand) {
                             case QUIT:
                             case HELP:
+                                if (lexems.hasNext())
+                                    throw new ParserException();
                                 return new CommandSingleNode(requestCommand);
                             case GET:
                             case DELETE:
                                 key = ParseNextLiteral(lexems);
+                                if (lexems.hasNext())
+                                    throw new ParserException();
                                 return new CommandKeyNode(requestCommand, key);
                             case ADD:
                             case UPDATE:
                             case ADD_OR_UPDATE:
                                 key = ParseNextLiteral(lexems);
                                 value = ParseNextLiteral(lexems);
+                                if (lexems.hasNext())
+                                    throw new ParserException();
                                 return new CommandKeyValueNode(requestCommand, key, value);
                             default:
                                 throw new ParserException();

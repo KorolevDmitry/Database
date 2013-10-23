@@ -54,7 +54,7 @@ public class Program {
                 sentence = inFromUser.readLine();
                 Query tree = parser.Parse(sentence);
                 EvaluationResult result = evaluator.Evaluate(tree);
-                if (result.Exit)
+                if (result.Quit)
                 {
                     return;
                 }

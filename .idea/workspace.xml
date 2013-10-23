@@ -2,43 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59c60c7b-bfeb-4ba9-a414-90177867c5c6" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Study\Database_v2\DatabaseBase\src\main\java\parser\ParsedTree.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Study\Database_v2\DatabaseBase\src\main\java\parser\nodes\CommandKeyNode.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Study\Database_v2\DatabaseBase\src\main\java\parser\nodes\CommandKeyValueNode.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Study\Database_v2\DatabaseBase\src\main\java\parser\nodes\CommandNode.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Study\Database_v2\DatabaseBase\src\main\java\parser\nodes\CommandSingleNode.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Study\Database_v2\DatabaseBase\src\main\java\parser\nodes\RequestCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Study\Database_v2\DatabaseServer\src\main\java\api\Evaluator.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/main/java/components/Balancer.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/main/java/components/Balancer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseServer/src/main/java/dataStorage/CombinedDataStorage.java" afterPath="$PROJECT_DIR$/DatabaseServer/src/main/java/dataStorage/CombinedDataStorage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseServer/src/test/java/dataStorage/CombinedDataStorageTest.java" afterPath="$PROJECT_DIR$/DatabaseServer/src/test/java/dataStorage/CombinedDataStorageTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database.iml" afterPath="$PROJECT_DIR$/Database.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/DatabaseBase.iml" afterPath="$PROJECT_DIR$/DatabaseBase/DatabaseBase.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseClient/DatabaseClient.iml" afterPath="$PROJECT_DIR$/DatabaseClient/DatabaseClient.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseServer/DatabaseServer.iml" afterPath="$PROJECT_DIR$/DatabaseServer/DatabaseServer.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseTests/DatabaseTests.iml" afterPath="$PROJECT_DIR$/DatabaseTests/DatabaseTests.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseServer/src/main/java/dataStorage/FileBasedDataStorage.java" afterPath="$PROJECT_DIR$/DatabaseServer/src/main/java/dataStorage/FileBasedDataStorage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseServer/src/test/java/dataStorage/FileBasedDataStorageTest.java" afterPath="$PROJECT_DIR$/DatabaseServer/src/test/java/dataStorage/FileBasedDataStorageTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/main/java/interfaces/ICommand.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/main/java/interfaces/ICommand.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/main/java/interfaces/IEvaluator.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/main/java/interfaces/IEvaluator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/main/java/parser/LexemType.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/main/java/parser/LexemType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/test/java/parser/LexerTest.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/test/java/parser/LexerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/main/java/parser/Parser.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/main/java/parser/Parser.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DatabaseServer/src/test/java/api/ServerEvaluatorTest.java" />
+      <change type="MOVED" beforePath="C:\Study\Database_v2\DatabaseBase\src\test\java\parser\ParserTest.java" afterPath="$PROJECT_DIR$/DatabaseClient/src/test/java/parser/ClientParserTest.java" />
+      <change type="MOVED" beforePath="C:\Study\Database_v2\DatabaseClient\src\test\java\api\ClientEvaluatorTest.java" afterPath="$PROJECT_DIR$/DatabaseServer/src/test/java/parser/ServerParserTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseClient/src/main/java/api/ClientEvaluator.java" afterPath="$PROJECT_DIR$/DatabaseClient/src/main/java/api/ClientEvaluator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseClient/src/main/java/parser/ClientParser.java" afterPath="$PROJECT_DIR$/DatabaseClient/src/main/java/parser/ClientParser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/main/java/entities/EvaluationResult.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/main/java/entities/EvaluationResult.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseClient/src/main/java/Program.java" afterPath="$PROJECT_DIR$/DatabaseClient/src/main/java/Program.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseServer/src/main/java/Program.java" afterPath="$PROJECT_DIR$/DatabaseServer/src/main/java/Program.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseServer/src/main/java/api/ServerEvaluator.java" afterPath="$PROJECT_DIR$/DatabaseServer/src/main/java/api/ServerEvaluator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseServer/src/main/java/parser/ServerParser.java" afterPath="$PROJECT_DIR$/DatabaseServer/src/main/java/parser/ServerParser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Database.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Database.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1381068122892" ignored="false" />
     <file path="/Dummy.txt" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382532793885" ignored="false" />
-    <file path="/fragment.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382542703890" ignored="false" />
+    <file path="/fragment.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382562179655" ignored="false" />
     <file path="/FileBasedDataStorageTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382533400196" ignored="false" />
     <file path="/MemoryBasedDataStorageTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382368575834" ignored="false" />
     <file path="/CombinedDataStorageTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382467810356" ignored="false" />
-    <file path="/MemoryBasedDataStorage.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1381181577466" ignored="false" />
+    <file path="/MemoryBasedDataStorage.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382561274589" ignored="false" />
     <file path="/CombinedDataStorage.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382380285064" ignored="false" />
     <file path="/Program.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382464371260" ignored="false" />
     <file path="/ParserException.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1381407454862" ignored="false" />
@@ -79,11 +63,14 @@
     <file path="/ServerParser.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382460343817" ignored="false" />
     <file path="/EvaluationResult.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382542229539" ignored="false" />
     <file path="/Query.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382542263272" ignored="false" />
-    <file path="/ServerEvaluator.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382542936083" ignored="false" />
+    <file path="/ServerEvaluator.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382562832658" ignored="false" />
     <file path="/ClientEvaluator.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382541798985" ignored="false" />
     <file path="/ServerCommand.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382541741819" ignored="false" />
     <file path="/FileUtils.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382532845583" ignored="false" />
     <file path="/ClientEvaluatorTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382522009726" ignored="false" />
+    <file path="/ServerEvaluatorTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382560724253" ignored="false" />
+    <file path="/ClientParserTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382562059874" ignored="false" />
+    <file path="/ServerParserTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382562535712" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,6 +84,9 @@
     </SUITE>
     <SUITE FILE_PATH="coverage/Database$FileBasedDataStorageTest.coverage" NAME="FileBasedDataStorageTest Coverage Results" MODIFIED="1382514089521" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>dataStorage.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Database$ServerEvaluatorTest.coverage" NAME="ServerEvaluatorTest Coverage Results" MODIFIED="1382560739730" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>api.*</FILTER>
     </SUITE>
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -304,92 +294,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Program.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/Program.java">
+      <file leaf-file-name="MemoryBasedDataStorage.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/dataStorage/MemoryBasedDataStorage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="90" column="13" selection-start="4299" selection-end="4299" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#5361#5377#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClientEvaluator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/api/ClientEvaluator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="30" selection-start="1491" selection-end="1491" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="docComment;class#ClientEvaluator#0" expanded="false" />
-                <element signature="method#ClientEvaluator#0;class#ClientEvaluator#0" expanded="false" />
-                <element signature="method#PrintHelp#0;class#ClientEvaluator#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Program.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/Program.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="80" column="0" selection-start="2797" selection-end="2797" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClientParser.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/parser/ClientParser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="40" selection-start="1789" selection-end="1789" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EvaluationResult.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/entities/EvaluationResult.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="13" selection-start="290" selection-end="290" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Query.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/entities/Query.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="19" selection-start="308" selection-end="308" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CommandNode.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/parser/commands/CommandNode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="20" selection-start="558" selection-end="558" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ServerParser.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/parser/ServerParser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="32" selection-start="879" selection-end="879" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="INSTALL" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/INSTALL">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="0" selection-start="872" selection-end="872" vertical-scroll-proportion="0.0">
+            <state line="33" column="65" selection-start="951" selection-end="951" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -398,15 +306,127 @@
       <file leaf-file-name="ServerEvaluator.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/api/ServerEvaluator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="92" column="143" selection-start="3538" selection-end="3538" vertical-scroll-proportion="0.7355769">
+            <state line="71" column="42" selection-start="2705" selection-end="2705" vertical-scroll-proportion="0.44863012">
               <folding>
                 <element signature="docComment;class#ServerEvaluator#0" expanded="false" />
                 <element signature="method#ServerEvaluator#0;class#ServerEvaluator#0" expanded="false" />
-                <element signature="method#Evaluate#0;class#ServerEvaluator#0" expanded="false" />
-                <element signature="method#Evaluate#1;class#ServerEvaluator#0" expanded="false" />
+                <element signature="e#929#943#0" expanded="true" />
                 <element signature="method#Evaluate#2;class#ServerEvaluator#0" expanded="false" />
                 <element signature="method#Evaluate#3;class#ServerEvaluator#0" expanded="false" />
+                <element signature="method#PrintHelp#0;class#ServerEvaluator#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ServerEvaluatorTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseServer/src/test/java/api/ServerEvaluatorTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="104" column="72" selection-start="2873" selection-end="2873" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="docComment;class#ServerEvaluatorTest#0" expanded="false" />
+                <element signature="method#setUp#0;class#ServerEvaluatorTest#0" expanded="false" />
+                <element signature="method#Evaluate_QueryNull_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
+                <element signature="e#1054#1063#0" expanded="false" />
+                <element signature="method#Evaluate_CommandNull_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
+                <element signature="method#Evaluate_CommandSingleNodeQuit_Quit#0;class#ServerEvaluatorTest#0" expanded="false" />
+                <element signature="method#Evaluate_CommandSingleNodeHelp_Help#0;class#ServerEvaluatorTest#0" expanded="false" />
+                <element signature="method#Evaluate_CommandSingleNodeOther_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
+                <element signature="method#Evaluate_CommandKeyNodeDelete_NoErrorNoResult#0;class#ServerEvaluatorTest#0" expanded="false" />
+                <element signature="method#Evaluate_CommandKeyNodeOther_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
+                <element signature="method#Evaluate_CommandKeyValueNodeAdd_NoErrorNoResult#0;class#ServerEvaluatorTest#0" expanded="false" />
+                <element signature="method#Evaluate_CommandKeyValueNodeOther_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MemoryBasedDataStorageTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseServer/src/test/java/dataStorage/MemoryBasedDataStorageTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="117" column="0" selection-start="3489" selection-end="3489" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="docComment;class#MemoryBasedDataStorageTest#0" expanded="false" />
+                <element signature="method#setUp#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+                <element signature="method#RemoveCompletely_ItemExist_GetReturnNull#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+                <element signature="method#Get_ItemExists_Returned#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+                <element signature="method#Get_ItemWasUpdated_ReturnedUpdatedValue#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+                <element signature="method#Delete_ItemExist_ItemMarkedAsDeleted#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+                <element signature="method#StressTest_16MbKeysAnd1KbValues#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+                <element signature="method#GenerateStringAllCharacters#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientParser.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/parser/ClientParser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="51" column="64" selection-start="1672" selection-end="1672" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientParserTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseClient/src/test/java/parser/ClientParserTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="4" selection-start="501" selection-end="2397" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="docComment;class#ClientParserTest#0" expanded="false" />
+                <element signature="method#setUp#0;class#ClientParserTest#0" expanded="false" />
+                <element signature="method#Parse_Help_HelpCommand#0;class#ClientParserTest#0" expanded="false" />
+                <element signature="method#Parse_Quit_QuitCommand#0;class#ClientParserTest#0" expanded="false" />
+                <element signature="method#Parse_Help1_ParseException#0;class#ClientParserTest#0" expanded="false" />
+                <element signature="method#Parse_QuitWithLiteral_ParseException#0;class#ClientParserTest#0" expanded="false" />
+                <element signature="method#Parse_ServerCommand_ServerCommand#0;class#ClientParserTest#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ServerParser.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/parser/ServerParser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="65" column="36" selection-start="2351" selection-end="2351" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ServerParserTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseServer/src/test/java/parser/ServerParserTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="74" column="68" selection-start="1875" selection-end="1875" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="method#Parse_Help_HelpCommand#0;class#ServerParserTest#0" expanded="false" />
+                <element signature="method#Parse_Quit_QuitCommand#0;class#ServerParserTest#0" expanded="false" />
+                <element signature="method#Parse_Help1_ParseException#0;class#ServerParserTest#0" expanded="false" />
+                <element signature="method#Parse_GetWithoutKey_ParseException#0;class#ServerParserTest#0" expanded="false" />
+                <element signature="method#Parse_GetWithKey_CommandKeyNode#0;class#ServerParserTest#0" expanded="false" />
+                <element signature="method#Parse_GetWithKeyAndAdditionalLiteral_ParseException#0;class#ServerParserTest#0" expanded="false" />
+                <element signature="method#Parse_AddWithoutKey_ParseException#0;class#ServerParserTest#0" expanded="false" />
+                <element signature="method#Parse_AddWithKey_ParseException#0;class#ServerParserTest#0" expanded="false" />
+                <element signature="method#Parse_AddWithKeyAndValue_CommandKeyValueNode#0;class#ServerParserTest#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CommandSingleNode.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/parser/commands/CommandSingleNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="13" selection-start="197" selection-end="197" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CombinedDataStorage.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/dataStorage/CombinedDataStorage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="72" column="13" selection-start="2797" selection-end="2908" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -429,21 +449,21 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/parser/commands/CommandKeyNode.java" />
-        <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/parser/commands/CommandKeyValueNode.java" />
-        <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/components/Balancer.java" />
-        <option value="C:/Program Files/Java/jdk1.7.0_40/src.zip!/java/io/File.java" />
-        <option value="$PROJECT_DIR$/DatabaseServer/src/test/java/dataStorage/CombinedDataStorageTest.java" />
-        <option value="$PROJECT_DIR$/DatabaseClient/src/test/java/api/ClientEvaluatorTest.java" />
         <option value="$PROJECT_DIR$/DatabaseServer/src/test/java/dataStorage/FileBasedDataStorageTest.java" />
         <option value="$PROJECT_DIR$/DatabaseServer/src/main/java/dataStorage/FileBasedDataStorage.java" />
         <option value="$PROJECT_DIR$/DatabaseServer/src/main/java/utils/FileUtils.java" />
         <option value="$PROJECT_DIR$/DatabaseClient/src/main/java/parser/ServerCommand.java" />
         <option value="$PROJECT_DIR$/DatabaseClient/src/main/java/api/ClientEvaluator.java" />
-        <option value="$PROJECT_DIR$/DatabaseClient/src/main/java/parser/ClientParser.java" />
-        <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/entities/EvaluationResult.java" />
         <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/entities/Query.java" />
         <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/parser/commands/CommandNode.java" />
+        <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/entities/EvaluationResult.java" />
+        <option value="$PROJECT_DIR$/DatabaseServer/src/test/java/api/ServerEvaluatorTest.java" />
+        <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/parser/commands/CommandSingleNode.java" />
+        <option value="$PROJECT_DIR$/DatabaseClient/src/test/java/parser/ClientParserTest.java" />
+        <option value="$PROJECT_DIR$/DatabaseClient/src/main/java/parser/ClientParser.java" />
+        <option value="$PROJECT_DIR$/DatabaseServer/src/test/java/parser/ServerParserTest.java" />
+        <option value="$PROJECT_DIR$/DatabaseServer/src/main/java/parser/ServerParser.java" />
+        <option value="$PROJECT_DIR$/DatabaseServer/src/main/java/dataStorage/MemoryBasedDataStorage.java" />
         <option value="$PROJECT_DIR$/DatabaseServer/src/main/java/api/ServerEvaluator.java" />
       </list>
     </option>
@@ -522,7 +542,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseClient" />
+              <option name="myItemId" value="DatabaseServer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -536,7 +556,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseClient" />
+              <option name="myItemId" value="DatabaseServer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -554,87 +574,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database_v2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database_v2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseBase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database_v2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseBase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database_v2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseBase" />
+              <option name="myItemId" value="DatabaseServer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -656,7 +596,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseBase" />
+              <option name="myItemId" value="DatabaseServer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -682,7 +622,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseBase" />
+              <option name="myItemId" value="DatabaseServer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -715,24 +655,22 @@
               <option name="myItemId" value="DatabaseBase" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Database_v2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DatabaseBase" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="parser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="commands" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -772,8 +710,8 @@
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
-      <recent name="api" />
       <recent name="parser" />
+      <recent name="api" />
       <recent name="dataStorage" />
       <recent name="" />
     </key>
@@ -793,83 +731,19 @@
       <recent name="dataStorage" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Client">
-    <configuration default="false" name="FileBasedDataStorageTest.Get_ReOpenStorage_Returned" type="JUnit" factoryName="JUnit" temporary="true">
+  <component name="RunManager" selected="JUnit.ServerParserTest">
+    <configuration default="false" name="ServerEvaluatorTest" type="JUnit" factoryName="JUnit" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="dataStorage.*" />
+          <option name="PATTERN" value="api.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <module name="DatabaseServer" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="dataStorage" />
-      <option name="MAIN_CLASS_NAME" value="dataStorage.FileBasedDataStorageTest" />
-      <option name="METHOD_NAME" value="Get_ReOpenStorage_Returned" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="CombinedDataStorageTest" type="JUnit" factoryName="JUnit" temporary="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="dataStorage.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="DatabaseServer" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="dataStorage" />
-      <option name="MAIN_CLASS_NAME" value="dataStorage.CombinedDataStorageTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Cover" />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Cover" />
-      <ConfigurationWrapper RunnerId="Debug" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="FileBasedDataStorageTest" type="JUnit" factoryName="JUnit" temporary="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="dataStorage.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="DatabaseServer" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="dataStorage" />
-      <option name="MAIN_CLASS_NAME" value="dataStorage.FileBasedDataStorageTest" />
+      <option name="PACKAGE_NAME" value="api" />
+      <option name="MAIN_CLASS_NAME" value="api.ServerEvaluatorTest" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -888,23 +762,23 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="FileBasedDataStorageTest.Get_ItemExists_Returned" type="JUnit" factoryName="JUnit" temporary="true">
+    <configuration default="false" name="ServerEvaluatorTest.Evaluate_CommandSingleNodeHelp_Help" type="JUnit" factoryName="JUnit" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="dataStorage.*" />
+          <option name="PATTERN" value="api.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <module name="DatabaseServer" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="PACKAGE_NAME" value="dataStorage" />
-      <option name="MAIN_CLASS_NAME" value="dataStorage.FileBasedDataStorageTest" />
-      <option name="METHOD_NAME" value="Get_ItemExists_Returned" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="api" />
+      <option name="MAIN_CLASS_NAME" value="api.ServerEvaluatorTest" />
+      <option name="METHOD_NAME" value="Evaluate_CommandSingleNodeHelp_Help" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
@@ -917,23 +791,81 @@
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="FileBasedDataStorageTest.StressTest_16MbKeysAnd1KbValues" type="JUnit" factoryName="JUnit" temporary="true">
+    <configuration default="false" name="ServerEvaluatorTest.Evaluate_CommandKeyNodeGet_NoErrorResultNull" type="JUnit" factoryName="JUnit" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="dataStorage.*" />
+          <option name="PATTERN" value="api.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <module name="DatabaseServer" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="dataStorage" />
-      <option name="MAIN_CLASS_NAME" value="dataStorage.FileBasedDataStorageTest" />
-      <option name="METHOD_NAME" value="StressTest_16MbKeysAnd1KbValues" />
+      <option name="PACKAGE_NAME" value="api" />
+      <option name="MAIN_CLASS_NAME" value="api.ServerEvaluatorTest" />
+      <option name="METHOD_NAME" value="Evaluate_CommandKeyNodeGet_NoErrorResultNull" />
       <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ClientParserTest" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="parser.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="DatabaseClient" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="parser" />
+      <option name="MAIN_CLASS_NAME" value="parser.ClientParserTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ServerParserTest" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="parser.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="DatabaseServer" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="parser" />
+      <option name="MAIN_CLASS_NAME" value="parser.ServerParserTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -1137,20 +1069,20 @@
     <list size="8">
       <item index="0" class="java.lang.String" itemvalue="Application.Server" />
       <item index="1" class="java.lang.String" itemvalue="Application.Client" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.FileBasedDataStorageTest.Get_ReOpenStorage_Returned" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.CombinedDataStorageTest" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.FileBasedDataStorageTest" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.FileBasedDataStorageTest.Get_ItemExists_Returned" />
-      <item index="6" class="java.lang.String" itemvalue="JUnit.FileBasedDataStorageTest.StressTest_16MbKeysAnd1KbValues" />
-      <item index="7" class="java.lang.String" itemvalue="Maven.Install" />
+      <item index="2" class="java.lang.String" itemvalue="Maven.Install" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.ServerEvaluatorTest" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.ServerEvaluatorTest.Evaluate_CommandSingleNodeHelp_Help" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.ServerEvaluatorTest.Evaluate_CommandKeyNodeGet_NoErrorResultNull" />
+      <item index="6" class="java.lang.String" itemvalue="JUnit.ClientParserTest" />
+      <item index="7" class="java.lang.String" itemvalue="JUnit.ServerParserTest" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.FileBasedDataStorageTest.StressTest_16MbKeysAnd1KbValues" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.FileBasedDataStorageTest.Get_ItemExists_Returned" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.FileBasedDataStorageTest" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.CombinedDataStorageTest" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.FileBasedDataStorageTest.Get_ReOpenStorage_Returned" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.ServerParserTest" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.ClientParserTest" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.ServerEvaluatorTest" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.ServerEvaluatorTest.Evaluate_CommandKeyNodeGet_NoErrorResultNull" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.ServerEvaluatorTest.Evaluate_CommandSingleNodeHelp_Help" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -1214,7 +1146,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40239727" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1849315" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3219178" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1222,14 +1154,14 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16969697" sideWeight="0.6609589" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16969697" sideWeight="0.63869864" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2977273" sideWeight="0.8150685" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36130136" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2977273" sideWeight="0.63869864" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36130136" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1302,135 +1234,10 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/dataStorage/FileBasedDataStorage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="261" column="43" selection-start="9210" selection-end="9210" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="docComment;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#FileBasedDataStorage#0;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#Get#0;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#GetElements#0;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#AddOrUpdate#0;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#AddOrUpdate#1;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#Delete#0;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#Clear#0;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#Close#0;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#GetIndexFilePath#0;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#GetStorageFilePaths#0;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#LoadIndexFile#0;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#GetIndex#0;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#GetFilePath#0;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#FlushIndexFile#0;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#Add#0;class#FileBasedDataStorage#0" expanded="false" />
-            <element signature="method#Add#1;class#FileBasedDataStorage#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseServer/test.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-3.4217253">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/utils/FileUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="0" selection-start="1798" selection-end="1798" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="docComment;class#FileUtils#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/test/java/dataStorage/CombinedDataStorageTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="9" selection-start="1562" selection-end="1566" vertical-scroll-proportion="-3.84">
-          <folding>
-            <element signature="docComment;class#CombinedDataStorageTest#0" expanded="false" />
-            <element signature="method#setUp#0;class#CombinedDataStorageTest#0" expanded="false" />
-            <element signature="method#GenerateStringAllCharacters#0;class#CombinedDataStorageTest#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/test/java/dataStorage/FileBasedDataStorageTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="118" selection-start="1728" selection-end="1728" vertical-scroll-proportion="-3.84">
-          <folding>
-            <element signature="docComment;class#FileBasedDataStorageTest#0" expanded="false" />
-            <element signature="method#setUp#0;class#FileBasedDataStorageTest#0" expanded="false" />
-            <element signature="method#tearDown#0;class#FileBasedDataStorageTest#0" expanded="false" />
-            <element signature="method#ChangeStreamPosition_ObjectOutputStream_StreamIsReadable#0;class#FileBasedDataStorageTest#0" expanded="false" />
-            <element signature="method#ChangeStreamPosition_AllCharacters_StreamIsReadable#0;class#FileBasedDataStorageTest#0" expanded="false" />
-            <element signature="method#Get_ItemExists_Returned#0;class#FileBasedDataStorageTest#0" expanded="false" />
-            <element signature="method#Get_ReOpenStorage_Returned#0;class#FileBasedDataStorageTest#0" expanded="false" />
-            <element signature="method#Get_ItemWasUpdated_ReturnedUpdatedValue#0;class#FileBasedDataStorageTest#0" expanded="false" />
-            <element signature="method#Delete_ItemExist_ItemMarkedAsDeleted#0;class#FileBasedDataStorageTest#0" expanded="false" />
-            <element signature="method#StressTest_AddUpdateValues#0;class#FileBasedDataStorageTest#0" expanded="false" />
-            <element signature="method#StressTest_16MbKeysAnd1KbValues#0;class#FileBasedDataStorageTest#0" expanded="false" />
-            <element signature="method#GenerateStringAllCharacters#0;class#FileBasedDataStorageTest#0" expanded="false" />
-            <element signature="e#8835#8876#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/parser/ServerCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="20" selection-start="274" selection-end="274" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/api/ClientEvaluator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="30" selection-start="1491" selection-end="1491" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="docComment;class#ClientEvaluator#0" expanded="false" />
-            <element signature="method#ClientEvaluator#0;class#ClientEvaluator#0" expanded="false" />
-            <element signature="method#PrintHelp#0;class#ClientEvaluator#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/parser/ServerParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="32" selection-start="879" selection-end="879" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/parser/ClientParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="40" selection-start="1789" selection-end="1789" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/entities/EvaluationResult.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="13" selection-start="290" selection-end="290" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/entities/Query.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="19" selection-start="308" selection-end="308" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/parser/commands/CommandNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="20" selection-start="558" selection-end="558" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1457,16 +1264,133 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseBase/src/test/java/parser/LexerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="65" selection-start="518" selection-end="575" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/entities/EvaluationResult.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="23" selection-start="460" selection-end="460" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/dataStorage/CombinedDataStorage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="13" selection-start="2797" selection-end="2908" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/parser/commands/CommandSingleNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="13" selection-start="197" selection-end="197" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/parser/ClientParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="64" selection-start="1672" selection-end="1672" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseClient/src/test/java/parser/ClientParserTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="4" selection-start="501" selection-end="2397" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="docComment;class#ClientParserTest#0" expanded="false" />
+            <element signature="method#setUp#0;class#ClientParserTest#0" expanded="false" />
+            <element signature="method#Parse_Help_HelpCommand#0;class#ClientParserTest#0" expanded="false" />
+            <element signature="method#Parse_Quit_QuitCommand#0;class#ClientParserTest#0" expanded="false" />
+            <element signature="method#Parse_Help1_ParseException#0;class#ClientParserTest#0" expanded="false" />
+            <element signature="method#Parse_QuitWithLiteral_ParseException#0;class#ClientParserTest#0" expanded="false" />
+            <element signature="method#Parse_ServerCommand_ServerCommand#0;class#ClientParserTest#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/parser/ServerParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="65" column="36" selection-start="2351" selection-end="2351" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/test/java/parser/ServerParserTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="68" selection-start="1875" selection-end="1875" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="method#Parse_Help_HelpCommand#0;class#ServerParserTest#0" expanded="false" />
+            <element signature="method#Parse_Quit_QuitCommand#0;class#ServerParserTest#0" expanded="false" />
+            <element signature="method#Parse_Help1_ParseException#0;class#ServerParserTest#0" expanded="false" />
+            <element signature="method#Parse_GetWithoutKey_ParseException#0;class#ServerParserTest#0" expanded="false" />
+            <element signature="method#Parse_GetWithKey_CommandKeyNode#0;class#ServerParserTest#0" expanded="false" />
+            <element signature="method#Parse_GetWithKeyAndAdditionalLiteral_ParseException#0;class#ServerParserTest#0" expanded="false" />
+            <element signature="method#Parse_AddWithoutKey_ParseException#0;class#ServerParserTest#0" expanded="false" />
+            <element signature="method#Parse_AddWithKey_ParseException#0;class#ServerParserTest#0" expanded="false" />
+            <element signature="method#Parse_AddWithKeyAndValue_CommandKeyValueNode#0;class#ServerParserTest#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/test/java/dataStorage/MemoryBasedDataStorageTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="117" column="0" selection-start="3489" selection-end="3489" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="docComment;class#MemoryBasedDataStorageTest#0" expanded="false" />
+            <element signature="method#setUp#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+            <element signature="method#RemoveCompletely_ItemExist_GetReturnNull#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+            <element signature="method#Get_ItemExists_Returned#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+            <element signature="method#Get_ItemWasUpdated_ReturnedUpdatedValue#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+            <element signature="method#Delete_ItemExist_ItemMarkedAsDeleted#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+            <element signature="method#StressTest_16MbKeysAnd1KbValues#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+            <element signature="method#GenerateStringAllCharacters#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/dataStorage/MemoryBasedDataStorage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="65" selection-start="951" selection-end="951" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/test/java/api/ServerEvaluatorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="104" column="72" selection-start="2873" selection-end="2873" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="docComment;class#ServerEvaluatorTest#0" expanded="false" />
+            <element signature="method#setUp#0;class#ServerEvaluatorTest#0" expanded="false" />
+            <element signature="method#Evaluate_QueryNull_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
+            <element signature="e#1054#1063#0" expanded="false" />
+            <element signature="method#Evaluate_CommandNull_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
+            <element signature="method#Evaluate_CommandSingleNodeQuit_Quit#0;class#ServerEvaluatorTest#0" expanded="false" />
+            <element signature="method#Evaluate_CommandSingleNodeHelp_Help#0;class#ServerEvaluatorTest#0" expanded="false" />
+            <element signature="method#Evaluate_CommandSingleNodeOther_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
+            <element signature="method#Evaluate_CommandKeyNodeDelete_NoErrorNoResult#0;class#ServerEvaluatorTest#0" expanded="false" />
+            <element signature="method#Evaluate_CommandKeyNodeOther_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
+            <element signature="method#Evaluate_CommandKeyValueNodeAdd_NoErrorNoResult#0;class#ServerEvaluatorTest#0" expanded="false" />
+            <element signature="method#Evaluate_CommandKeyValueNodeOther_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/api/ServerEvaluator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="143" selection-start="3538" selection-end="3538" vertical-scroll-proportion="0.7355769">
+        <state line="71" column="42" selection-start="2705" selection-end="2705" vertical-scroll-proportion="0.44863012">
           <folding>
             <element signature="docComment;class#ServerEvaluator#0" expanded="false" />
             <element signature="method#ServerEvaluator#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#Evaluate#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#Evaluate#1;class#ServerEvaluator#0" expanded="false" />
+            <element signature="e#929#943#0" expanded="true" />
             <element signature="method#Evaluate#2;class#ServerEvaluator#0" expanded="false" />
             <element signature="method#Evaluate#3;class#ServerEvaluator#0" expanded="false" />
+            <element signature="method#PrintHelp#0;class#ServerEvaluator#0" expanded="false" />
           </folding>
         </state>
       </provider>
