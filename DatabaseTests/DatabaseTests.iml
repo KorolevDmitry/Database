@@ -13,6 +13,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="org.junit:com.springsource.org.junit:4.8.2" level="project" />
     <orderEntry type="library" name="Maven: junit:junit:4.8.2" level="project" />
+    <orderEntry type="module" module-name="DatabaseBase" />
+    <orderEntry type="module" module-name="DatabaseClient" />
+    <orderEntry type="module" module-name="DatabaseServer" />
   </component>
 </module>
 

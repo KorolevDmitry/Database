@@ -26,7 +26,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>Program</mainClass>
+                            <mainClass>DatabaseClient.Program</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
