@@ -1,8 +1,9 @@
-package DatabaseClient.parser;
+package DatabaseBase.parser;
 
 import DatabaseBase.entities.Query;
 import DatabaseBase.exceptions.LexerException;
 import DatabaseBase.exceptions.ParserException;
+import DatabaseBase.interfaces.ISizable;
 
 import java.util.Iterator;
 
@@ -13,7 +14,7 @@ import java.util.Iterator;
  * Time: 11:54 AM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class Parser {
+public abstract class Parser<TKey extends ISizable, TValue extends ISizable> {
     protected Lexer _lexer;
 
     protected Parser(Lexer lexer) {
@@ -23,6 +24,10 @@ public abstract class Parser {
     }
 
     public abstract Query Parse(String str) throws LexerException, ParserException;
+
+    public abstract TKey GetKey(String str);
+
+    public abstract TValue GetValue(String str);
 
     protected String ParseNextLiteral(Iterator<Lexem> lexems) throws ParserException {
         while (true) {

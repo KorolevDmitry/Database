@@ -1,5 +1,7 @@
 package DatabaseBase.entities;
 
+import DatabaseBase.interfaces.ISizable;
+
 import java.io.Serializable;
 
 /**
@@ -9,8 +11,9 @@ import java.io.Serializable;
  * Time: 7:48 PM
  * To change this template use File | Settings | File Templates.
  */
-public class EvaluationResult<TKey, TValue> implements Serializable {
-    public String ExecutionQuery;
+public class EvaluationResult<TKey extends ISizable, TValue extends ISizable> implements Serializable {
+    public String ExecutionString;
+    public Query ExecutionQuery;
     public TValue Result;
     public boolean HasReturnResult;
     public boolean HasError;

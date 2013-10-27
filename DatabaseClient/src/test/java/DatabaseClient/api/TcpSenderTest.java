@@ -2,9 +2,10 @@ package DatabaseClient.api;
 
 import DatabaseBase.components.Balancer;
 import DatabaseBase.entities.EvaluationResult;
+import DatabaseBase.entities.StringSizable;
 import DatabaseBase.exceptions.ConnectionException;
 import DatabaseClient.parser.ServerCommand;
-import DatabaseClient.parser.commands.RequestCommand;
+import DatabaseBase.commands.RequestCommand;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +31,7 @@ public class TcpSenderTest implements Runnable {
     private final String _serverHost = "localhost";
     private final int _serverPort = 6507;
     private final String _server = _serverHost + ":" + _serverPort;
-    TcpSender<String, String> _sender;
+    TcpSender<StringSizable, StringSizable> _sender;
     private static String _messageReceivedOnServer;
     private Thread _listenerThread;
 
@@ -42,8 +43,8 @@ public class TcpSenderTest implements Runnable {
         }
         _listenerThread = new Thread(this);
         _messageReceivedOnServer = null;
-        Balancer<String, String> balancer = new Balancer<String, String>(_server);
-        _sender = new TcpSender<String, String>(balancer);
+        Balancer<StringSizable, StringSizable> balancer = new Balancer<StringSizable, StringSizable>(_server);
+        _sender = new TcpSender<StringSizable, StringSizable>(balancer);
     }
 
     @Test
@@ -68,7 +69,7 @@ public class TcpSenderTest implements Runnable {
     @Test
     public void Send_NobodyListenTo_ConnectionException() throws Exception {
         //arrange
-        ServerCommand<String> command = new ServerCommand<String>(RequestCommand.ADD, "", "");
+        ServerCommand<StringSizable> command = new ServerCommand<StringSizable>(RequestCommand.ADD, new StringSizable(""), "");
         boolean hasException = false;
 
         //act
@@ -86,7 +87,7 @@ public class TcpSenderTest implements Runnable {
     public void Send_Listening_ConnectionException() throws Exception {
         //arrange
         String message = "test";
-        ServerCommand<String> command = new ServerCommand<String>(RequestCommand.ADD, "", message);
+        ServerCommand<StringSizable> command = new ServerCommand<StringSizable>(RequestCommand.ADD, new StringSizable(""), message);
         boolean hasException = false;
         StartListen();
 
@@ -112,7 +113,7 @@ public class TcpSenderTest implements Runnable {
                     new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
             _messageReceivedOnServer = inFromClient.readLine();
             ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
-            outToClient.writeObject(new EvaluationResult<String, String>());
+            outToClient.writeObject(new EvaluationResult<StringSizable, StringSizable>());
             connectionSocket.shutdownInput();
             connectionSocket.shutdownOutput();
             connectionSocket.close();

@@ -1,4 +1,4 @@
-package DatabaseBase.DatabaseServer.utils;
+package DatabaseBase.utils;
 
 import DatabaseBase.interfaces.INameUsageDescriptionPattern;
 

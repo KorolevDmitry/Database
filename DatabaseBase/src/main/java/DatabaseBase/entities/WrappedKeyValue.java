@@ -1,5 +1,7 @@
 package DatabaseBase.entities;
 
+import DatabaseBase.interfaces.ISizable;
+
 import java.io.Serializable;
 
 /**
@@ -9,11 +11,11 @@ import java.io.Serializable;
  * Time: 2:58 AM
  * To change this template use File | Settings | File Templates.
  */
-public class WrappedKeyValue<TKey, TValue> implements Serializable {
+public class WrappedKeyValue<TKey extends ISizable, TValue extends ISizable> implements Serializable {
     public TKey Key;
     public TValue Value;
-    public int Size;
-    public boolean IsDeleted;
+    public Long Size;
+    public Boolean IsDeleted;
 
     public WrappedKeyValue(TKey key, TValue value) {
         this(key, value, false);
@@ -23,9 +25,8 @@ public class WrappedKeyValue<TKey, TValue> implements Serializable {
         Key = key;
         Value = value;
         IsDeleted = isDeleted;
-        //TODO: implement another counting
-        Size = key == null ? Integer.SIZE : 8 * (int) ((((key.toString().length()) * 2) + 45) / 8);
-        Size += value == null ? Integer.SIZE : 8 * (int) ((((value.toString().length()) * 2) + 45) / 8);
-        Size += 1;
+        Size = key == null ? 0 : key.GetSize();
+        Size += value == null ? 0 : value.GetSize();
+        Size += 0;
     }
 }

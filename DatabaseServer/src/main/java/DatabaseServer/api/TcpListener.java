@@ -1,6 +1,7 @@
 package DatabaseServer.api;
 
 import DatabaseBase.entities.EvaluationResult;
+import DatabaseBase.interfaces.ISizable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.net.SocketTimeoutException;
  * Time: 2:21 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TcpListener<TKey, TValue> implements Runnable {
+public class TcpListener<TKey extends ISizable, TValue extends ISizable> implements Runnable {
     private ServerEvaluator<TKey, TValue> _serverEvaluator;
     private int _port;
 

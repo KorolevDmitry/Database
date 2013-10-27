@@ -1,9 +1,15 @@
 package DatabaseClient.parser;
 
+import DatabaseBase.commands.CommandNode;
+import DatabaseBase.commands.CommandSingleNode;
+import DatabaseBase.commands.RequestCommand;
 import DatabaseBase.entities.Query;
 import DatabaseBase.exceptions.LexerException;
 import DatabaseBase.exceptions.ParserException;
-import DatabaseClient.parser.commands.*;
+import DatabaseBase.interfaces.ISizable;
+import DatabaseBase.parser.Lexem;
+import DatabaseBase.parser.Lexer;
+import DatabaseBase.parser.Parser;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,11 +17,11 @@ import java.util.Iterator;
 /**
  * Created with IntelliJ IDEA.
  * User: deemo_000
- * Date: 10/22/13
- * Time: 7:31 PM
+ * Date: 10/27/13
+ * Time: 5:09 AM
  * To change this template use File | Settings | File Templates.
  */
-public class ClientParser extends Parser {
+public abstract class ClientParser<TKey extends ISizable, TValue extends ISizable> extends Parser<TKey, TValue> {
     public ClientParser(Lexer lexer) {
         super(lexer);
     }
@@ -59,12 +65,11 @@ public class ClientParser extends Parser {
                         case UPDATE:
                         case ADD_OR_UPDATE:
                             String key = ParseNextLiteral(lexems);
-                            return new ServerCommand(requestCommand, key, wholeRequest);
+                            return new ServerCommand(requestCommand, GetKey(key), wholeRequest);
                         default:
                             throw new ParserException("Unexpected requestCommand: " + requestCommand);
                     }
             }
         }
     }
-
 }

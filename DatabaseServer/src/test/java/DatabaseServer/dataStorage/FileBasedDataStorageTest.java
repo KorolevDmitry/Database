@@ -1,5 +1,6 @@
 package DatabaseServer.dataStorage;
 
+import DatabaseBase.entities.StringSizable;
 import DatabaseBase.entities.WrappedKeyValue;
 import org.junit.After;
 import org.junit.Before;
@@ -22,16 +23,16 @@ import static junit.framework.Assert.assertTrue;
  * To change this template use File | Settings | File Templates.
  */
 public class FileBasedDataStorageTest {
-    private FileBasedDataStorage<String, String> _storage;
-    private String defaultKey1 = "defaultKey1";
-    private String defaultKey2 = "defaultKey2";
-    private String defaultValue1 = "defaultValue1";
-    private String defaultValue2 = "defaultValue2";
+    private FileBasedDataStorage<StringSizable, StringSizable> _storage;
+    private StringSizable defaultKey1 = new StringSizable("defaultKey1");
+    private StringSizable defaultKey2 = new StringSizable("defaultKey2");
+    private StringSizable defaultValue1 = new StringSizable("defaultValue1");
+    private StringSizable defaultValue2 = new StringSizable("defaultValue2");
     private Random random = new Random();
 
     @Before
     public void setUp() throws Exception {
-        _storage = new FileBasedDataStorage<String, String>(System.getProperty("user.dir"), "_fileStorage", 1);
+        _storage = new FileBasedDataStorage<StringSizable, StringSizable>(System.getProperty("user.dir"), "_fileStorage", 1);
     }
 
     @After
@@ -146,7 +147,7 @@ public class FileBasedDataStorageTest {
         //arrange
         _storage.AddOrUpdate(defaultKey1, defaultValue1);
         _storage.Close();
-        _storage = new FileBasedDataStorage<String, String>(System.getProperty("user.dir"), "_fileStorage", 1);
+        _storage = new FileBasedDataStorage<StringSizable, StringSizable>(System.getProperty("user.dir"), "_fileStorage", 1);
 
         //act
         WrappedKeyValue item = _storage.Get(defaultKey1);
@@ -185,16 +186,16 @@ public class FileBasedDataStorageTest {
         byte[] keyBytes = new byte[1024]; //1Kb
         byte[] valueBytes = new byte[1024]; //1Kb
         int elementsCount = 10;
-        String[] arrayOfKeys = new String[elementsCount];
-        String[] arrayOfValues = new String[elementsCount];
+        StringSizable[] arrayOfKeys = new StringSizable[elementsCount];
+        StringSizable[] arrayOfValues = new StringSizable[elementsCount];
         Random random = new Random();
 
         //Add
         for (int i = 0; i < elementsCount; i++) {
             random.nextBytes(keyBytes);
-            arrayOfKeys[i] = new String(keyBytes);
+            arrayOfKeys[i] = new StringSizable(new String(keyBytes));
             random.nextBytes(valueBytes);
-            arrayOfValues[i] = new String(valueBytes);
+            arrayOfValues[i] = new StringSizable(new String(valueBytes));
         }
         for (int i = 0; i < elementsCount; i++) {
             _storage.AddOrUpdate(arrayOfKeys[i], arrayOfValues[i]);
@@ -203,7 +204,7 @@ public class FileBasedDataStorageTest {
         //Update
         for (int i = 0; i < elementsCount; i++) {
             random.nextBytes(valueBytes);
-            arrayOfValues[i] = new String(valueBytes);
+            arrayOfValues[i] = new StringSizable(new String(valueBytes));
         }
         for (int i = 0; i < elementsCount; i++) {
             _storage.AddOrUpdate(arrayOfKeys[i], arrayOfValues[i]);
@@ -219,16 +220,16 @@ public class FileBasedDataStorageTest {
     @Test
     public void StressTest_16MbKeysAnd1KbValues() throws IOException, ClassNotFoundException {
         //extend memory size for this test 4x16Mb
-        _storage = new FileBasedDataStorage<String, String>(System.getProperty("user.dir"), "fileStorage", 1);
+        _storage = new FileBasedDataStorage<StringSizable, StringSizable>(System.getProperty("user.dir"), "fileStorage", 1);
         int keyBytes = 16777216; //16Mb
         int valueBytes = 1024; //1Kb
         int elementsCount = 10;
-        String[] arrayOfKeys = new String[elementsCount];
-        String[] arrayOfValues = new String[elementsCount];
+        StringSizable[] arrayOfKeys = new StringSizable[elementsCount];
+        StringSizable[] arrayOfValues = new StringSizable[elementsCount];
 
         for (int i = 0; i < elementsCount; i++) {
-            arrayOfKeys[i] = GenerateStringAllCharacters(keyBytes);
-            arrayOfValues[i] = GenerateStringAllCharacters(valueBytes);
+            arrayOfKeys[i] = new StringSizable(GenerateStringAllCharacters(keyBytes));
+            arrayOfValues[i] = new StringSizable(GenerateStringAllCharacters(valueBytes));
         }
 
         for (int i = 0; i < elementsCount; i++) {
@@ -241,9 +242,9 @@ public class FileBasedDataStorageTest {
             {
                 FileWriter writer = new FileWriter("error");
                 writer.write("key:");
-                writer.write(arrayOfKeys[i]);
+                writer.write(arrayOfKeys[i].Value);
                 writer.write("\nvalue:");
-                writer.write(arrayOfValues[i]);
+                writer.write(arrayOfValues[i].Value);
                 writer.flush();
                 writer.close();
             }

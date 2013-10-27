@@ -1,17 +1,18 @@
 package DatabaseClient.api;
 
-import DatabaseBase.DatabaseServer.utils.ArgumentsHelper;
+import DatabaseBase.commands.CommandSingleNode;
+import DatabaseBase.commands.RequestCommand;
+import DatabaseBase.components.Evaluator;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Query;
 import DatabaseBase.exceptions.ConnectionException;
 import DatabaseBase.exceptions.EvaluateException;
 import DatabaseBase.exceptions.LexerException;
 import DatabaseBase.exceptions.ParserException;
-import DatabaseBase.interfaces.IEvaluator;
-import DatabaseClient.parser.Parser;
+import DatabaseBase.interfaces.ISizable;
+import DatabaseBase.parser.Parser;
+import DatabaseBase.utils.ArgumentsHelper;
 import DatabaseClient.parser.ServerCommand;
-import DatabaseClient.parser.commands.CommandSingleNode;
-import DatabaseClient.parser.commands.RequestCommand;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,7 +21,7 @@ import DatabaseClient.parser.commands.RequestCommand;
  * Time: 8:24 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ClientEvaluator<TKey, TValue> implements IEvaluator {
+public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> extends Evaluator<TKey, TValue> {
     private TcpSender<TKey, TValue> _sender;
     private Parser _parser;
 
@@ -79,9 +80,9 @@ public class ClientEvaluator<TKey, TValue> implements IEvaluator {
     }
 
     @Override
-    public EvaluationResult Evaluate(String query) {
+    public EvaluationResult<TKey, TValue> Evaluate(String query) {
         EvaluationResult<TKey, TValue> evaluationResult = new EvaluationResult<TKey, TValue>();
-        evaluationResult.ExecutionQuery = query;
+        evaluationResult.ExecutionString = query;
         try{
            Evaluate(_parser.Parse(query), evaluationResult);
         } catch (LexerException e) {

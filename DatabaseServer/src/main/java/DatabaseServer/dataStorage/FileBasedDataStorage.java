@@ -2,13 +2,12 @@ package DatabaseServer.dataStorage;
 
 import DatabaseBase.entities.WrappedKeyValue;
 import DatabaseBase.interfaces.IDataStorage;
+import DatabaseBase.interfaces.ISizable;
 import DatabaseServer.utils.AppendingObjectOutputStream;
 import DatabaseServer.utils.FileUtils;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -18,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Time: 2:33 AM
  * To change this template use File | Settings | File Templates.
  */
-public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TValue> {
+public class FileBasedDataStorage<TKey extends ISizable, TValue extends ISizable> implements IDataStorage<TKey, TValue> {
     private String _indexFileName = "indexFileStorage.dat";
     private String _indexFilePath;
     private String _baseDirectory;
@@ -52,8 +51,16 @@ public class FileBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TV
     }
 
     @Override
-    public List<WrappedKeyValue<TKey, TValue>> GetElements() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<WrappedKeyValue<TKey, TValue>> GetElements() throws IOException {
+        //TODO: Implement in different way
+        List<WrappedKeyValue<TKey, TValue>> elements = new ArrayList<WrappedKeyValue<TKey, TValue>>(_index.size());
+        Iterator<Map.Entry<TKey,Long>> iterator = _index.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry<TKey, Long> current = iterator.next();
+            elements.add(Find(current.getKey()));
+        }
+
+        return elements;
     }
 
     @Override

@@ -2,6 +2,7 @@ package DatabaseServer.dataStorage;
 
 import DatabaseBase.entities.WrappedKeyValue;
 import DatabaseBase.interfaces.IDataStorage;
+import DatabaseBase.interfaces.ISizable;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Time: 1:12 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CombinedDataStorage<TKey, TValue> implements IDataStorage<TKey, TValue> {
+public class CombinedDataStorage<TKey extends ISizable, TValue extends ISizable> implements IDataStorage<TKey, TValue> {
     private MemoryBasedDataStorage<TKey, TValue> _memoryStorage;
     private FileBasedDataStorage<TKey, TValue> _fileStorage;
     private ConcurrentLinkedQueue<TKey> _freqElements;
@@ -77,7 +78,7 @@ public class CombinedDataStorage<TKey, TValue> implements IDataStorage<TKey, TVa
     }
 
     @Override
-    public List<WrappedKeyValue<TKey, TValue>> GetElements() {
+    public List<WrappedKeyValue<TKey, TValue>> GetElements() throws IOException {
         return _fileStorage.GetElements();
     }
 

@@ -1,12 +1,13 @@
 package DatabaseServer.parser;
 
+import DatabaseBase.commands.*;
 import DatabaseBase.entities.Query;
 import DatabaseBase.exceptions.LexerException;
 import DatabaseBase.exceptions.ParserException;
-import DatabaseClient.parser.Lexem;
-import DatabaseClient.parser.Lexer;
-import DatabaseClient.parser.Parser;
-import DatabaseClient.parser.commands.*;
+import DatabaseBase.interfaces.ISizable;
+import DatabaseBase.parser.Lexem;
+import DatabaseBase.parser.Lexer;
+import DatabaseBase.parser.Parser;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -14,11 +15,11 @@ import java.util.Iterator;
 /**
  * Created with IntelliJ IDEA.
  * User: deemo_000
- * Date: 10/22/13
- * Time: 7:32 PM
+ * Date: 10/27/13
+ * Time: 5:05 AM
  * To change this template use File | Settings | File Templates.
  */
-public class ServerParser extends Parser {
+public abstract class ServerParser<TKey extends ISizable, TValue extends ISizable> extends Parser<TKey, TValue> {
 
     public ServerParser(Lexer lexer) {
         super(lexer);
@@ -64,7 +65,7 @@ public class ServerParser extends Parser {
                             key = ParseNextLiteral(lexems);
                             if (lexems.hasNext())
                                 throw new ParserException("Unexpactable count of parameters");
-                            return new CommandKeyNode(requestCommand, key);
+                            return new CommandKeyNode(requestCommand, GetKey(key));
                         case ADD:
                         case UPDATE:
                         case ADD_OR_UPDATE:
@@ -72,7 +73,7 @@ public class ServerParser extends Parser {
                             value = ParseNextLiteral(lexems);
                             if (lexems.hasNext())
                                 throw new ParserException("Unexpected count of arguments");
-                            return new CommandKeyValueNode(requestCommand, key, value);
+                            return new CommandKeyValueNode(requestCommand, GetKey(key), GetValue(value));
                         default:
                             throw new ParserException("Unexpected requestCommand: " + requestCommand);
                     }

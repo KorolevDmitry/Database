@@ -1,8 +1,9 @@
 package DatabaseBase.components;
 
+import DatabaseBase.commands.CommandKeyNode;
+import DatabaseBase.commands.CommandNode;
 import DatabaseBase.entities.Route;
-import DatabaseClient.parser.commands.CommandKeyNode;
-import DatabaseClient.parser.commands.CommandNode;
+import DatabaseBase.interfaces.ISizable;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -13,12 +14,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * Time: 11:29 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Balancer<TKey, TValue> {
+public class Balancer<TKey extends ISizable, TValue extends ISizable> {
 
     ConcurrentHashMap<Integer, Route> _routs;
 
-    public Balancer(String serverStr)
-    {
+    public Balancer(String serverStr) {
         LoadFromArgs(serverStr);
     }
 
@@ -31,10 +31,6 @@ public class Balancer<TKey, TValue> {
         }
     }
 
-    private void Load() {
-        //TODO: loading from config
-    }
-
     private Integer GetIndex(CommandNode command) {
         TKey key = ((CommandKeyNode<TKey>)command).Key;
         return key == null ? 0 : key.hashCode() % _routs.size();
@@ -43,4 +39,12 @@ public class Balancer<TKey, TValue> {
     public Route GetRoute(CommandNode command) {
         return _routs.get(GetIndex(command));
     }
+
+    public void AddServer(Route route){}
+
+    public void RemoveServer(Route route){}
+
+    public void Heartbeat(){}
+
+
 }

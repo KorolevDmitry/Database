@@ -1,7 +1,8 @@
 package DatabaseClient.parser;
 
-import DatabaseClient.parser.commands.CommandKeyNode;
-import DatabaseClient.parser.commands.RequestCommand;
+import DatabaseBase.commands.CommandKeyNode;
+import DatabaseBase.commands.RequestCommand;
+import DatabaseBase.interfaces.ISizable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,7 +11,7 @@ import DatabaseClient.parser.commands.RequestCommand;
  * Time: 8:32 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ServerCommand<TKey> extends CommandKeyNode<TKey> {
+public class ServerCommand<TKey extends ISizable> extends CommandKeyNode<TKey> {
     private String _wholeRequest;
 
     public ServerCommand(RequestCommand requestCommand, TKey key, String wholeRequest) {

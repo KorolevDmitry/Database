@@ -2,6 +2,7 @@ package DatabaseServer.dataStorage;
 
 import DatabaseBase.interfaces.IDataStorage;
 import DatabaseBase.entities.WrappedKeyValue;
+import DatabaseBase.interfaces.ISizable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Time: 2:11 AM
  * To change this template use File | Settings | File Templates.
  */
-public class MemoryBasedDataStorage<TKey, TValue> implements IDataStorage<TKey, TValue> {
+public class MemoryBasedDataStorage<TKey extends ISizable, TValue extends ISizable> implements IDataStorage<TKey, TValue> {
     ConcurrentHashMap<TKey, WrappedKeyValue<TKey, TValue>> _storage;
 
     public MemoryBasedDataStorage() {

@@ -12,11 +12,11 @@ import java.util.List;
  * Time: 2:08 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface IDataStorage<TKey, TValue> {
+public interface IDataStorage<TKey extends ISizable, TValue extends ISizable> {
     WrappedKeyValue<TKey, TValue> Get(TKey key) throws IOException;
 
     //TODO: replace with iterator
-    List<WrappedKeyValue<TKey, TValue>> GetElements();
+    List<WrappedKeyValue<TKey, TValue>> GetElements() throws IOException;
 
     void AddOrUpdate(TKey key, TValue value) throws IOException;
 

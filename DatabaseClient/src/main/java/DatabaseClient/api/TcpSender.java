@@ -4,6 +4,7 @@ import DatabaseBase.components.Balancer;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Route;
 import DatabaseBase.exceptions.ConnectionException;
+import DatabaseBase.interfaces.ISizable;
 import DatabaseClient.parser.ServerCommand;
 
 import java.io.DataOutputStream;
@@ -19,7 +20,7 @@ import java.net.UnknownHostException;
  * Time: 2:57 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TcpSender<TKey, TValue> {
+public class TcpSender<TKey extends ISizable, TValue extends ISizable> {
     private Balancer<TKey, TValue> _balancer;
 
     public TcpSender(Balancer<TKey, TValue> balancer) {

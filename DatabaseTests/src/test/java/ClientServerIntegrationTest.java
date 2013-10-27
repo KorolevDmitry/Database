@@ -1,14 +1,15 @@
 import DatabaseBase.components.Balancer;
 import DatabaseBase.entities.EvaluationResult;
+import DatabaseBase.entities.StringSizable;
 import DatabaseBase.exceptions.ConnectionException;
 import DatabaseClient.api.TcpSender;
-import DatabaseClient.parser.Lexer;
+import DatabaseBase.parser.Lexer;
 import DatabaseClient.parser.ServerCommand;
-import DatabaseClient.parser.commands.RequestCommand;
+import DatabaseBase.commands.RequestCommand;
 import DatabaseServer.api.ServerEvaluator;
 import DatabaseServer.api.TcpListener;
 import DatabaseServer.dataStorage.MemoryBasedDataStorage;
-import DatabaseServer.parser.ServerParser;
+import DatabaseServer.parser.ServerParserStringString;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -26,15 +27,15 @@ public class ClientServerIntegrationTest {
     @Test
     public void Start_1Server1Client_NoErrors() throws IOException {
         //arrange
-        TcpListener<String, String> server1 = CreateServer(1107);
-        TcpSender<String, String> client1 = CreateClient("localhost:1107");
+        TcpListener<StringSizable, StringSizable> server1 = CreateServer(1107);
+        TcpSender<StringSizable, StringSizable> client1 = CreateClient("localhost:1107");
         server1.Start();
-        ServerCommand<String> command1 = new ServerCommand<String>(RequestCommand.ADD, "x1", "add x1 x1");
-        ServerCommand<String> command2 = new ServerCommand<String>(RequestCommand.ADD, "x2", "add x2 x2");
-        ServerCommand<String> command3 = new ServerCommand<String>(RequestCommand.GET, "x1", "get x1");
-        EvaluationResult<String, String> result1 = null;
-        EvaluationResult<String, String> result2 = null;
-        EvaluationResult<String, String> result3 = null;
+        ServerCommand<StringSizable> command1 = new ServerCommand<StringSizable>(RequestCommand.ADD, new StringSizable("x1"), "add x1 x1");
+        ServerCommand<StringSizable> command2 = new ServerCommand<StringSizable>(RequestCommand.ADD, new StringSizable("x2"), "add x2 x2");
+        ServerCommand<StringSizable> command3 = new ServerCommand<StringSizable>(RequestCommand.GET, new StringSizable("x1"), "get x1");
+        EvaluationResult<StringSizable, StringSizable> result1 = null;
+        EvaluationResult<StringSizable, StringSizable> result2 = null;
+        EvaluationResult<StringSizable, StringSizable> result3 = null;
         boolean hasException = false;
 
         //act
@@ -53,23 +54,23 @@ public class ClientServerIntegrationTest {
         assertFalse(result2.HasError);
         assertFalse(result3.HasError);
         assertTrue(result3.HasReturnResult);
-        assertEquals("x1", result3.Result);
+        assertEquals(new StringSizable("x1"), result3.Result);
     }
 
     @Test
     public void Start_2Servers1Client_NoErrors() throws IOException {
         //arrange
-        TcpListener<String, String> server1 = CreateServer(1107);
-        TcpListener<String, String> server2 = CreateServer(1108);
-        TcpSender<String, String> client1 = CreateClient("localhost:1107;localhost:1108");
+        TcpListener<StringSizable, StringSizable> server1 = CreateServer(1107);
+        TcpListener<StringSizable, StringSizable> server2 = CreateServer(1108);
+        TcpSender<StringSizable, StringSizable> client1 = CreateClient("localhost:1107;localhost:1108");
         server1.Start();
         server2.Start();
-        ServerCommand<String> command1 = new ServerCommand<String>(RequestCommand.ADD, "x1", "add x1 x1");
-        ServerCommand<String> command2 = new ServerCommand<String>(RequestCommand.ADD, "x2", "add x2 x2");
-        ServerCommand<String> command3 = new ServerCommand<String>(RequestCommand.GET, "x1", "get x1");
-        EvaluationResult<String, String> result1 = null;
-        EvaluationResult<String, String> result2 = null;
-        EvaluationResult<String, String> result3 = null;
+        ServerCommand<StringSizable> command1 = new ServerCommand<StringSizable>(RequestCommand.ADD, new StringSizable("x1"), "add x1 x1");
+        ServerCommand<StringSizable> command2 = new ServerCommand<StringSizable>(RequestCommand.ADD, new StringSizable("x2"), "add x2 x2");
+        ServerCommand<StringSizable> command3 = new ServerCommand<StringSizable>(RequestCommand.GET, new StringSizable("x1"), "get x1");
+        EvaluationResult<StringSizable, StringSizable> result1 = null;
+        EvaluationResult<StringSizable, StringSizable> result2 = null;
+        EvaluationResult<StringSizable, StringSizable> result3 = null;
         boolean hasException = false;
 
         //act
@@ -89,19 +90,19 @@ public class ClientServerIntegrationTest {
         assertFalse(result2.HasError);
         assertFalse(result3.HasError);
         assertTrue(result3.HasReturnResult);
-        assertEquals("x1", result3.Result);
+        assertEquals(new StringSizable("x1"), result3.Result);
     }
 
-    private TcpListener<String, String> CreateServer(int port) {
-        MemoryBasedDataStorage<String, String> dataStorage = new MemoryBasedDataStorage<String, String>();
-        ServerEvaluator<String, String> evaluator = new ServerEvaluator<String, String>(dataStorage, new ServerParser(new Lexer()));
-        TcpListener<String, String> listener = new TcpListener<String, String>(evaluator, port);
+    private TcpListener<StringSizable, StringSizable> CreateServer(int port) {
+        MemoryBasedDataStorage<StringSizable, StringSizable> dataStorage = new MemoryBasedDataStorage<StringSizable, StringSizable>();
+        ServerEvaluator<StringSizable, StringSizable> evaluator = new ServerEvaluator<StringSizable, StringSizable>(dataStorage, new ServerParserStringString(new Lexer()));
+        TcpListener<StringSizable, StringSizable> listener = new TcpListener<StringSizable, StringSizable>(evaluator, port);
         return listener;
     }
 
-    private TcpSender<String, String> CreateClient(String listOfServers) {
-        Balancer<String, String> balancer = new Balancer<String, String>(listOfServers);
-        TcpSender<String, String> sender = new TcpSender<String, String>(balancer);
+    private TcpSender<StringSizable, StringSizable> CreateClient(String listOfServers) {
+        Balancer<StringSizable, StringSizable> balancer = new Balancer<StringSizable, StringSizable>(listOfServers);
+        TcpSender<StringSizable, StringSizable> sender = new TcpSender<StringSizable, StringSizable>(balancer);
         return sender;
     }
 }

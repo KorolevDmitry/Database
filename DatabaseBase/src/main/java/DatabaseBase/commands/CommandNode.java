@@ -1,4 +1,4 @@
-package DatabaseClient.parser.commands;
+package DatabaseBase.commands;
 
 import DatabaseBase.interfaces.ICommand;
 

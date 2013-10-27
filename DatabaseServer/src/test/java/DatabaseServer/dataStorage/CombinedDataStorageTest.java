@@ -1,5 +1,6 @@
 package DatabaseServer.dataStorage;
 
+import DatabaseBase.entities.StringSizable;
 import DatabaseBase.entities.WrappedKeyValue;
 import org.junit.After;
 import org.junit.Before;
@@ -23,16 +24,16 @@ import static junit.framework.Assert.assertTrue;
  * To change this template use File | Settings | File Templates.
  */
 public class CombinedDataStorageTest {
-    private CombinedDataStorage<String, String> _storage;
-    private String defaultKey1 = "defaultKey1";
-    private String defaultKey2 = "defaultKey2";
-    private String defaultValue1 = "defaultValue1";
-    private String defaultValue2 = "defaultValue2";
+    private CombinedDataStorage<StringSizable, StringSizable> _storage;
+    private StringSizable defaultKey1 = new StringSizable("defaultKey1");
+    private StringSizable defaultKey2 = new StringSizable("defaultKey2");
+    private StringSizable defaultValue1 = new StringSizable("defaultValue1");
+    private StringSizable defaultValue2 = new StringSizable("defaultValue2");
     private Random random = new Random();
 
     @Before
     public void setUp() throws Exception {
-        _storage = new CombinedDataStorage<String, String>(System.getProperty("user.dir"), "_fileStorage", 1, 1024);
+        _storage = new CombinedDataStorage<StringSizable, StringSizable>(System.getProperty("user.dir"), "_fileStorage", 1, 1024);
     }
 
     @After
@@ -96,13 +97,12 @@ public class CombinedDataStorageTest {
         int keyBytes = 1024; //1Kb
         int valueBytes = 1024; //1Kb
         int elementsCount = 10;
-        String[] arrayOfKeys = new String[elementsCount];
-        String[] arrayOfValues = new String[elementsCount];
+        StringSizable[] arrayOfKeys = new StringSizable[elementsCount];
+        StringSizable[] arrayOfValues = new StringSizable[elementsCount];
 
-        //Add
         for (int i = 0; i < elementsCount; i++) {
-            arrayOfKeys[i] = GenerateStringAllCharacters(keyBytes);
-            arrayOfValues[i] = GenerateStringAllCharacters(valueBytes);
+            arrayOfKeys[i] = new StringSizable(GenerateStringAllCharacters(keyBytes));
+            arrayOfValues[i] = new StringSizable(GenerateStringAllCharacters(valueBytes));
         }
         for (int i = 0; i < elementsCount; i++) {
             _storage.AddOrUpdate(arrayOfKeys[i], arrayOfValues[i]);
@@ -110,7 +110,7 @@ public class CombinedDataStorageTest {
 
         //Update
         for (int i = 0; i < elementsCount; i++) {
-            arrayOfValues[i] = GenerateStringAllCharacters(valueBytes);
+            arrayOfValues[i] = new StringSizable(GenerateStringAllCharacters(valueBytes));
         }
         for (int i = 0; i < elementsCount; i++) {
             _storage.AddOrUpdate(arrayOfKeys[i], arrayOfValues[i]);
@@ -126,16 +126,16 @@ public class CombinedDataStorageTest {
     @Test
     public void StressTest_MemoryIsZero_Working() throws IOException, ClassNotFoundException {
         //extend memory size for this test 4x16Mb
-        _storage = new CombinedDataStorage<String, String>(System.getProperty("user.dir"), "fileStorage", 1, 0);
+        _storage = new CombinedDataStorage<StringSizable, StringSizable>(System.getProperty("user.dir"), "fileStorage", 1, 0);
         int keyBytes = 1024; //1Kb
         int valueBytes = 1024; //1Kb
         int elementsCount = 10;
-        String[] arrayOfKeys = new String[elementsCount];
-        String[] arrayOfValues = new String[elementsCount];
+        StringSizable[] arrayOfKeys = new StringSizable[elementsCount];
+        StringSizable[] arrayOfValues = new StringSizable[elementsCount];
 
         for (int i = 0; i < elementsCount; i++) {
-            arrayOfKeys[i] = GenerateStringAllCharacters(keyBytes);
-            arrayOfValues[i] = GenerateStringAllCharacters(valueBytes);
+            arrayOfKeys[i] = new StringSizable(GenerateStringAllCharacters(keyBytes));
+            arrayOfValues[i] = new StringSizable(GenerateStringAllCharacters(valueBytes));
         }
 
         for (int i = 0; i < elementsCount; i++) {
@@ -151,16 +151,16 @@ public class CombinedDataStorageTest {
     @Test
     public void StressTest_MemoryIsEnoughOnlyForOneElement_Working() throws IOException, ClassNotFoundException {
         //extend memory size for this test 4x16Mb
-        _storage = new CombinedDataStorage<String, String>(System.getProperty("user.dir"), "fileStorage", 1, 3072);
+        _storage = new CombinedDataStorage<StringSizable, StringSizable>(System.getProperty("user.dir"), "fileStorage", 1, 3072);
         int keyBytes = 1024; //1Kb
         int valueBytes = 1024; //1Kb
         int elementsCount = 10;
-        String[] arrayOfKeys = new String[elementsCount];
-        String[] arrayOfValues = new String[elementsCount];
+        StringSizable[] arrayOfKeys = new StringSizable[elementsCount];
+        StringSizable[] arrayOfValues = new StringSizable[elementsCount];
 
         for (int i = 0; i < elementsCount; i++) {
-            arrayOfKeys[i] = GenerateStringAllCharacters(keyBytes);
-            arrayOfValues[i] = GenerateStringAllCharacters(valueBytes);
+            arrayOfKeys[i] = new StringSizable(GenerateStringAllCharacters(keyBytes));
+            arrayOfValues[i] = new StringSizable(GenerateStringAllCharacters(valueBytes));
         }
 
         for (int i = 0; i < elementsCount; i++) {
@@ -176,16 +176,16 @@ public class CombinedDataStorageTest {
     @Test
     public void StressTest_16MbKeysAnd1KbValues() throws IOException, ClassNotFoundException {
         //extend memory size for this test 4x16Mb
-        _storage = new CombinedDataStorage<String, String>(System.getProperty("user.dir"), "fileStorage", 1, 67108864);
+        _storage = new CombinedDataStorage<StringSizable, StringSizable>(System.getProperty("user.dir"), "fileStorage", 1, 67108864);
         int keyBytes = 16777216; //16Mb
         int valueBytes = 1024; //1Kb
         int elementsCount = 10;
-        String[] arrayOfKeys = new String[elementsCount];
-        String[] arrayOfValues = new String[elementsCount];
+        StringSizable[] arrayOfKeys = new StringSizable[elementsCount];
+        StringSizable[] arrayOfValues = new StringSizable[elementsCount];
 
         for (int i = 0; i < elementsCount; i++) {
-            arrayOfKeys[i] = GenerateStringAllCharacters(keyBytes);
-            arrayOfValues[i] = GenerateStringAllCharacters(valueBytes);
+            arrayOfKeys[i] = new StringSizable(GenerateStringAllCharacters(keyBytes));
+            arrayOfValues[i] = new StringSizable(GenerateStringAllCharacters(valueBytes));
         }
 
         for (int i = 0; i < elementsCount; i++) {
@@ -199,9 +199,9 @@ public class CombinedDataStorageTest {
                 FileOutputStream outputStream = new FileOutputStream("error");
                 FileWriter writer = new FileWriter("error");
                 writer.write("key:");
-                writer.write(arrayOfKeys[i]);
+                writer.write(arrayOfKeys[i].Value);
                 writer.write("\nvalue:");
-                writer.write(arrayOfValues[i]);
+                writer.write(arrayOfValues[i].Value);
                 writer.flush();
                 writer.close();
             }

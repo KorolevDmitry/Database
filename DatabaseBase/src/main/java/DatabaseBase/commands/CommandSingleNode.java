@@ -1,4 +1,4 @@
-package DatabaseClient.parser.commands;
+package DatabaseBase.commands;
 
 /**
  * Created with IntelliJ IDEA.

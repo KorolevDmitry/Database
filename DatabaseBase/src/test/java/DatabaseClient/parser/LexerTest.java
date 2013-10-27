@@ -1,5 +1,8 @@
 package DatabaseClient.parser;
 
+import DatabaseBase.parser.Lexem;
+import DatabaseBase.parser.LexemType;
+import DatabaseBase.parser.Lexer;
 import org.junit.Test;
 
 import java.util.ArrayList;

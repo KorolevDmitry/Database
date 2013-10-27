@@ -1,16 +1,18 @@
 package DatabaseServer;
 
-import DatabaseBase.DatabaseServer.utils.ArgumentsHelper;
+import DatabaseBase.entities.StringSizable;
+import DatabaseBase.utils.ArgumentsHelper;
 import DatabaseBase.interfaces.IDataStorage;
 import DatabaseBase.interfaces.INameUsageDescriptionPattern;
-import DatabaseClient.parser.Lexer;
+import DatabaseBase.parser.Lexer;
 import DatabaseServer.api.ServerEvaluator;
 import DatabaseServer.api.TcpListener;
 import DatabaseServer.dataStorage.CombinedDataStorage;
 import DatabaseServer.dataStorage.DataStorageType;
 import DatabaseServer.dataStorage.FileBasedDataStorage;
 import DatabaseServer.dataStorage.MemoryBasedDataStorage;
-import DatabaseServer.parser.ServerParser;
+import DatabaseServer.parser.ServerParserStringString;
+import DatabaseServer.utils.ServerArguments;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,8 +34,8 @@ public class Program {
         ArgumentsHelper.PrintDescription(ServerArguments.values());
     }
 
-    private static IDataStorage<String, String> InitDatabase(HashMap<INameUsageDescriptionPattern, String> arguments) throws IOException, ClassNotFoundException {
-        IDataStorage<String, String> storage = null;
+    private static IDataStorage<StringSizable, StringSizable> InitDatabase(HashMap<INameUsageDescriptionPattern, String> arguments) throws IOException, ClassNotFoundException {
+        IDataStorage<StringSizable, StringSizable> storage = null;
         if (!arguments.containsKey(ServerArguments.Mode))
             throw new IllegalArgumentException("Missed required argument: " + ServerArguments.Mode.GetName());
         DataStorageType dataStorageType;
@@ -44,14 +46,14 @@ public class Program {
         }
         switch (dataStorageType) {
             case MEMORY:
-                storage = new MemoryBasedDataStorage<String, String>();
+                storage = new MemoryBasedDataStorage<StringSizable, StringSizable>();
                 break;
             case FILE:
                 String fileBaseDirectory = ArgumentsHelper.GetStringArgument(arguments, ServerArguments.Directory);
                 int fileSplitSize = ArgumentsHelper.GetPositiveIntArgument(arguments, ServerArguments.SplitRate);
                 int port = ArgumentsHelper.GetPositiveIntArgument(arguments, ServerArguments.Port);
                 String prefix = "_fileStorage" + port;
-                storage = new FileBasedDataStorage<String, String>(fileBaseDirectory, prefix, fileSplitSize);
+                storage = new FileBasedDataStorage<StringSizable, StringSizable>(fileBaseDirectory, prefix, fileSplitSize);
                 break;
             case COMBINED:
                 fileBaseDirectory = ArgumentsHelper.GetStringArgument(arguments, ServerArguments.Directory);
@@ -59,13 +61,13 @@ public class Program {
                 int memoryMaxSize = ArgumentsHelper.GetPositiveIntArgument(arguments, ServerArguments.MemoryMaxSize);
                 port = ArgumentsHelper.GetPositiveIntArgument(arguments, ServerArguments.Port);
                 prefix = "_fileStorage" + port;
-                storage = new CombinedDataStorage<String, String>(fileBaseDirectory, prefix, fileSplitSize, memoryMaxSize);
+                storage = new CombinedDataStorage<StringSizable, StringSizable>(fileBaseDirectory, prefix, fileSplitSize, memoryMaxSize);
                 break;
         }
         return storage;
     }
 
-    private static void InitTestData(IDataStorage<String, String> database, HashMap<INameUsageDescriptionPattern, String> arguments) throws IOException {
+    private static void InitTestData(IDataStorage<StringSizable, StringSizable> database, HashMap<INameUsageDescriptionPattern, String> arguments) throws IOException {
         if (!arguments.containsKey(ServerArguments.GenerateElementsCount) && !arguments.containsKey(ServerArguments.GenerateValueSize))
             return;
         int elementsCount = ArgumentsHelper.GetPositiveIntArgument(arguments, ServerArguments.GenerateElementsCount);
@@ -76,7 +78,7 @@ public class Program {
             byte[] r = new byte[valueSize];
             for (int i = 0; i < elementsCount; i++) {
                 String s = String.valueOf(i);
-                database.AddOrUpdate(s, GenerateStringAllCharacters(valueSize));
+                database.AddOrUpdate(new StringSizable(s), new StringSizable(GenerateStringAllCharacters(valueSize)));
                 if ((i + 1) % 100 == 0)
                     System.out.println((i + 1) + " of " + elementsCount + " items generated.");
             }
@@ -96,16 +98,16 @@ public class Program {
     }
 
     public static void main(String[] args) throws IOException {
-        IDataStorage<String, String> storage = null;
+        IDataStorage<StringSizable, StringSizable> storage = null;
         try {
             HashMap<INameUsageDescriptionPattern, String> arguments = ArgumentsHelper.ParseArguments(args, ServerArguments.values());
             int port = ArgumentsHelper.GetPositiveIntArgument(arguments, ServerArguments.Port);
             storage = InitDatabase(arguments);
             System.out.println("Database initialized.");
             InitTestData(storage, arguments);
-            ServerParser parser = new ServerParser(new Lexer());
-            ServerEvaluator<String, String> evaluator = new ServerEvaluator<String, String>(storage, parser);
-            TcpListener<String, String> listener = new TcpListener<String, String>(evaluator, port);
+            ServerParserStringString parser = new ServerParserStringString(new Lexer());
+            ServerEvaluator<StringSizable, StringSizable> evaluator = new ServerEvaluator<StringSizable, StringSizable>(storage, parser);
+            TcpListener<StringSizable, StringSizable> listener = new TcpListener<StringSizable, StringSizable>(evaluator, port);
             listener.Start();
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());

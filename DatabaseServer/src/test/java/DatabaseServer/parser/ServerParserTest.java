@@ -2,13 +2,13 @@ package DatabaseServer.parser;
 
 import DatabaseBase.entities.Query;
 import DatabaseBase.exceptions.ParserException;
-import DatabaseClient.parser.Lexer;
+import DatabaseBase.parser.Lexer;
 import org.junit.Before;
 import org.junit.Test;
-import DatabaseClient.parser.commands.CommandKeyNode;
-import DatabaseClient.parser.commands.CommandKeyValueNode;
-import DatabaseClient.parser.commands.CommandSingleNode;
-import DatabaseClient.parser.commands.RequestCommand;
+import DatabaseBase.commands.CommandKeyNode;
+import DatabaseBase.commands.CommandKeyValueNode;
+import DatabaseBase.commands.CommandSingleNode;
+import DatabaseBase.commands.RequestCommand;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -21,11 +21,11 @@ import static junit.framework.Assert.assertTrue;
  * To change this template use File | Settings | File Templates.
  */
 public class ServerParserTest {
-    private ServerParser _parser;
+    private ServerParserStringString _parser;
 
     @Before
     public void setUp() throws Exception {
-        _parser = new ServerParser(new Lexer());
+        _parser = new ServerParserStringString(new Lexer());
     }
 
     @Test

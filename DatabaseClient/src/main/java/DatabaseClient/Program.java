@@ -1,14 +1,16 @@
 package DatabaseClient;
 
-import DatabaseBase.DatabaseServer.utils.ArgumentsHelper;
+import DatabaseBase.entities.StringSizable;
+import DatabaseBase.utils.ArgumentsHelper;
 import DatabaseBase.components.Balancer;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.interfaces.INameUsageDescriptionPattern;
 import DatabaseClient.api.ClientEvaluator;
 import DatabaseClient.api.TcpSender;
-import DatabaseClient.parser.ClientParser;
-import DatabaseClient.parser.Lexer;
-import DatabaseClient.parser.Parser;
+import DatabaseClient.parser.ClientParserStringString;
+import DatabaseBase.parser.Lexer;
+import DatabaseBase.parser.Parser;
+import DatabaseClient.utils.ClientArguments;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,17 +35,17 @@ public class Program {
     public static void main(String args[]) {
         String sentence;
         String answer;
-        Balancer<String, String> balancer;
-        ClientEvaluator<String, String> evaluator;
+        Balancer<StringSizable, StringSizable> balancer;
+        ClientEvaluator<StringSizable, StringSizable> evaluator;
         Parser parser;
         BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
         try {
             HashMap<INameUsageDescriptionPattern, String> arguments = ArgumentsHelper.ParseArguments(args, ClientArguments.values());
             String listOfServers = ArgumentsHelper.GetStringArgument(arguments, ClientArguments.LIST_OF_SERVERS);
-            balancer = new Balancer<String, String>(listOfServers);
-            TcpSender<String, String> sender = new TcpSender<String, String>(balancer);
-            parser = new ClientParser(new Lexer());
-            evaluator = new ClientEvaluator<String, String>(sender, parser);
+            balancer = new Balancer<StringSizable, StringSizable>(listOfServers);
+            TcpSender<StringSizable, StringSizable> sender = new TcpSender<StringSizable, StringSizable>(balancer);
+            parser = new ClientParserStringString(new Lexer());
+            evaluator = new ClientEvaluator<StringSizable, StringSizable>(sender, parser);
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
             PrintMainHelp();
@@ -52,13 +54,13 @@ public class Program {
         while (true) {
             try {
                 sentence = inFromUser.readLine();
-                EvaluationResult result = evaluator.Evaluate(sentence);
+                EvaluationResult<StringSizable, StringSizable> result = evaluator.Evaluate(sentence);
                 if (result.Quit) {
                     return;
                 } else if (result.HasError) {
                     System.out.println(result.ErrorDescription);
                 } else if (result.HasReturnResult) {
-                    System.out.println(result.Result == null ? "NULL" : result.Result.toString());
+                    System.out.println(result.Result == null ? "NULL" : result.Result.Value);
                 } else {
                     System.out.println("Done");
                 }

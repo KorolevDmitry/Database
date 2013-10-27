@@ -1,5 +1,9 @@
 package DatabaseServer.api;
 
+import DatabaseBase.commands.CommandKeyNode;
+import DatabaseBase.commands.CommandKeyValueNode;
+import DatabaseBase.commands.CommandSingleNode;
+import DatabaseBase.components.Evaluator;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Query;
 import DatabaseBase.entities.WrappedKeyValue;
@@ -7,11 +11,8 @@ import DatabaseBase.exceptions.EvaluateException;
 import DatabaseBase.exceptions.LexerException;
 import DatabaseBase.exceptions.ParserException;
 import DatabaseBase.interfaces.IDataStorage;
-import DatabaseBase.interfaces.IEvaluator;
-import DatabaseClient.parser.Parser;
-import DatabaseClient.parser.commands.CommandKeyNode;
-import DatabaseClient.parser.commands.CommandKeyValueNode;
-import DatabaseClient.parser.commands.CommandSingleNode;
+import DatabaseBase.interfaces.ISizable;
+import DatabaseBase.parser.Parser;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -23,7 +24,7 @@ import java.security.InvalidKeyException;
  * Time: 7:55 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ServerEvaluator<TKey, TValue> implements IEvaluator {
+public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> extends Evaluator<TKey, TValue> {
     IDataStorage<TKey, TValue> _dataStorage;
     Parser _parser;
 
@@ -31,6 +32,34 @@ public class ServerEvaluator<TKey, TValue> implements IEvaluator {
         _dataStorage = dataStorage;
         _parser = parser;
     }
+
+    @Override
+    public EvaluationResult Evaluate(String query) {
+        EvaluationResult<TKey, TValue> evaluationResult = new EvaluationResult<TKey, TValue>();
+        evaluationResult.ExecutionString = query;
+        if(query == null)
+        {
+            evaluationResult.HasReturnResult = false;
+            evaluationResult.HasError = true;
+            evaluationResult.ErrorDescription = "Null query";
+            return evaluationResult;
+        }
+        try{
+            Evaluate(_parser.Parse(query), evaluationResult);
+        } catch (LexerException e) {
+            evaluationResult.HasReturnResult = false;
+            evaluationResult.HasError = true;
+            evaluationResult.ErrorDescription = e.getMessage();
+        } catch (ParserException e) {
+            evaluationResult.HasReturnResult = false;
+            evaluationResult.HasError = true;
+            evaluationResult.ErrorDescription = e.getMessage();
+        }
+
+        return evaluationResult;
+    }
+
+
 
     void Evaluate(Query tree, EvaluationResult<TKey, TValue> evaluationResult) {
         evaluationResult.HasReturnResult = true;
@@ -48,6 +77,7 @@ public class ServerEvaluator<TKey, TValue> implements IEvaluator {
             evaluationResult.ErrorDescription = "Null command";
             return;
         }
+        _messageReceived.notifyObservers(tree);
         try {
             if (tree.Command instanceof CommandKeyValueNode)
                 Evaluate((CommandKeyValueNode<TKey, TValue>) tree.Command, evaluationResult);
@@ -61,6 +91,7 @@ public class ServerEvaluator<TKey, TValue> implements IEvaluator {
             evaluationResult.HasError = true;
             evaluationResult.ErrorDescription = evaluateException.getMessage();
         }
+        _messageExecuted.notifyObservers(evaluationResult);
     }
 
     private void Evaluate(CommandKeyNode<TKey> command, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
@@ -142,31 +173,5 @@ public class ServerEvaluator<TKey, TValue> implements IEvaluator {
 
     private void PrintHelp()    {
 
-    }
-
-    @Override
-    public EvaluationResult Evaluate(String query) {
-        EvaluationResult<TKey, TValue> evaluationResult = new EvaluationResult<TKey, TValue>();
-        evaluationResult.ExecutionQuery = query;
-        if(query == null)
-        {
-            evaluationResult.HasReturnResult = false;
-            evaluationResult.HasError = true;
-            evaluationResult.ErrorDescription = "Null query";
-            return evaluationResult;
-        }
-        try{
-            Evaluate(_parser.Parse(query), evaluationResult);
-        } catch (LexerException e) {
-            evaluationResult.HasReturnResult = false;
-            evaluationResult.HasError = true;
-            evaluationResult.ErrorDescription = e.getMessage();
-        } catch (ParserException e) {
-            evaluationResult.HasReturnResult = false;
-            evaluationResult.HasError = true;
-            evaluationResult.ErrorDescription = e.getMessage();
-        }
-
-        return evaluationResult;
     }
 }

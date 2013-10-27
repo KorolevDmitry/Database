@@ -1,4 +1,6 @@
-package DatabaseClient.parser.commands;
+package DatabaseBase.commands;
+
+import DatabaseBase.interfaces.ISizable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -7,7 +9,7 @@ package DatabaseClient.parser.commands;
  * Time: 4:28 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CommandKeyNode<TKey> extends CommandSingleNode {
+public class CommandKeyNode<TKey extends ISizable> extends CommandSingleNode {
     public TKey Key;
 
     public CommandKeyNode(RequestCommand requestCommand, TKey key) {

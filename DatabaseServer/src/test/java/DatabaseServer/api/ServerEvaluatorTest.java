@@ -1,21 +1,21 @@
 package DatabaseServer.api;
 
-import DatabaseClient.parser.Lexer;
-import DatabaseServer.dataStorage.MemoryBasedDataStorage;
+import DatabaseBase.commands.CommandKeyNode;
+import DatabaseBase.commands.CommandKeyValueNode;
+import DatabaseBase.commands.CommandSingleNode;
+import DatabaseBase.commands.RequestCommand;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Query;
+import DatabaseBase.entities.StringSizable;
 import DatabaseBase.interfaces.IDataStorage;
-import DatabaseServer.parser.ServerParser;
+import DatabaseBase.parser.Lexer;
+import DatabaseBase.utils.Observer;
+import DatabaseServer.dataStorage.MemoryBasedDataStorage;
+import DatabaseServer.parser.ServerParserStringString;
 import org.junit.Before;
 import org.junit.Test;
-import DatabaseClient.parser.commands.CommandKeyNode;
-import DatabaseClient.parser.commands.CommandKeyValueNode;
-import DatabaseClient.parser.commands.CommandSingleNode;
-import DatabaseClient.parser.commands.RequestCommand;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,13 +25,19 @@ import static junit.framework.Assert.assertTrue;
  * To change this template use File | Settings | File Templates.
  */
 public class ServerEvaluatorTest {
-    private ServerEvaluator<String, String> _serverEvaluator;
+    private ServerEvaluator<StringSizable, StringSizable> _serverEvaluator;
+    private ObserverQuery _observerQuery;
+    private ObserverEvaluationResult _observerEvaluationResult;
 
     @Before
     public void setUp()
     {
-        IDataStorage<String, String> dataStorage = new MemoryBasedDataStorage<String, String>();
-        _serverEvaluator = new ServerEvaluator<String, String>(dataStorage, new ServerParser(new Lexer()));
+        IDataStorage<StringSizable, StringSizable> dataStorage = new MemoryBasedDataStorage<StringSizable, StringSizable>();
+        _serverEvaluator = new ServerEvaluator<StringSizable, StringSizable>(dataStorage, new ServerParserStringString(new Lexer()));
+        _observerQuery = new ObserverQuery();
+        _observerEvaluationResult = new ObserverEvaluationResult();
+        _serverEvaluator.AddMessageReceivedObserver(_observerQuery);
+        _serverEvaluator.AddMessageExecutedObserver(_observerEvaluationResult);
     }
 
     @Test
@@ -39,23 +45,27 @@ public class ServerEvaluatorTest {
         //arrange
 
         //act
-        EvaluationResult<String, String> result = _serverEvaluator.Evaluate(null);
+        EvaluationResult<StringSizable, StringSizable> result = _serverEvaluator.Evaluate(null);
 
         //assert
         assertTrue(result.HasError);
+        assertFalse(_observerQuery.Received);
+        assertFalse(_observerEvaluationResult.Received);
     }
 
     @Test
     public void Evaluate_CommandNull_HasError() {
         //arrange
         Query query = new Query();
-        EvaluationResult<String, String> result = new EvaluationResult<String, String>();
+        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
         _serverEvaluator.Evaluate(query, result);
 
         //assert
         assertTrue(result.HasError);
+        assertFalse(_observerQuery.Received);
+        assertFalse(_observerEvaluationResult.Received);
     }
 
     @Test
@@ -63,7 +73,7 @@ public class ServerEvaluatorTest {
         //arrange
         Query query = new Query();
         query.Command = new CommandSingleNode(RequestCommand.QUIT);
-        EvaluationResult<String, String> result = new EvaluationResult<String, String>();
+        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
         _serverEvaluator.Evaluate(query, result);
@@ -71,6 +81,7 @@ public class ServerEvaluatorTest {
         //assert
         assertFalse(result.HasError);
         assertTrue(result.Quit);
+        AssertObservers(query, result);
     }
 
     @Test
@@ -78,13 +89,14 @@ public class ServerEvaluatorTest {
         //arrange
         Query query = new Query();
         query.Command = new CommandSingleNode(RequestCommand.HELP);
-        EvaluationResult<String, String> result = new EvaluationResult<String, String>();
+        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
         _serverEvaluator.Evaluate(query, result);
 
         //assert
         assertFalse(result.HasError);
+        AssertObservers(query, result);
     }
 
     @Test
@@ -92,21 +104,22 @@ public class ServerEvaluatorTest {
         //arrange
         Query query = new Query();
         query.Command = new CommandSingleNode(RequestCommand.ADD);
-        EvaluationResult<String, String> result = new EvaluationResult<String, String>();
+        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
         _serverEvaluator.Evaluate(query, result);
 
         //assert
         assertTrue(result.HasError);
+        AssertObservers(query, result);
     }
 
     @Test
     public void Evaluate_CommandKeyNodeGet_NoErrorResultNull() {
         //arrange
         Query query = new Query();
-        query.Command = new CommandKeyNode<String>(RequestCommand.GET, "x");
-        EvaluationResult<String, String> result = new EvaluationResult<String, String>();
+        query.Command = new CommandKeyNode<StringSizable>(RequestCommand.GET, new StringSizable("x"));
+        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
         _serverEvaluator.Evaluate(query, result);
@@ -115,14 +128,15 @@ public class ServerEvaluatorTest {
         assertFalse(result.HasError);
         assertTrue(result.HasReturnResult);
         assertNull(result.Result);
+        AssertObservers(query, result);
     }
 
     @Test
     public void Evaluate_CommandKeyNodeDelete_NoErrorNoResult() {
         //arrange
         Query query = new Query();
-        query.Command = new CommandKeyNode<String>(RequestCommand.DELETE, "x");
-        EvaluationResult<String, String> result = new EvaluationResult<String, String>();
+        query.Command = new CommandKeyNode<StringSizable>(RequestCommand.DELETE, new StringSizable("x"));
+        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
         _serverEvaluator.Evaluate(query, result);
@@ -130,28 +144,30 @@ public class ServerEvaluatorTest {
         //assert
         assertFalse(result.HasError);
         assertFalse(result.HasReturnResult);
+        AssertObservers(query, result);
     }
 
     @Test
     public void Evaluate_CommandKeyNodeOther_HasError() {
         //arrange
         Query query = new Query();
-        query.Command = new CommandKeyNode<String>(RequestCommand.ADD, "x");
-        EvaluationResult<String, String> result = new EvaluationResult<String, String>();
+        query.Command = new CommandKeyNode<StringSizable>(RequestCommand.ADD, new StringSizable("x"));
+        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
         _serverEvaluator.Evaluate(query, result);
 
         //assert
         assertTrue(result.HasError);
+        AssertObservers(query, result);
     }
 
     @Test
     public void Evaluate_CommandKeyValueNodeAdd_NoErrorNoResult() {
         //arrange
         Query query = new Query();
-        query.Command = new CommandKeyValueNode<String, String>(RequestCommand.ADD, "x", "x");
-        EvaluationResult<String, String> result = new EvaluationResult<String, String>();
+        query.Command = new CommandKeyValueNode<StringSizable, StringSizable>(RequestCommand.ADD, new StringSizable("x"), new StringSizable("x"));
+        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
         _serverEvaluator.Evaluate(query, result);
@@ -159,19 +175,50 @@ public class ServerEvaluatorTest {
         //assert
         assertFalse(result.HasError);
         assertFalse(result.HasReturnResult);
+        AssertObservers(query, result);
     }
 
     @Test
     public void Evaluate_CommandKeyValueNodeOther_HasError() {
         //arrange
         Query query = new Query();
-        query.Command = new CommandKeyValueNode<String, String>(RequestCommand.GET, "x", "x");
-        EvaluationResult<String, String> result = new EvaluationResult<String, String>();
+        query.Command = new CommandKeyValueNode<StringSizable, StringSizable>(RequestCommand.GET, new StringSizable("x"), new StringSizable("x"));
+        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
         _serverEvaluator.Evaluate(query, result);
 
         //assert
         assertTrue(result.HasError);
+        AssertObservers(query, result);
+    }
+
+    private void AssertObservers(Query query, EvaluationResult<StringSizable, StringSizable> result){
+        assertTrue(_observerQuery.Received);
+        assertTrue(_observerEvaluationResult.Received);
+        assertEquals(query, _observerQuery.ReceivedQuery);
+        assertEquals(result, _observerEvaluationResult.ReceivedResult);
+    }
+
+    class ObserverQuery implements Observer<Query> {
+        Query ReceivedQuery;
+        boolean Received;
+
+        @Override
+        public void update(Query data) {
+            ReceivedQuery = data;
+            Received = true;
+        }
+    }
+
+    class ObserverEvaluationResult implements Observer<EvaluationResult<StringSizable, StringSizable>> {
+        EvaluationResult<StringSizable, StringSizable> ReceivedResult;
+        boolean Received;
+
+        @Override
+        public void update(EvaluationResult<StringSizable, StringSizable> data) {
+            ReceivedResult = data;
+            Received = true;
+        }
     }
 }
