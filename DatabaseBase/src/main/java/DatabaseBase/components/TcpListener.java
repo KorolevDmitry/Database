@@ -1,4 +1,4 @@
-package DatabaseServer.api;
+package DatabaseBase.components;
 
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.interfaces.ISizable;
@@ -19,15 +19,15 @@ import java.net.SocketTimeoutException;
  * To change this template use File | Settings | File Templates.
  */
 public class TcpListener<TKey extends ISizable, TValue extends ISizable> implements Runnable {
-    private ServerEvaluator<TKey, TValue> _serverEvaluator;
+    private Evaluator<TKey, TValue> _Evaluator;
     private int _port;
 
     private Thread _thread;
     private static boolean _stopRequest;
     private static boolean _isWorking;
 
-    public TcpListener(ServerEvaluator<TKey, TValue> serverEvaluator, int port) {
-        _serverEvaluator = serverEvaluator;
+    public TcpListener(Evaluator<TKey, TValue> serverEvaluator, int port) {
+        _Evaluator = serverEvaluator;
         _port = port;
         _thread = new Thread(this);
     }
@@ -78,7 +78,7 @@ public class TcpListener<TKey extends ISizable, TValue extends ISizable> impleme
                     continue;
                 System.out.println(_port + " received: " + clientSentence);
                 try {
-                    result = _serverEvaluator.Evaluate(clientSentence);
+                    result = _Evaluator.Evaluate(clientSentence);
                     if (result.Quit) {
                         Stop();
                     }

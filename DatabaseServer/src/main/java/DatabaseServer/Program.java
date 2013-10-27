@@ -6,7 +6,7 @@ import DatabaseBase.interfaces.IDataStorage;
 import DatabaseBase.interfaces.INameUsageDescriptionPattern;
 import DatabaseBase.parser.Lexer;
 import DatabaseServer.api.ServerEvaluator;
-import DatabaseServer.api.TcpListener;
+import DatabaseBase.components.TcpListener;
 import DatabaseServer.dataStorage.CombinedDataStorage;
 import DatabaseServer.dataStorage.DataStorageType;
 import DatabaseServer.dataStorage.FileBasedDataStorage;

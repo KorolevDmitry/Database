@@ -1,5 +1,6 @@
 package DatabaseClient.parser;
 
+import DatabaseBase.commands.ServerCommand;
 import DatabaseBase.entities.Query;
 import DatabaseBase.exceptions.ParserException;
 import DatabaseBase.parser.Lexer;

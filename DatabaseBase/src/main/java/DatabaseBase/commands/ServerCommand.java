@@ -1,7 +1,5 @@
-package DatabaseClient.parser;
+package DatabaseBase.commands;
 
-import DatabaseBase.commands.CommandKeyNode;
-import DatabaseBase.commands.RequestCommand;
 import DatabaseBase.interfaces.ISizable;
 
 /**

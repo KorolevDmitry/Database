@@ -12,8 +12,7 @@ import DatabaseBase.interfaces.ISizable;
 public class IntegerSizable implements ISizable {
     private Integer _value;
 
-    public IntegerSizable(int value)
-    {
+    public IntegerSizable(int value) {
         _value = value;
     }
 
@@ -24,15 +23,15 @@ public class IntegerSizable implements ISizable {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == null)
+        if (obj == null)
             return false;
-        if(!(obj instanceof IntegerSizable))
+        if (!(obj instanceof IntegerSizable))
             return false;
-        return (_value == ((IntegerSizable)obj)._value);
+        return (_value == ((IntegerSizable) obj)._value);
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return _value.hashCode();
     }
 }

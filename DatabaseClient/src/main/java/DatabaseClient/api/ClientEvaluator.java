@@ -2,17 +2,17 @@ package DatabaseClient.api;
 
 import DatabaseBase.commands.CommandSingleNode;
 import DatabaseBase.commands.RequestCommand;
+import DatabaseBase.commands.ServerCommand;
 import DatabaseBase.components.Evaluator;
+import DatabaseBase.components.TcpSender;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Query;
-import DatabaseBase.exceptions.ConnectionException;
-import DatabaseBase.exceptions.EvaluateException;
-import DatabaseBase.exceptions.LexerException;
-import DatabaseBase.exceptions.ParserException;
+import DatabaseBase.entities.Route;
+import DatabaseBase.exceptions.*;
+import DatabaseBase.interfaces.IBalancer;
 import DatabaseBase.interfaces.ISizable;
 import DatabaseBase.parser.Parser;
 import DatabaseBase.utils.ArgumentsHelper;
-import DatabaseClient.parser.ServerCommand;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,11 +23,13 @@ import DatabaseClient.parser.ServerCommand;
  */
 public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> extends Evaluator<TKey, TValue> {
     private TcpSender<TKey, TValue> _sender;
+    private IBalancer _balancer;
     private Parser _parser;
 
-    public ClientEvaluator(TcpSender<TKey, TValue> sender, Parser parser) {
+    public ClientEvaluator(TcpSender<TKey, TValue> sender, Parser parser, IBalancer balancer) {
         _sender = sender;
         _parser = parser;
+        _balancer = balancer;
     }
 
     private void Evaluate(Query tree, EvaluationResult<TKey, TValue> evaluationResult) {
@@ -63,7 +65,11 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
     private void Evaluate(ServerCommand<TKey> command, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
         evaluationResult.HasReturnResult = false;
         try {
-            EvaluationResult<TKey, TValue> serverEvaluationResult = _sender.Send(command);
+            //TODO: analyze
+            Route route = _balancer.GetRoute(command, null);
+            if(route == null)
+                throw new EvaluateException("Can not execute " + command.GetCommand() + " for a while");
+            EvaluationResult<TKey, TValue> serverEvaluationResult = _sender.Send(command, route);
             evaluationResult.Result = serverEvaluationResult.Result;
             evaluationResult.HasReturnResult = serverEvaluationResult.HasReturnResult;
             evaluationResult.HasError = serverEvaluationResult.HasError;
@@ -71,6 +77,9 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         } catch (ConnectionException e) {
             e.printStackTrace();
             throw new EvaluateException("Connection problem", e);
+        } catch (BalancerException e) {
+            e.printStackTrace();
+            throw new EvaluateException(e.getMessage(), e);
         }
     }
 

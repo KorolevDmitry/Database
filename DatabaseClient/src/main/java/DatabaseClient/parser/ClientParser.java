@@ -3,6 +3,7 @@ package DatabaseClient.parser;
 import DatabaseBase.commands.CommandNode;
 import DatabaseBase.commands.CommandSingleNode;
 import DatabaseBase.commands.RequestCommand;
+import DatabaseBase.commands.ServerCommand;
 import DatabaseBase.entities.Query;
 import DatabaseBase.exceptions.LexerException;
 import DatabaseBase.exceptions.ParserException;

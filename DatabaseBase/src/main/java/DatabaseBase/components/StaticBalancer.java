@@ -3,8 +3,9 @@ package DatabaseBase.components;
 import DatabaseBase.commands.CommandKeyNode;
 import DatabaseBase.commands.CommandNode;
 import DatabaseBase.entities.Route;
-import DatabaseBase.interfaces.ISizable;
+import DatabaseBase.interfaces.IBalancer;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -14,11 +15,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * Time: 11:29 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Balancer<TKey extends ISizable, TValue extends ISizable> {
+public class StaticBalancer implements IBalancer {
 
     ConcurrentHashMap<Integer, Route> _routs;
 
-    public Balancer(String serverStr) {
+    public StaticBalancer(String serverStr) {
         LoadFromArgs(serverStr);
     }
 
@@ -32,11 +33,12 @@ public class Balancer<TKey extends ISizable, TValue extends ISizable> {
     }
 
     private Integer GetIndex(CommandNode command) {
-        TKey key = ((CommandKeyNode<TKey>)command).Key;
+        Object key = ((CommandKeyNode)command).Key;
         return key == null ? 0 : key.hashCode() % _routs.size();
     }
 
-    public Route GetRoute(CommandNode command) {
+    @Override
+    public Route GetRoute(CommandKeyNode command, List<Route> triedRoutes) {
         return _routs.get(GetIndex(command));
     }
 
@@ -44,7 +46,14 @@ public class Balancer<TKey extends ISizable, TValue extends ISizable> {
 
     public void RemoveServer(Route route){}
 
+    @Override
+    public boolean Ping(Route clientRoute) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public void Heartbeat(){}
 
+    public void Ping(){}
 
+    public void Replicate(Route from, Route to, int fromId){}
 }

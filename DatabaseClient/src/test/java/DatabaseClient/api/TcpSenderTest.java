@@ -1,10 +1,12 @@
 package DatabaseClient.api;
 
-import DatabaseBase.components.Balancer;
+import DatabaseBase.components.StaticBalancer;
+import DatabaseBase.components.TcpSender;
 import DatabaseBase.entities.EvaluationResult;
+import DatabaseBase.entities.Route;
 import DatabaseBase.entities.StringSizable;
 import DatabaseBase.exceptions.ConnectionException;
-import DatabaseClient.parser.ServerCommand;
+import DatabaseBase.commands.ServerCommand;
 import DatabaseBase.commands.RequestCommand;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +34,7 @@ public class TcpSenderTest implements Runnable {
     private final int _serverPort = 6507;
     private final String _server = _serverHost + ":" + _serverPort;
     TcpSender<StringSizable, StringSizable> _sender;
+    StaticBalancer _balancer;
     private static String _messageReceivedOnServer;
     private Thread _listenerThread;
 
@@ -43,8 +46,8 @@ public class TcpSenderTest implements Runnable {
         }
         _listenerThread = new Thread(this);
         _messageReceivedOnServer = null;
-        Balancer<StringSizable, StringSizable> balancer = new Balancer<StringSizable, StringSizable>(_server);
-        _sender = new TcpSender<StringSizable, StringSizable>(balancer);
+        _balancer = new StaticBalancer(_server);
+        _sender = new TcpSender<StringSizable, StringSizable>();
     }
 
     @Test
@@ -55,7 +58,7 @@ public class TcpSenderTest implements Runnable {
 
         //act
         try {
-            _sender.Send(null);
+            _sender.Send(null, new Route("localhost", 1107));
         } catch (IllegalArgumentException e) {
             hasException = true;
         } catch (ConnectionException e) {
@@ -74,7 +77,7 @@ public class TcpSenderTest implements Runnable {
 
         //act
         try {
-            _sender.Send(command);
+            _sender.Send(command, _balancer.GetRoute(command, null));
         } catch (ConnectionException e) {
             hasException = true;
         }
@@ -93,7 +96,7 @@ public class TcpSenderTest implements Runnable {
 
         //act
         try {
-            _sender.Send(command);
+            _sender.Send(command, _balancer.GetRoute(command, null));
         } catch (ConnectionException e) {
             hasException = true;
         }

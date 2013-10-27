@@ -1,11 +1,10 @@
-package DatabaseClient.api;
+package DatabaseBase.components;
 
-import DatabaseBase.components.Balancer;
+import DatabaseBase.commands.CommandNode;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Route;
 import DatabaseBase.exceptions.ConnectionException;
 import DatabaseBase.interfaces.ISizable;
-import DatabaseClient.parser.ServerCommand;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -21,19 +20,13 @@ import java.net.UnknownHostException;
  * To change this template use File | Settings | File Templates.
  */
 public class TcpSender<TKey extends ISizable, TValue extends ISizable> {
-    private Balancer<TKey, TValue> _balancer;
 
-    public TcpSender(Balancer<TKey, TValue> balancer) {
-        _balancer = balancer;
-    }
-
-    public EvaluationResult<TKey, TValue> Send(ServerCommand<TKey> command) throws ConnectionException {
+    public EvaluationResult<TKey, TValue> Send(CommandNode command, Route route) throws ConnectionException {
         if (command == null)
             throw new IllegalArgumentException("command can not be null");
         Socket clientSocket = null;
-        Route route = _balancer.GetRoute(command);
         try {
-            clientSocket = new Socket(route.Address, route.Port);
+            clientSocket = new Socket(route.Host, route.Port);
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
             outToServer.writeBytes(command.toString() + '\n');
             ObjectInputStream inFromServer = new ObjectInputStream(clientSocket.getInputStream());

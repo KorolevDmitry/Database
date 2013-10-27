@@ -16,7 +16,13 @@ public enum RequestCommand implements INameUsageDescriptionPattern {
     ADD_OR_UPDATE ("add_or_update", "add_or_update {key} {value}" , "Add value to storage if it is not exists and update it in another case."),
     DELETE ("delete", "delete {key}" , "Delete value from storage."),
     HELP ("help", "help" , "Print list of accessible commands."),
-    QUIT ("quit", "quit" , "Quit.");
+    QUIT ("quit", "quit" , "Quit."),
+    ADD_SERVER("add_server", "add_server {serverHost} {serverRole} {master}", "Add serverHost to cluster. ServerHost - server:port, ServerRole - master/slave, Master - serverHost of master node if it is slave."),
+    REMOVE_SERVER("remove_server", "remove_server {serverHost}", "Remove serverHost from cluster. If it was master - master will be one of slaves."),
+    GET_SERVERS_LIST("get_servers_list", "get_servers_list", "Return cluster configuration"),
+    PING("ping", "ping {serverHost}", "Check if serverHost is alive"),
+    REPLICATE("replicate", "replicate {serverHostFrom} {serverHostTo} {startIndex}", "Replicate data"),
+    UPDATE_SERVER("update_server", "update_server", "Update server info about cluster");
 
     private String _name;
     private String _usage;

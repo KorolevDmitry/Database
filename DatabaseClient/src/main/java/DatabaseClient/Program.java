@@ -1,15 +1,16 @@
 package DatabaseClient;
 
-import DatabaseBase.entities.StringSizable;
-import DatabaseBase.utils.ArgumentsHelper;
-import DatabaseBase.components.Balancer;
+import DatabaseBase.components.StaticBalancer;
 import DatabaseBase.entities.EvaluationResult;
+import DatabaseBase.entities.StringSizable;
+import DatabaseBase.interfaces.IBalancer;
 import DatabaseBase.interfaces.INameUsageDescriptionPattern;
-import DatabaseClient.api.ClientEvaluator;
-import DatabaseClient.api.TcpSender;
-import DatabaseClient.parser.ClientParserStringString;
 import DatabaseBase.parser.Lexer;
 import DatabaseBase.parser.Parser;
+import DatabaseBase.utils.ArgumentsHelper;
+import DatabaseClient.api.ClientEvaluator;
+import DatabaseBase.components.TcpSender;
+import DatabaseClient.parser.ClientParserStringString;
 import DatabaseClient.utils.ClientArguments;
 
 import java.io.BufferedReader;
@@ -35,17 +36,17 @@ public class Program {
     public static void main(String args[]) {
         String sentence;
         String answer;
-        Balancer<StringSizable, StringSizable> balancer;
+        IBalancer balancer;
         ClientEvaluator<StringSizable, StringSizable> evaluator;
         Parser parser;
         BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
         try {
             HashMap<INameUsageDescriptionPattern, String> arguments = ArgumentsHelper.ParseArguments(args, ClientArguments.values());
             String listOfServers = ArgumentsHelper.GetStringArgument(arguments, ClientArguments.LIST_OF_SERVERS);
-            balancer = new Balancer<StringSizable, StringSizable>(listOfServers);
-            TcpSender<StringSizable, StringSizable> sender = new TcpSender<StringSizable, StringSizable>(balancer);
+            balancer = new StaticBalancer(listOfServers);
+            TcpSender<StringSizable, StringSizable> sender = new TcpSender<StringSizable, StringSizable>();
             parser = new ClientParserStringString(new Lexer());
-            evaluator = new ClientEvaluator<StringSizable, StringSizable>(sender, parser);
+            evaluator = new ClientEvaluator<StringSizable, StringSizable>(sender, parser, balancer);
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
             PrintMainHelp();

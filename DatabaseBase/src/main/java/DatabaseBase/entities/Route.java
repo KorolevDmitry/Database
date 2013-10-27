@@ -1,5 +1,10 @@
 package DatabaseBase.entities;
 
+import DatabaseBase.interfaces.ISizable;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: deemo_000
@@ -7,19 +12,52 @@ package DatabaseBase.entities;
  * Time: 12:40 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Route {
-    public String Address;
+public class Route implements ISizable {
+    public String Host;
     public int Port;
+    public ServerRole Role;
+    public List<Route> Slaves;
+    public Route Master;
+    public boolean IsAlive;
+    public boolean IsReady;
+    public Integer Index;
 
-    public Route(String address, int port)
-    {
-        Address = address;
+    public Route(String host, int port) {
+        this(host, port, ServerRole.Master, null);
+    }
+
+    public Route(String host, int port, ServerRole role, Route master) {
+        if(host == null)
+            throw new IllegalArgumentException("Host can not be null");
+        Host = host;
         Port = port;
+        Role = role;
+        Master = master;
+        Slaves = new ArrayList<Route>();
     }
 
     @Override
-    public String toString()
-    {
-        return Address + ":" + Port;
+    public String toString() {
+        return Host + ":" + Port;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (!(obj instanceof Route))
+            return false;
+        Route route = (Route) obj;
+        return Host.equals(route.Host) && Port == route.Port;
+    }
+
+    @Override
+    public int hashCode() {
+        return (Host + Port).hashCode();
+    }
+
+    @Override
+    public long GetSize() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
