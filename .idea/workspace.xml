@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59c60c7b-bfeb-4ba9-a414-90177867c5c6" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/api/ClientEvaluator.java" afterPath="$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/api/ClientEvaluator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/IntegerSizable.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/IntegerSizable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/parser/Lexer.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/parser/Lexer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/Program.java" afterPath="$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/Program.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README" afterPath="$PROJECT_DIR$/README" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseServer/src/main/java/DatabaseServer/api/ServerEvaluator.java" afterPath="$PROJECT_DIR$/DatabaseServer/src/main/java/DatabaseServer/api/ServerEvaluator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/StringSizable.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/StringSizable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/TcpListener.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/TcpListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Database.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -68,7 +63,7 @@
     <file path="/ClientParserTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382562059874" ignored="false" />
     <file path="/ServerParserTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382562535712" ignored="false" />
     <file path="/MultiNodeTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382799599135" ignored="false" />
-    <file path="/TcpListener.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382801220514" ignored="false" />
+    <file path="/TcpListener.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382913762856" ignored="false" />
     <file path="/TcpSender.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382868961874" ignored="false" />
     <file path="/ConnectionException.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382785396371" ignored="false" />
     <file path="/a.dummy" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382789803303" ignored="false" />
@@ -380,11 +375,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="README" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="78" column="24" selection-start="4505" selection-end="4505" vertical-scroll-proportion="0.23115578">
+            <state line="83" column="16" selection-start="4649" selection-end="4649" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TcpListener.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/TcpListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="72" column="38" selection-start="2329" selection-end="2329" vertical-scroll-proportion="0.04136253">
+              <folding>
+                <element signature="docComment;class#TcpListener#0" expanded="false" />
+                <element signature="method#TcpListener#0;class#TcpListener#0" expanded="false" />
+                <element signature="method#Start#0;class#TcpListener#0" expanded="false" />
+                <element signature="method#Stop#0;class#TcpListener#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -491,15 +500,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MemoryBasedDataStorage.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/DatabaseServer/dataStorage/MemoryBasedDataStorage.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="21" selection-start="554" selection-end="571" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="CombinedDataStorage.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/DatabaseServer/dataStorage/CombinedDataStorage.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -540,7 +540,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/Route.java" />
         <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/StaticBalancer.java" />
         <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/ServiceResult.java" />
         <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/commands/service/ReplicateCommand.java" />
@@ -556,6 +555,7 @@
         <option value="$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/api/ClientEvaluator.java" />
         <option value="$PROJECT_DIR$/DatabaseServer/src/main/java/DatabaseServer/api/ServerEvaluator.java" />
         <option value="$PROJECT_DIR$/README" />
+        <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/TcpListener.java" />
       </list>
     </option>
   </component>
@@ -1507,18 +1507,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/TcpListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="29" selection-start="2611" selection-end="2611" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="docComment;class#TcpListener#0" expanded="false" />
-            <element signature="method#TcpListener#0;class#TcpListener#0" expanded="false" />
-            <element signature="method#Start#0;class#TcpListener#0" expanded="false" />
-            <element signature="method#Stop#0;class#TcpListener#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/TcpSender.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="28" selection-start="1241" selection-end="1257" vertical-scroll-proportion="0.0">
@@ -1656,8 +1644,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="24" selection-start="4505" selection-end="4505" vertical-scroll-proportion="0.23115578">
+        <state line="83" column="16" selection-start="4649" selection-end="4649" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/TcpListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="38" selection-start="2329" selection-end="2329" vertical-scroll-proportion="0.04136253">
+          <folding>
+            <element signature="docComment;class#TcpListener#0" expanded="false" />
+            <element signature="method#TcpListener#0;class#TcpListener#0" expanded="false" />
+            <element signature="method#Start#0;class#TcpListener#0" expanded="false" />
+            <element signature="method#Stop#0;class#TcpListener#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

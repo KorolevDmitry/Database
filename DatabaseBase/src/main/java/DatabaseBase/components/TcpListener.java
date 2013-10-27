@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
 /**
@@ -62,6 +63,16 @@ public class TcpListener<TKey extends ISizable, TValue extends ISizable> impleme
                 Socket connectionSocket = null;
                 try {
                     connectionSocket = welcomeSocket.accept();
+                    BufferedReader inFromClient =
+                            new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+                    clientSentence = inFromClient.readLine();
+                    if (clientSentence == null || clientSentence.isEmpty())
+                        continue;
+                    System.out.println(_port + " received: " + clientSentence);
+                    result = _Evaluator.Evaluate(clientSentence);
+                    if (result.Quit) {
+                        Stop();
+                    }
                 } catch (SocketTimeoutException e) {
                     try {
                         Thread.sleep(100);
@@ -70,22 +81,13 @@ public class TcpListener<TKey extends ISizable, TValue extends ISizable> impleme
                         return;
                     }
                     continue;
-                }
-                BufferedReader inFromClient =
-                        new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-                clientSentence = inFromClient.readLine();
-                if (clientSentence == null || clientSentence.isEmpty())
+                } catch (SocketException e) {
+                    e.printStackTrace();
                     continue;
-                System.out.println(_port + " received: " + clientSentence);
-                try {
-                    result = _Evaluator.Evaluate(clientSentence);
-                    if (result.Quit) {
-                        Stop();
-                    }
                 } finally {
-                    ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
-                    outToClient.writeObject(result);
                     if (connectionSocket != null) {
+                        ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
+                        outToClient.writeObject(result);
                         try {
                             connectionSocket.shutdownOutput();
                             connectionSocket.shutdownInput();
