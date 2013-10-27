@@ -61,7 +61,7 @@ public class Program {
                 } else if (result.HasError) {
                     System.out.println(result.ErrorDescription);
                 } else if (result.HasReturnResult) {
-                    System.out.println(result.Result == null ? "NULL" : result.Result.Value);
+                    System.out.println(result.Result == null ? "There is no such element" : result.Result.Value);
                 } else {
                     System.out.println("Done");
                 }

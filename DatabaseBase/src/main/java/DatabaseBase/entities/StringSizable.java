@@ -12,8 +12,7 @@ import DatabaseBase.interfaces.ISizable;
 public class StringSizable implements ISizable {
     public String Value;
 
-    public StringSizable(String value)
-    {
+    public StringSizable(String value) {
         Value = value;
     }
 
@@ -24,17 +23,23 @@ public class StringSizable implements ISizable {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == null)
+        if (obj == null)
             return false;
-        if(!(obj instanceof StringSizable))
+        if (!(obj instanceof StringSizable))
             return false;
-        if(Value == null && ((StringSizable)obj).Value == null)
+        if (Value == null && ((StringSizable) obj).Value == null)
             return true;
-        return (Value.equals(((StringSizable)obj).Value));
+        return (Value.equals(((StringSizable) obj).Value));
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Value.hashCode();
+    }
+
+    @Override
+    public String toString()
+    {
+        return Value;
     }
 }

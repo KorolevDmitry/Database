@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
  */
 public class Lexer {
     public ArrayList<Lexem> Lex(String input) throws LexerException {
-
+        if (input == null)
+            return new ArrayList<Lexem>();
         String[] data = input.split("/s");
 
         // The tokens to return

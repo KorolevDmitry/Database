@@ -59,8 +59,6 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         return evaluationResult;
     }
 
-
-
     void Evaluate(Query tree, EvaluationResult<TKey, TValue> evaluationResult) {
         evaluationResult.HasReturnResult = true;
         if(tree == null)
@@ -150,14 +148,14 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
                 case ADD:
                     item = _dataStorage.Get(command.Key);
                     if (item != null && !item.IsDeleted)
-                        throw new InvalidKeyException();
+                        throw new InvalidKeyException("Key is already exist: " + command.Key);
                     _dataStorage.AddOrUpdate(command.Key, command.Value);
                     evaluationResult.Result = null;
                     break;
                 case UPDATE:
                     item = _dataStorage.Get(command.Key);
                     if (item == null || item.IsDeleted)
-                        throw new InvalidKeyException();
+                        throw new InvalidKeyException("Key does not exist: " + command.Key);
                     _dataStorage.AddOrUpdate(command.Key, command.Value);
                     evaluationResult.Result = null;
                     break;

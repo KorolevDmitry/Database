@@ -75,10 +75,8 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
             evaluationResult.HasError = serverEvaluationResult.HasError;
             evaluationResult.ErrorDescription = serverEvaluationResult.ErrorDescription;
         } catch (ConnectionException e) {
-            e.printStackTrace();
-            throw new EvaluateException("Connection problem", e);
+            throw new EvaluateException(e.getMessage(), e);
         } catch (BalancerException e) {
-            e.printStackTrace();
             throw new EvaluateException(e.getMessage(), e);
         }
     }
