@@ -3,6 +3,7 @@ package DatabaseBase.components;
 import DatabaseBase.commands.CommandKeyNode;
 import DatabaseBase.commands.CommandNode;
 import DatabaseBase.entities.Route;
+import DatabaseBase.exceptions.BalancerException;
 import DatabaseBase.interfaces.IBalancer;
 
 import java.util.List;
@@ -47,13 +48,17 @@ public class StaticBalancer implements IBalancer {
     public void RemoveServer(Route route){}
 
     @Override
+    public void UpdateServer(Route route) throws BalancerException {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void Replicate(Route from, Route to, int fromId, boolean removeFromCluster) throws BalancerException {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public boolean Ping(Route clientRoute) {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
-
-    public void Heartbeat(){}
-
-    public void Ping(){}
-
-    public void Replicate(Route from, Route to, int fromId){}
 }

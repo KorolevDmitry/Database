@@ -7,10 +7,10 @@ import DatabaseBase.interfaces.IBalancer;
 import DatabaseBase.interfaces.INameUsageDescriptionPattern;
 import DatabaseBase.parser.Lexer;
 import DatabaseBase.parser.Parser;
+import DatabaseBase.parser.ParserStringString;
 import DatabaseBase.utils.ArgumentsHelper;
 import DatabaseClient.api.ClientEvaluator;
 import DatabaseBase.components.TcpSender;
-import DatabaseClient.parser.ClientParserStringString;
 import DatabaseClient.utils.ClientArguments;
 
 import java.io.BufferedReader;
@@ -45,7 +45,7 @@ public class Program {
             String listOfServers = ArgumentsHelper.GetStringArgument(arguments, ClientArguments.LIST_OF_SERVERS);
             balancer = new StaticBalancer(listOfServers);
             TcpSender<StringSizable, StringSizable> sender = new TcpSender<StringSizable, StringSizable>();
-            parser = new ClientParserStringString(new Lexer());
+            parser = new ParserStringString(new Lexer());
             evaluator = new ClientEvaluator<StringSizable, StringSizable>(sender, parser, balancer);
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());

@@ -9,11 +9,13 @@ import DatabaseBase.entities.Query;
 import DatabaseBase.entities.StringSizable;
 import DatabaseBase.interfaces.IDataStorage;
 import DatabaseBase.parser.Lexer;
+import DatabaseBase.parser.ParserStringString;
 import DatabaseBase.utils.Observer;
 import DatabaseServer.dataStorage.MemoryBasedDataStorage;
-import DatabaseServer.parser.ServerParserStringString;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
 
 import static junit.framework.Assert.*;
 
@@ -30,10 +32,9 @@ public class ServerEvaluatorTest {
     private ObserverEvaluationResult _observerEvaluationResult;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() throws IOException {
         IDataStorage<StringSizable, StringSizable> dataStorage = new MemoryBasedDataStorage<StringSizable, StringSizable>();
-        _serverEvaluator = new ServerEvaluator<StringSizable, StringSizable>(dataStorage, new ServerParserStringString(new Lexer()));
+        _serverEvaluator = new ServerEvaluator<StringSizable, StringSizable>(dataStorage, new ParserStringString(new Lexer()));
         _observerQuery = new ObserverQuery();
         _observerEvaluationResult = new ObserverEvaluationResult();
         _serverEvaluator.AddMessageReceivedObserver(_observerQuery);

@@ -27,7 +27,9 @@ public class IntegerSizable implements ISizable {
             return false;
         if (!(obj instanceof IntegerSizable))
             return false;
-        return (_value == ((IntegerSizable) obj)._value);
+        if (_value == null)
+            return ((IntegerSizable) obj)._value == null;
+        return _value.equals(((IntegerSizable) obj)._value);
     }
 
     @Override

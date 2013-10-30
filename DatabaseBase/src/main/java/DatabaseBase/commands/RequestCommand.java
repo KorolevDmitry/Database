@@ -21,8 +21,8 @@ public enum RequestCommand implements INameUsageDescriptionPattern {
     REMOVE_SERVER("remove_server", "remove_server {serverHost}", "Remove serverHost from cluster. If it was master - master will be one of slaves."),
     GET_SERVERS_LIST("get_servers_list", "get_servers_list", "Return cluster configuration"),
     PING("ping", "ping {serverHost}", "Check if serverHost is alive"),
-    REPLICATE("replicate", "replicate {serverHostFrom} {serverHostTo} {startIndex}", "Replicate data"),
-    UPDATE_SERVER("update_server", "update_server", "Update server info about cluster");
+    REPLICATE("replicate", "replicate {serverHostFrom} {serverHostTo} {startIndex} {removeAfterReplicationCompleted}", "Replicate data"),
+    UPDATE_SERVER("update_server", "update_server {serverHost}", "Force update server info about cluster");
 
     private String _name;
     private String _usage;

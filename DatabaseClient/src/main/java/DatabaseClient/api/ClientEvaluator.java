@@ -1,8 +1,8 @@
 package DatabaseClient.api;
 
+import DatabaseBase.commands.CommandKeyNode;
 import DatabaseBase.commands.CommandSingleNode;
 import DatabaseBase.commands.RequestCommand;
-import DatabaseBase.commands.ServerCommand;
 import DatabaseBase.components.Evaluator;
 import DatabaseBase.components.TcpSender;
 import DatabaseBase.entities.EvaluationResult;
@@ -35,8 +35,8 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
     private void Evaluate(Query tree, EvaluationResult<TKey, TValue> evaluationResult) {
         evaluationResult.HasReturnResult = true;
         try {
-            if (tree.Command instanceof ServerCommand)
-                Evaluate((ServerCommand<TKey>) tree.Command, evaluationResult);
+            if (tree.Command instanceof CommandKeyNode)
+                Evaluate((CommandKeyNode<TKey>) tree.Command, evaluationResult);
             else if (tree.Command instanceof CommandSingleNode) {
                 Evaluate((CommandSingleNode) tree.Command, evaluationResult);
                 evaluationResult.HasReturnResult = false;
@@ -62,7 +62,7 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         }
     }
 
-    private void Evaluate(ServerCommand<TKey> command, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
+    private void Evaluate(CommandKeyNode<TKey> command, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
         evaluationResult.HasReturnResult = false;
         try {
             //TODO: analyze

@@ -1,4 +1,4 @@
-package DatabaseClient.parser;
+package DatabaseBase.parser;
 
 import DatabaseBase.parser.Lexem;
 import DatabaseBase.parser.LexemType;

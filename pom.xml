@@ -13,6 +13,7 @@
         <module>DatabaseServer</module>
         <module>DatabaseBase</module>
         <module>DatabaseTests</module>
+        <module>DatabaseBalancer</module>
     </modules>
     <dependencies>
         <dependency>

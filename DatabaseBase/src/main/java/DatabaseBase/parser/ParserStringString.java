@@ -1,18 +1,17 @@
-package DatabaseServer.parser;
+package DatabaseBase.parser;
 
 import DatabaseBase.entities.StringSizable;
-import DatabaseBase.parser.Lexer;
 
 /**
  * Created with IntelliJ IDEA.
  * User: deemo_000
- * Date: 10/22/13
- * Time: 7:32 PM
+ * Date: 10/29/13
+ * Time: 9:15 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ServerParserStringString extends ServerParser<StringSizable, StringSizable> {
+public class ParserStringString extends Parser<StringSizable, StringSizable> {
 
-    public ServerParserStringString(Lexer lexer) {
+    public ParserStringString(Lexer lexer) {
         super(lexer);
     }
 

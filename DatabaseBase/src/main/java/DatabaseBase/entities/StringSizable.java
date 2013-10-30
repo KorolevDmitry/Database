@@ -27,8 +27,8 @@ public class StringSizable implements ISizable {
             return false;
         if (!(obj instanceof StringSizable))
             return false;
-        if (Value == null && ((StringSizable) obj).Value == null)
-            return true;
+        if (Value == null)
+            return ((StringSizable) obj).Value == null;
         return (Value.equals(((StringSizable) obj).Value));
     }
 

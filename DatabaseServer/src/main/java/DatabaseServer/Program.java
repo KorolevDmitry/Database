@@ -1,17 +1,17 @@
 package DatabaseServer;
 
+import DatabaseBase.components.TcpListener;
 import DatabaseBase.entities.StringSizable;
-import DatabaseBase.utils.ArgumentsHelper;
 import DatabaseBase.interfaces.IDataStorage;
 import DatabaseBase.interfaces.INameUsageDescriptionPattern;
 import DatabaseBase.parser.Lexer;
+import DatabaseBase.parser.ParserStringString;
+import DatabaseBase.utils.ArgumentsHelper;
 import DatabaseServer.api.ServerEvaluator;
-import DatabaseBase.components.TcpListener;
 import DatabaseServer.dataStorage.CombinedDataStorage;
 import DatabaseServer.dataStorage.DataStorageType;
 import DatabaseServer.dataStorage.FileBasedDataStorage;
 import DatabaseServer.dataStorage.MemoryBasedDataStorage;
-import DatabaseServer.parser.ServerParserStringString;
 import DatabaseServer.utils.ServerArguments;
 
 import java.io.IOException;
@@ -105,7 +105,7 @@ public class Program {
             storage = InitDatabase(arguments);
             System.out.println("Database initialized.");
             InitTestData(storage, arguments);
-            ServerParserStringString parser = new ServerParserStringString(new Lexer());
+            ParserStringString parser = new ParserStringString(new Lexer());
             ServerEvaluator<StringSizable, StringSizable> evaluator = new ServerEvaluator<StringSizable, StringSizable>(storage, parser);
             TcpListener<StringSizable, StringSizable> listener = new TcpListener<StringSizable, StringSizable>(evaluator, port);
             listener.Start();

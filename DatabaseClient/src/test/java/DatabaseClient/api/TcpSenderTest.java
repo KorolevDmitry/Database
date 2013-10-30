@@ -1,12 +1,12 @@
 package DatabaseClient.api;
 
+import DatabaseBase.commands.CommandKeyNode;
 import DatabaseBase.components.StaticBalancer;
 import DatabaseBase.components.TcpSender;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Route;
 import DatabaseBase.entities.StringSizable;
 import DatabaseBase.exceptions.ConnectionException;
-import DatabaseBase.commands.ServerCommand;
 import DatabaseBase.commands.RequestCommand;
 import org.junit.Before;
 import org.junit.Test;
@@ -72,7 +72,7 @@ public class TcpSenderTest implements Runnable {
     @Test
     public void Send_NobodyListenTo_ConnectionException() throws Exception {
         //arrange
-        ServerCommand<StringSizable> command = new ServerCommand<StringSizable>(RequestCommand.ADD, new StringSizable(""), "");
+        CommandKeyNode<StringSizable> command = new CommandKeyNode<StringSizable>(RequestCommand.ADD, new StringSizable(""));
         boolean hasException = false;
 
         //act
@@ -90,7 +90,7 @@ public class TcpSenderTest implements Runnable {
     public void Send_Listening_ConnectionException() throws Exception {
         //arrange
         String message = "test";
-        ServerCommand<StringSizable> command = new ServerCommand<StringSizable>(RequestCommand.ADD, new StringSizable(""), message);
+        CommandKeyNode<StringSizable> command = new CommandKeyNode<StringSizable>(RequestCommand.ADD, new StringSizable(message));
         boolean hasException = false;
         StartListen();
 
@@ -103,7 +103,7 @@ public class TcpSenderTest implements Runnable {
 
         //assert
         assertFalse(hasException);
-        assertEquals(message, _messageReceivedOnServer);
+        assertEquals(command.toString(), _messageReceivedOnServer);
     }
 
     @Override

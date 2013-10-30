@@ -4,15 +4,19 @@ import DatabaseBase.commands.CommandKeyNode;
 import DatabaseBase.commands.CommandKeyValueNode;
 import DatabaseBase.commands.CommandSingleNode;
 import DatabaseBase.components.Evaluator;
+import DatabaseBase.components.TransactionLogger;
 import DatabaseBase.entities.EvaluationResult;
+import DatabaseBase.entities.IntegerSizable;
 import DatabaseBase.entities.Query;
 import DatabaseBase.entities.WrappedKeyValue;
 import DatabaseBase.exceptions.EvaluateException;
 import DatabaseBase.exceptions.LexerException;
 import DatabaseBase.exceptions.ParserException;
+import DatabaseBase.exceptions.TransactionException;
 import DatabaseBase.interfaces.IDataStorage;
 import DatabaseBase.interfaces.ISizable;
 import DatabaseBase.parser.Parser;
+import DatabaseServer.dataStorage.MemoryBasedDataStorage;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -27,24 +31,29 @@ import java.security.InvalidKeyException;
 public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> extends Evaluator<TKey, TValue> {
     IDataStorage<TKey, TValue> _dataStorage;
     Parser _parser;
+    TransactionLogger _transactionLogger;
 
-    public ServerEvaluator(IDataStorage<TKey, TValue> dataStorage, Parser parser)    {
+    public ServerEvaluator(IDataStorage<TKey, TValue> dataStorage, Parser parser) throws IOException {
+        this(dataStorage, parser, new TransactionLogger(new MemoryBasedDataStorage<IntegerSizable, Query>()));
+    }
+
+    public ServerEvaluator(IDataStorage<TKey, TValue> dataStorage, Parser parser, TransactionLogger transactionLogger) {
         _dataStorage = dataStorage;
         _parser = parser;
+        _transactionLogger = transactionLogger;
     }
 
     @Override
     public EvaluationResult Evaluate(String query) {
         EvaluationResult<TKey, TValue> evaluationResult = new EvaluationResult<TKey, TValue>();
         evaluationResult.ExecutionString = query;
-        if(query == null)
-        {
+        if (query == null) {
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;
             evaluationResult.ErrorDescription = "Null query";
             return evaluationResult;
         }
-        try{
+        try {
             Evaluate(_parser.Parse(query), evaluationResult);
         } catch (LexerException e) {
             evaluationResult.HasReturnResult = false;
@@ -60,23 +69,22 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
     }
 
     void Evaluate(Query tree, EvaluationResult<TKey, TValue> evaluationResult) {
+        evaluationResult.ExecutionQuery = tree;
         evaluationResult.HasReturnResult = true;
-        if(tree == null)
-        {
+        if (tree == null) {
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;
             evaluationResult.ErrorDescription = "Null query";
             return;
         }
-        if(tree.Command == null)
-        {
+        if (tree.Command == null) {
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;
             evaluationResult.ErrorDescription = "Null command";
             return;
         }
-        _messageReceived.notifyObservers(tree);
         try {
+            QueryExecutionStarted(tree);
             if (tree.Command instanceof CommandKeyValueNode)
                 Evaluate((CommandKeyValueNode<TKey, TValue>) tree.Command, evaluationResult);
             else if (tree.Command instanceof CommandKeyNode)
@@ -88,8 +96,18 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;
             evaluationResult.ErrorDescription = evaluateException.getMessage();
+        } catch (TransactionException e) {
+            evaluationResult.HasReturnResult = false;
+            evaluationResult.HasError = true;
+            evaluationResult.ErrorDescription = e.getMessage();
         }
-        _messageExecuted.notifyObservers(evaluationResult);
+        finally {
+            try {
+                QueryExecutionEnded(evaluationResult);
+            } catch (TransactionException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void Evaluate(CommandKeyNode<TKey> command, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
@@ -169,7 +187,17 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         }
     }
 
-    private void PrintHelp()    {
+    private void PrintHelp() {
 
+    }
+
+    private void QueryExecutionStarted(Query query) throws TransactionException {
+        _transactionLogger.AddTransaction(query);
+        _messageReceived.notifyObservers(query);
+    }
+
+    private void QueryExecutionEnded(EvaluationResult<TKey, TValue> result) throws TransactionException {
+        _transactionLogger.CommitTransaction(result.ExecutionQuery, !result.HasError);
+        _messageExecuted.notifyObservers(result);
     }
 }

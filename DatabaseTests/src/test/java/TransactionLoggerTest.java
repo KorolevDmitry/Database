@@ -27,7 +27,7 @@ public class TransactionLoggerTest {
     }
 
     @Test
-    public void AddTransaction_Default_Added() throws IOException {
+    public void AddTransaction_Default_Added() throws IOException, TransactionException {
         //arrange
         Query query = new Query();
 
@@ -47,7 +47,7 @@ public class TransactionLoggerTest {
 
         //act
         try {
-            _transactionLogger.CommitTransaction(query);
+            _transactionLogger.CommitTransaction(query, true);
         } catch (TransactionException e) {
             hasException = true;
         }
@@ -57,7 +57,7 @@ public class TransactionLoggerTest {
     }
 
     @Test
-    public void GetCommittedTransactionsAfter_Uncommitted_ZeroSize() throws IOException {
+    public void GetCommittedTransactionsAfter_Uncommitted_ZeroSize() throws IOException, TransactionException {
         //arrange
         Query query = new Query();
 
@@ -77,7 +77,7 @@ public class TransactionLoggerTest {
 
         //act
         try {
-            _transactionLogger.CommitTransaction(query);
+            _transactionLogger.CommitTransaction(query, true);
         } catch (TransactionException e) {
             hasException = true;
         }
@@ -95,7 +95,7 @@ public class TransactionLoggerTest {
 
         //act
         _transactionLogger.AddTransaction(query);
-        _transactionLogger.CommitTransaction(query);
+        _transactionLogger.CommitTransaction(query, true);
 
         //assert
         List<Query> transactions = _transactionLogger.GetCommittedTransactionsAfter(0);
@@ -109,7 +109,7 @@ public class TransactionLoggerTest {
 
         //act
         _transactionLogger.AddTransaction(query);
-        _transactionLogger.CommitTransaction(query);
+        _transactionLogger.CommitTransaction(query, true);
 
         //assert
         List<Query> transactions = _transactionLogger.GetUnCommittedTransactions();

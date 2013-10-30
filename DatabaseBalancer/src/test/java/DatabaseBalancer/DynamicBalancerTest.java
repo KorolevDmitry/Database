@@ -1,7 +1,8 @@
-package DatabaseBase.components;
+package DatabaseBalancer;
 
 import DatabaseBase.commands.CommandKeyNode;
 import DatabaseBase.commands.RequestCommand;
+import DatabaseBase.components.ServiceResult;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Route;
 import DatabaseBase.entities.ServerRole;

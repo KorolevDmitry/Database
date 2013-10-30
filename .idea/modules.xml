@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Database.iml" filepath="$PROJECT_DIR$/Database.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DatabaseBalancer/DatabaseBalancer.iml" filepath="$PROJECT_DIR$/DatabaseBalancer/DatabaseBalancer.iml" />
       <module fileurl="file://$PROJECT_DIR$/DatabaseBase/DatabaseBase.iml" filepath="$PROJECT_DIR$/DatabaseBase/DatabaseBase.iml" />
       <module fileurl="file://$PROJECT_DIR$/DatabaseClient/DatabaseClient.iml" filepath="$PROJECT_DIR$/DatabaseClient/DatabaseClient.iml" />
       <module fileurl="file://$PROJECT_DIR$/DatabaseServer/DatabaseServer.iml" filepath="$PROJECT_DIR$/DatabaseServer/DatabaseServer.iml" />

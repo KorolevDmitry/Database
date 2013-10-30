@@ -16,6 +16,7 @@
     <orderEntry type="module" module-name="DatabaseBase" />
     <orderEntry type="module" module-name="DatabaseClient" />
     <orderEntry type="module" module-name="DatabaseServer" />
+    <orderEntry type="module" module-name="DatabaseBalancer" />
   </component>
 </module>
 

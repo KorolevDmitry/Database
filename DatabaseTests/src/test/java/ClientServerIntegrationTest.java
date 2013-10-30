@@ -1,17 +1,18 @@
+import DatabaseBase.commands.CommandKeyNode;
+import DatabaseBase.commands.CommandKeyValueNode;
+import DatabaseBase.commands.RequestCommand;
 import DatabaseBase.components.StaticBalancer;
+import DatabaseBase.components.TcpListener;
+import DatabaseBase.components.TcpSender;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.StringSizable;
 import DatabaseBase.exceptions.BalancerException;
 import DatabaseBase.exceptions.ConnectionException;
 import DatabaseBase.interfaces.IBalancer;
-import DatabaseBase.components.TcpSender;
 import DatabaseBase.parser.Lexer;
-import DatabaseBase.commands.ServerCommand;
-import DatabaseBase.commands.RequestCommand;
+import DatabaseBase.parser.ParserStringString;
 import DatabaseServer.api.ServerEvaluator;
-import DatabaseBase.components.TcpListener;
 import DatabaseServer.dataStorage.MemoryBasedDataStorage;
-import DatabaseServer.parser.ServerParserStringString;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -33,9 +34,9 @@ public class ClientServerIntegrationTest {
         TcpSender<StringSizable, StringSizable> client1 = CreateClient();
         IBalancer balancer = new StaticBalancer("localhost:1107");
         server1.Start();
-        ServerCommand<StringSizable> command1 = new ServerCommand<StringSizable>(RequestCommand.ADD, new StringSizable("x1"), "add x1 x1");
-        ServerCommand<StringSizable> command2 = new ServerCommand<StringSizable>(RequestCommand.ADD, new StringSizable("x2"), "add x2 x2");
-        ServerCommand<StringSizable> command3 = new ServerCommand<StringSizable>(RequestCommand.GET, new StringSizable("x1"), "get x1");
+        CommandKeyValueNode<StringSizable, StringSizable> command1 = new CommandKeyValueNode<StringSizable, StringSizable>(RequestCommand.ADD, new StringSizable("x1"), new StringSizable("x1"));
+        CommandKeyValueNode<StringSizable, StringSizable> command2 = new CommandKeyValueNode<StringSizable, StringSizable>(RequestCommand.ADD, new StringSizable("x2"), new StringSizable("x2"));
+        CommandKeyNode<StringSizable> command3 = new CommandKeyNode<StringSizable>(RequestCommand.GET, new StringSizable("x1"));
         EvaluationResult<StringSizable, StringSizable> result1 = null;
         EvaluationResult<StringSizable, StringSizable> result2 = null;
         EvaluationResult<StringSizable, StringSizable> result3 = null;
@@ -69,9 +70,9 @@ public class ClientServerIntegrationTest {
         IBalancer balancer = new StaticBalancer("localhost:1107;localhost:1108");
         server1.Start();
         server2.Start();
-        ServerCommand<StringSizable> command1 = new ServerCommand<StringSizable>(RequestCommand.ADD, new StringSizable("x1"), "add x1 x1");
-        ServerCommand<StringSizable> command2 = new ServerCommand<StringSizable>(RequestCommand.ADD, new StringSizable("x2"), "add x2 x2");
-        ServerCommand<StringSizable> command3 = new ServerCommand<StringSizable>(RequestCommand.GET, new StringSizable("x1"), "get x1");
+        CommandKeyValueNode<StringSizable, StringSizable> command1 = new CommandKeyValueNode<StringSizable, StringSizable>(RequestCommand.ADD, new StringSizable("x1"), new StringSizable("x1"));
+        CommandKeyValueNode<StringSizable, StringSizable> command2 = new CommandKeyValueNode<StringSizable, StringSizable>(RequestCommand.ADD, new StringSizable("x2"), new StringSizable("x2"));
+        CommandKeyNode<StringSizable> command3 = new CommandKeyNode<StringSizable>(RequestCommand.GET, new StringSizable("x1"));
         EvaluationResult<StringSizable, StringSizable> result1 = null;
         EvaluationResult<StringSizable, StringSizable> result2 = null;
         EvaluationResult<StringSizable, StringSizable> result3 = null;
@@ -97,9 +98,9 @@ public class ClientServerIntegrationTest {
         assertEquals(new StringSizable("x1"), result3.Result);
     }
 
-    private TcpListener<StringSizable, StringSizable> CreateServer(int port) {
+    private TcpListener<StringSizable, StringSizable> CreateServer(int port) throws IOException {
         MemoryBasedDataStorage<StringSizable, StringSizable> dataStorage = new MemoryBasedDataStorage<StringSizable, StringSizable>();
-        ServerEvaluator<StringSizable, StringSizable> evaluator = new ServerEvaluator<StringSizable, StringSizable>(dataStorage, new ServerParserStringString(new Lexer()));
+        ServerEvaluator<StringSizable, StringSizable> evaluator = new ServerEvaluator<StringSizable, StringSizable>(dataStorage, new ParserStringString(new Lexer()));
         TcpListener<StringSizable, StringSizable> listener = new TcpListener<StringSizable, StringSizable>(evaluator, port);
         return listener;
     }

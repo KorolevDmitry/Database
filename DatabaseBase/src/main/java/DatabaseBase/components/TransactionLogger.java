@@ -26,19 +26,26 @@ public class TransactionLogger {
         _currentId = GetCurrentId();
     }
 
-    public void AddTransaction(Query query) throws IOException {
-        query.UniqueId = ++_currentId;
-
-        _log.AddOrUpdate(new IntegerSizable(query.UniqueId), query);
+    public void AddTransaction(Query query) throws TransactionException {
+        try {
+            query.UniqueId = ++_currentId;
+            _log.AddOrUpdate(new IntegerSizable(query.UniqueId), query);
+        } catch (IOException e) {
+            throw new TransactionException("Can not add transaction", e);
+        }
     }
 
-    public void CommitTransaction(Query query) throws IOException, TransactionException {
-        query.Completed = true;
-        IntegerSizable key = new IntegerSizable(query.UniqueId);
-        WrappedKeyValue<IntegerSizable, Query> value = _log.Get(key);
-        if(value == null || value.IsDeleted)
-            throw new TransactionException();
-        _log.AddOrUpdate(new IntegerSizable(query.UniqueId), query);
+    public void CommitTransaction(Query query, boolean success) throws TransactionException {
+        try {
+            query.Completed = true;
+            IntegerSizable key = new IntegerSizable(query.UniqueId);
+            WrappedKeyValue<IntegerSizable, Query> value = _log.Get(key);
+            if (value == null || value.IsDeleted)
+                throw new TransactionException("No transaction to commit");
+            _log.AddOrUpdate(new IntegerSizable(query.UniqueId), query);
+        } catch (IOException e) {
+            throw new TransactionException("Can not commit transaction", e);
+        }
     }
 
     public List<Query> GetUnCommittedTransactions() throws IOException {

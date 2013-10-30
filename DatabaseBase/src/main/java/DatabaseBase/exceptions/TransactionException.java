@@ -8,4 +8,11 @@ package DatabaseBase.exceptions;
  * To change this template use File | Settings | File Templates.
  */
 public class TransactionException extends Exception {
+    public TransactionException(String message, Exception innerException) {
+        super(message, innerException);
+    }
+
+    public TransactionException(String message) {
+        super(message);
+    }
 }

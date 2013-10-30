@@ -1,14 +1,13 @@
-package DatabaseServer.parser;
+package DatabaseBase.parser;
 
-import DatabaseBase.entities.Query;
-import DatabaseBase.exceptions.ParserException;
-import DatabaseBase.parser.Lexer;
-import org.junit.Before;
-import org.junit.Test;
 import DatabaseBase.commands.CommandKeyNode;
 import DatabaseBase.commands.CommandKeyValueNode;
 import DatabaseBase.commands.CommandSingleNode;
 import DatabaseBase.commands.RequestCommand;
+import DatabaseBase.entities.Query;
+import DatabaseBase.exceptions.ParserException;
+import org.junit.Before;
+import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -17,15 +16,15 @@ import static junit.framework.Assert.assertTrue;
  * Created with IntelliJ IDEA.
  * User: deemo_000
  * Date: 10/24/13
- * Time: 1:03 AM
+ * Time: 12:52 AM
  * To change this template use File | Settings | File Templates.
  */
-public class ServerParserTest {
-    private ServerParserStringString _parser;
+public class ParserTest {
+    private ParserStringString _parser;
 
     @Before
     public void setUp() throws Exception {
-        _parser = new ServerParserStringString(new Lexer());
+        _parser = new ParserStringString(new Lexer());
     }
 
     @Test
@@ -62,7 +61,7 @@ public class ServerParserTest {
 
         //act
         try{
-            Query query = _parser.Parse(str);
+        Query query = _parser.Parse(str);
         }catch (ParserException exception)
         {
             hasParseException = true;

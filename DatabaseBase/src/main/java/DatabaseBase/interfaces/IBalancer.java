@@ -17,5 +17,7 @@ public interface IBalancer {
     Route GetRoute(CommandKeyNode command, List<Route> triedRoutes) throws BalancerException;
     void AddServer(Route route) throws BalancerException;
     void RemoveServer(Route route) throws BalancerException;
+    void UpdateServer(Route route) throws BalancerException;
+    void Replicate(Route from, Route to, int fromId, boolean removeFromCluster) throws BalancerException;
     boolean Ping(Route clientRoute);
 }

@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class EvaluationResult<TKey extends ISizable, TValue extends ISizable> implements Serializable {
     public String ExecutionString;
     public Query ExecutionQuery;
+    public Route Route;
     public TValue Result;
     public boolean HasReturnResult;
     public boolean HasError;

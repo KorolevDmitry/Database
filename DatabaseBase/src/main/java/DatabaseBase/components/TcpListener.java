@@ -86,11 +86,13 @@ public class TcpListener<TKey extends ISizable, TValue extends ISizable> impleme
                     continue;
                 } finally {
                     if (connectionSocket != null) {
-                        ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
-                        outToClient.writeObject(result);
                         try {
+                            ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
+                            outToClient.writeObject(result);
                             connectionSocket.shutdownOutput();
                             connectionSocket.shutdownInput();
+                        } catch (SocketException e) {
+                            e.printStackTrace();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

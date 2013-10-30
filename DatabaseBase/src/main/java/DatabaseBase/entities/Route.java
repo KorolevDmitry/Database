@@ -22,12 +22,31 @@ public class Route implements ISizable {
     public boolean IsReady;
     public Integer Index;
 
+    public Route(String serverHost, ServerRole role, Route master) {
+        if (serverHost == null) {
+            throw new IllegalArgumentException("Route can not be null");
+        }
+        String[] route = serverHost.split(":");
+        if (route.length != 2) {
+            throw new IllegalArgumentException("Route should looks like: {host:pot} instead of: " + serverHost);
+        }
+        try {
+            Host = route[0];
+            Port = Integer.parseInt(route[1]);
+            Role = role;
+            Master = master;
+            Slaves = new ArrayList<Route>();
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Route should looks like: {host:pot} instead of: " + serverHost);
+        }
+    }
+
     public Route(String host, int port) {
         this(host, port, ServerRole.Master, null);
     }
 
     public Route(String host, int port, ServerRole role, Route master) {
-        if(host == null)
+        if (host == null)
             throw new IllegalArgumentException("Host can not be null");
         Host = host;
         Port = port;

@@ -1,9 +1,11 @@
-package DatabaseBase.components;
+package DatabaseBalancer;
 
 import DatabaseBase.commands.CommandKeyNode;
 import DatabaseBase.commands.RequestCommand;
 import DatabaseBase.commands.service.ReplicateCommand;
 import DatabaseBase.commands.service.ServiceCommand;
+import DatabaseBase.components.ServiceResult;
+import DatabaseBase.components.TcpSender;
 import DatabaseBase.entities.*;
 import DatabaseBase.exceptions.BalancerException;
 import DatabaseBase.exceptions.ConnectionException;
@@ -86,28 +88,8 @@ public class DynamicBalancer implements IBalancer {
         }
     }
 
-    private void FailedStartReplication(Route addedRoute) throws BalancerException {
-        if(addedRoute.Role == ServerRole.Slave){
-            addedRoute.Master.Slaves.remove(addedRoute);
-            _clientToServerRouteMap.remove(addedRoute);
-        }
-        else
-        {
-            _clientToServerRouteMap.remove(addedRoute);
-            _routes.remove(addedRoute);
-        }
-        throw new BalancerException("Failed start replication to: " + addedRoute);
-    }
-
     public void RemoveServer(Route clientRoute) throws BalancerException {
-        if (clientRoute == null)
-            throw new IllegalArgumentException("Route can not be null");
-        if (!_clientToServerRouteMap.containsKey(clientRoute))
-            throw new BalancerException("Route " + clientRoute + " does not belong to cluster");
-        Route route = _clientToServerRouteMap.get(clientRoute);
-        if (!Ping(route)) {
-            throw new BalancerException("Route " + clientRoute + " is not responded");
-        }
+        Route route = GetInternalRoute(clientRoute);
         if (route.Role == ServerRole.Slave) {
             _clientToServerRouteMap.remove(route);
             route.Master.Slaves.remove(route);
@@ -129,6 +111,17 @@ public class DynamicBalancer implements IBalancer {
                     throw new BalancerException("Failed start replication from: " + route);
             }
         }
+    }
+
+    public void UpdateServer(Route clientRoute) throws BalancerException {
+        Route route = GetInternalRoute(clientRoute);
+        UpdateServerRole(route);
+    }
+
+    public void Replicate(Route clientRouteFrom, Route clientRouteTo, int fromId, boolean removeFromCluster) throws BalancerException {
+        Route from = GetInternalRoute(clientRouteFrom);
+        Route to = GetInternalRoute(clientRouteTo);
+        ReplicateInternal(from, to, fromId, removeFromCluster);
     }
 
     public boolean Ping(Route clientRoute) {
@@ -159,6 +152,19 @@ public class DynamicBalancer implements IBalancer {
         return route.IsAlive;
     }
 
+    private void FailedStartReplication(Route addedRoute) throws BalancerException {
+        if(addedRoute.Role == ServerRole.Slave){
+            addedRoute.Master.Slaves.remove(addedRoute);
+            _clientToServerRouteMap.remove(addedRoute);
+        }
+        else
+        {
+            _clientToServerRouteMap.remove(addedRoute);
+            _routes.remove(addedRoute);
+        }
+        throw new BalancerException("Failed start replication to: " + addedRoute);
+    }
+
     private void Heartbeat() {
         Iterator<Route> iterator = _clientToServerRouteMap.values().iterator();
         while (iterator.hasNext()) {
@@ -180,26 +186,26 @@ public class DynamicBalancer implements IBalancer {
         return null;
     }
 
-    private void Replicate(Route from, Route to, int fromId, boolean removeFromCluster) {
+    private void ReplicateInternal(Route from, Route to, int fromId, boolean removeFromCluster) throws BalancerException {
         try {
             _sender.Send(new ReplicateCommand(from, to, fromId, removeFromCluster), from);
         } catch (ConnectionException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new BalancerException(e.getMessage(), e);
         }
     }
 
-    private boolean ReplicateTo(Route addedRoute) {
+    private boolean ReplicateTo(Route addedRoute) throws BalancerException {
         if (addedRoute.Role == ServerRole.Slave) {
             if(!Ping(addedRoute.Master))
                 return false;
-            Replicate(addedRoute.Master, addedRoute, 0, false);
+            ReplicateInternal(addedRoute.Master, addedRoute, 0, false);
         } else {
             Route from = _routes.getPrevious(addedRoute);
             if (from.equals(addedRoute))
                 return true;
             if(!Ping(from))
                 return false;
-            Replicate(from, addedRoute, addedRoute.Index, false);
+            ReplicateInternal(from, addedRoute, addedRoute.Index, false);
         }
 
         return true;
@@ -212,16 +218,16 @@ public class DynamicBalancer implements IBalancer {
         if(!Ping(to))
             return false;
         //throw new BalancerException("Warning! Data can be loss");
-        Replicate(removedRoute, to, 0, true);
+        ReplicateInternal(removedRoute, to, 0, true);
 
         return true;
     }
 
-    private void UpdateServerRole(Route route) {
+    private void UpdateServerRole(Route route) throws BalancerException {
         try {
             _sender.Send(new ServiceCommand(RequestCommand.UPDATE_SERVER, route), route);
         } catch (ConnectionException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new BalancerException(e.getMessage(), e);
         }
     }
 
@@ -247,5 +253,18 @@ public class DynamicBalancer implements IBalancer {
             default:
                 throw new BalancerException("Unexpected request command: " + command.GetCommand());
         }
+    }
+
+    private Route GetInternalRoute(Route clientRoute) throws BalancerException {
+        if (clientRoute == null)
+            throw new IllegalArgumentException("Route can not be null");
+        if (!_clientToServerRouteMap.containsKey(clientRoute))
+            throw new BalancerException("Route " + clientRoute + " does not belong to cluster");
+        Route route = _clientToServerRouteMap.get(clientRoute);
+        if (!Ping(route)) {
+            throw new BalancerException("Route " + clientRoute + " is not responded");
+        }
+
+        return route;
     }
 }
