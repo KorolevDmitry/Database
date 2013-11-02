@@ -5,6 +5,8 @@ import DatabaseBase.components.StaticBalancer;
 import DatabaseBase.components.TcpListener;
 import DatabaseBase.components.TcpSender;
 import DatabaseBase.entities.EvaluationResult;
+import DatabaseBase.entities.Query;
+import DatabaseBase.entities.Route;
 import DatabaseBase.entities.StringSizable;
 import DatabaseBase.exceptions.BalancerException;
 import DatabaseBase.exceptions.ConnectionException;
@@ -26,7 +28,7 @@ import static junit.framework.Assert.*;
  * Time: 1:20 AM
  * To change this template use File | Settings | File Templates.
  */
-public class ClientServerIntegrationTest {
+public class ClientServerStaticBalancerIntegrationTest {
     @Test
     public void Start_1Server1Client_NoErrors() throws IOException, BalancerException {
         //arrange
@@ -34,9 +36,15 @@ public class ClientServerIntegrationTest {
         TcpSender<StringSizable, StringSizable> client1 = CreateClient();
         IBalancer balancer = new StaticBalancer("localhost:1107");
         server1.Start();
+        Query query1 = new Query();
         CommandKeyValueNode<StringSizable, StringSizable> command1 = new CommandKeyValueNode<StringSizable, StringSizable>(RequestCommand.ADD, new StringSizable("x1"), new StringSizable("x1"));
+        query1.Command = command1;
+        Query query2 = new Query();
         CommandKeyValueNode<StringSizable, StringSizable> command2 = new CommandKeyValueNode<StringSizable, StringSizable>(RequestCommand.ADD, new StringSizable("x2"), new StringSizable("x2"));
+        query2.Command = command2;
+        Query query3 = new Query();
         CommandKeyNode<StringSizable> command3 = new CommandKeyNode<StringSizable>(RequestCommand.GET, new StringSizable("x1"));
+        query3.Command = command3;
         EvaluationResult<StringSizable, StringSizable> result1 = null;
         EvaluationResult<StringSizable, StringSizable> result2 = null;
         EvaluationResult<StringSizable, StringSizable> result3 = null;
@@ -44,9 +52,9 @@ public class ClientServerIntegrationTest {
 
         //act
         try {
-            result1 = client1.Send(command1, balancer.GetRoute(command1, null));
-            result2 = client1.Send(command2, balancer.GetRoute(command2, null));
-            result3 = client1.Send(command3, balancer.GetRoute(command3, null));
+            result1 = client1.Send(query1, balancer.GetRoute(command1, null));
+            result2 = client1.Send(query2, balancer.GetRoute(command2, null));
+            result3 = client1.Send(query3, balancer.GetRoute(command3, null));
         } catch (ConnectionException e) {
             hasException = true;
         }
@@ -70,9 +78,15 @@ public class ClientServerIntegrationTest {
         IBalancer balancer = new StaticBalancer("localhost:1107;localhost:1108");
         server1.Start();
         server2.Start();
+        Query query1 = new Query();
         CommandKeyValueNode<StringSizable, StringSizable> command1 = new CommandKeyValueNode<StringSizable, StringSizable>(RequestCommand.ADD, new StringSizable("x1"), new StringSizable("x1"));
+        query1.Command = command1;
+        Query query2 = new Query();
         CommandKeyValueNode<StringSizable, StringSizable> command2 = new CommandKeyValueNode<StringSizable, StringSizable>(RequestCommand.ADD, new StringSizable("x2"), new StringSizable("x2"));
+        query2.Command = command2;
+        Query query3 = new Query();
         CommandKeyNode<StringSizable> command3 = new CommandKeyNode<StringSizable>(RequestCommand.GET, new StringSizable("x1"));
+        query3.Command = command3;
         EvaluationResult<StringSizable, StringSizable> result1 = null;
         EvaluationResult<StringSizable, StringSizable> result2 = null;
         EvaluationResult<StringSizable, StringSizable> result3 = null;
@@ -80,9 +94,9 @@ public class ClientServerIntegrationTest {
 
         //act
         try {
-            result1 = client1.Send(command1, balancer.GetRoute(command1, null));
-            result2 = client1.Send(command2, balancer.GetRoute(command2, null));
-            result3 = client1.Send(command3, balancer.GetRoute(command3, null));
+            result1 = client1.Send(query1, balancer.GetRoute(command1, null));
+            result2 = client1.Send(query2, balancer.GetRoute(command2, null));
+            result3 = client1.Send(query3, balancer.GetRoute(command3, null));
         } catch (ConnectionException e) {
             hasException = true;
         }
@@ -100,7 +114,11 @@ public class ClientServerIntegrationTest {
 
     private TcpListener<StringSizable, StringSizable> CreateServer(int port) throws IOException {
         MemoryBasedDataStorage<StringSizable, StringSizable> dataStorage = new MemoryBasedDataStorage<StringSizable, StringSizable>();
-        ServerEvaluator<StringSizable, StringSizable> evaluator = new ServerEvaluator<StringSizable, StringSizable>(dataStorage, new ParserStringString(new Lexer()));
+        Route route = new Route("localhost", port);
+        TcpSender<StringSizable, StringSizable> sender = new TcpSender<StringSizable, StringSizable>();
+        ServerEvaluator<StringSizable, StringSizable> evaluator =
+                new ServerEvaluator<StringSizable, StringSizable>(dataStorage,
+                        new ParserStringString(new Lexer()), route, sender);
         TcpListener<StringSizable, StringSizable> listener = new TcpListener<StringSizable, StringSizable>(evaluator, port);
         return listener;
     }

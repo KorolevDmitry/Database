@@ -16,5 +16,6 @@ public class ServiceCommand extends CommandSingleNode {
 
     public ServiceCommand(RequestCommand requestCommand, Route route) {
         super(requestCommand);
+        Route = route;
     }
 }

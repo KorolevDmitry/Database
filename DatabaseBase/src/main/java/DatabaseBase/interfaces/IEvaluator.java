@@ -13,6 +13,8 @@ import DatabaseBase.utils.Observer;
  */
 public interface IEvaluator<TKey extends ISizable, TValue extends ISizable> {
     EvaluationResult<TKey, TValue> Evaluate(String query);
+    EvaluationResult<TKey, TValue> Evaluate(Query query);
+    void Close();
 
     void AddMessageReceivedObserver(Observer<Query> observer);
     void RemoveMessageReceivedObserver(Observer<Query> observer);

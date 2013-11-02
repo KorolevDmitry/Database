@@ -2,7 +2,7 @@ package DatabaseBalancer;
 
 import DatabaseBase.commands.CommandKeyNode;
 import DatabaseBase.commands.RequestCommand;
-import DatabaseBase.components.ServiceResult;
+import DatabaseBase.entities.ServiceResult;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Route;
 import DatabaseBase.entities.ServerRole;
@@ -25,12 +25,12 @@ import static junit.framework.Assert.*;
  * To change this template use File | Settings | File Templates.
  */
 public class DynamicBalancerTest {
-    TcpSenderMock<StringSizable, ServiceResult> _senderMock;
+    TcpSenderMock<StringSizable, StringSizable> _senderMock;
     DynamicBalancer _balancer;
 
     @Before
     public void setUp() {
-        _senderMock = new TcpSenderMock<StringSizable, ServiceResult>();
+        _senderMock = new TcpSenderMock<StringSizable, StringSizable>();
         _balancer = new DynamicBalancer(_senderMock, 0);
     }
 
@@ -147,7 +147,7 @@ public class DynamicBalancerTest {
         Route master = AddMasterRoute(1111, true, true);
         Route slave = AddSlaveRoute(2222, false, true, master);
         _senderMock.AddExpectedBehavior(master, RequestCommand.PING, GetPingExpectedResult());
-        _senderMock.AddExpectedBehavior(slave, RequestCommand.PING, GetPingExpectedResult());
+        _senderMock.AddExpectedBehavior(slave, RequestCommand.PING, GetPingExpectedResult(false,true));
 
         //act
         Route result = _balancer.GetRoute(new CommandKeyNode(RequestCommand.GET, null), null);
@@ -191,21 +191,28 @@ public class DynamicBalancerTest {
     }
 
     @Test
-    public void AddServer_MasterNoRoutes_CanGet() throws BalancerException {
+    public void AddServer_MasterNoRoutes_CanGetAfterPing() throws BalancerException {
         //arrange
         Route master = new Route("", 1111);
-        master.Role = ServerRole.Master;
+        master.Role = ServerRole.MASTER;
         _senderMock.AddExpectedBehavior(master, RequestCommand.PING, GetPingExpectedResult());
+        _senderMock.AddExpectedBehavior(master, RequestCommand.UPDATE_SERVER, GetPingExpectedResult());
+        _senderMock.AddExpectedBehavior(master, RequestCommand.REPLICATE, GetPingExpectedResult());
 
         //act
         _balancer.AddServer(master);
         Route result = _balancer.GetRoute(new CommandKeyNode(RequestCommand.ADD, null), null);
 
         //assert
+        assertEquals(null, result);
+        _balancer.Ping(master);
+        result = _balancer.GetRoute(new CommandKeyNode(RequestCommand.ADD, null), null);
         assertEquals(master, result);
-        assertEquals(2, _senderMock.SequenceOfSentCommands.size());
+        assertEquals(5, _senderMock.SequenceOfSentCommands.size());
         assertEquals(RequestCommand.PING, _senderMock.SequenceOfSentCommands.get(0).GetCommand());
-        assertEquals(RequestCommand.PING, _senderMock.SequenceOfSentCommands.get(1).GetCommand());
+        assertEquals(RequestCommand.UPDATE_SERVER, _senderMock.SequenceOfSentCommands.get(1).GetCommand());
+        assertEquals(RequestCommand.REPLICATE, _senderMock.SequenceOfSentCommands.get(2).GetCommand());
+        assertEquals(RequestCommand.PING, _senderMock.SequenceOfSentCommands.get(3).GetCommand());
     }
 
     @Test
@@ -227,25 +234,29 @@ public class DynamicBalancerTest {
         //arrange
         Route master1 = AddMasterRoute(1111, true, true);
         Route master2 = new Route("", 2222);
-        master2.Role = ServerRole.Master;
+        master2.Role = ServerRole.MASTER;
         _senderMock.AddExpectedBehavior(master1, RequestCommand.PING, GetPingExpectedResult());
         _senderMock.AddExpectedBehavior(master1, RequestCommand.REPLICATE, GetReplicateExpectedResult());
         _senderMock.AddExpectedBehavior(master2, RequestCommand.PING, GetPingExpectedResult(true, false));
+        _senderMock.AddExpectedBehavior(master1, RequestCommand.UPDATE_SERVER, GetPingExpectedResult(true, false));
+        _senderMock.AddExpectedBehavior(master2, RequestCommand.UPDATE_SERVER, GetPingExpectedResult(true, false));
 
         //act
         _balancer.AddServer(master2);
 
         //assert
-        assertEquals(3, _senderMock.SequenceOfSentCommands.size());
+        assertEquals(5, _senderMock.SequenceOfSentCommands.size());
         assertEquals(RequestCommand.PING, _senderMock.SequenceOfSentCommands.get(0).GetCommand());
         assertEquals(RequestCommand.PING, _senderMock.SequenceOfSentCommands.get(1).GetCommand());
-        assertEquals(RequestCommand.REPLICATE, _senderMock.SequenceOfSentCommands.get(2).GetCommand());
+        assertEquals(RequestCommand.UPDATE_SERVER, _senderMock.SequenceOfSentCommands.get(2).GetCommand());
+        assertEquals(RequestCommand.UPDATE_SERVER, _senderMock.SequenceOfSentCommands.get(3).GetCommand());
+        assertEquals(RequestCommand.REPLICATE, _senderMock.SequenceOfSentCommands.get(4).GetCommand());
         Route result = _balancer.GetRoute(new CommandKeyNode(RequestCommand.ADD, master2), null);
         assertEquals(master1, result);
         assertFalse(master2.IsReady);
         _senderMock.AddExpectedBehavior(master2, RequestCommand.PING, GetPingExpectedResult());
         _balancer.Ping(master2);
-        assertEquals(RequestCommand.PING, _senderMock.SequenceOfSentCommands.get(4).GetCommand());
+        assertEquals(RequestCommand.PING, _senderMock.SequenceOfSentCommands.get(6).GetCommand());
         result = _balancer.GetRoute(new CommandKeyNode(RequestCommand.ADD, master2), null);
         assertEquals(master2, result);
         assertTrue(result.IsReady);
@@ -273,6 +284,9 @@ public class DynamicBalancerTest {
         assertEquals(master2, result);
         _senderMock.AddExpectedBehavior(master2, RequestCommand.PING, GetPingExpectedResult(true, true, true));
         _balancer.Ping(master2);
+        result = _balancer.GetRoute(new CommandKeyNode(RequestCommand.GET, master2), null);
+        assertEquals(null, result);
+        _balancer.Ping(master1);
         result = _balancer.GetRoute(new CommandKeyNode(RequestCommand.GET, master2), null);
         assertEquals(master1, result);
         result = _balancer.GetRoute(new CommandKeyNode(RequestCommand.ADD, master2), null);
@@ -302,6 +316,9 @@ public class DynamicBalancerTest {
         _senderMock.AddExpectedBehavior(master2, RequestCommand.PING, GetPingExpectedResult(true, true, true));
         _balancer.Ping(master2);
         result = _balancer.GetRoute(new CommandKeyNode(RequestCommand.ADD, master2), null);
+        assertEquals(null, result);
+        _balancer.Ping(master1);
+        result = _balancer.GetRoute(new CommandKeyNode(RequestCommand.ADD, master2), null);
         assertEquals(master1, result);
     }
 
@@ -310,26 +327,30 @@ public class DynamicBalancerTest {
         //arrange
         Route master = AddMasterRoute(1111, true, true);
         Route slave = new Route("", 2222);
-        slave.Role = ServerRole.Slave;
+        slave.Role = ServerRole.SLAVE;
         slave.Master = master;
         _senderMock.AddExpectedBehavior(master, RequestCommand.PING, GetPingExpectedResult());
         _senderMock.AddExpectedBehavior(master, RequestCommand.REPLICATE, GetReplicateExpectedResult());
         _senderMock.AddExpectedBehavior(slave, RequestCommand.PING, GetPingExpectedResult(true, false));
+        _senderMock.AddExpectedBehavior(master, RequestCommand.UPDATE_SERVER, GetPingExpectedResult());
+        _senderMock.AddExpectedBehavior(slave, RequestCommand.UPDATE_SERVER, GetPingExpectedResult());
 
         //act
         _balancer.AddServer(slave);
 
         //assert
-        assertEquals(3, _senderMock.SequenceOfSentCommands.size());
+        assertEquals(5, _senderMock.SequenceOfSentCommands.size());
         assertEquals(RequestCommand.PING, _senderMock.SequenceOfSentCommands.get(0).GetCommand());
         assertEquals(RequestCommand.PING, _senderMock.SequenceOfSentCommands.get(1).GetCommand());
-        assertEquals(RequestCommand.REPLICATE, _senderMock.SequenceOfSentCommands.get(2).GetCommand());
+        assertEquals(RequestCommand.UPDATE_SERVER, _senderMock.SequenceOfSentCommands.get(2).GetCommand());
+        assertEquals(RequestCommand.UPDATE_SERVER, _senderMock.SequenceOfSentCommands.get(3).GetCommand());
+        assertEquals(RequestCommand.REPLICATE, _senderMock.SequenceOfSentCommands.get(4).GetCommand());
         assertFalse(slave.IsReady);
         Route result = _balancer.GetRoute(new CommandKeyNode(RequestCommand.GET, slave), null);
         assertEquals(master, result);
         _senderMock.AddExpectedBehavior(slave, RequestCommand.PING, GetPingExpectedResult());
         _balancer.Ping(slave);
-        assertEquals(RequestCommand.PING, _senderMock.SequenceOfSentCommands.get(4).GetCommand());
+        assertEquals(RequestCommand.PING, _senderMock.SequenceOfSentCommands.get(6).GetCommand());
         result = _balancer.GetRoute(new CommandKeyNode(RequestCommand.GET, slave), null);
         assertEquals(slave, result);
     }
@@ -407,9 +428,10 @@ public class DynamicBalancerTest {
 
     private Route AddMasterRoute(int port, boolean isAlive, boolean isReady) {
         Route route = new Route("", port);
-        route.Role = ServerRole.Master;
+        route.Role = ServerRole.MASTER;
         route.IsAlive = isAlive;
         route.IsReady = isReady;
+        route.EndIndex = route.StartIndex = _balancer._routes.getIndex(route);
         _balancer._clientToServerRouteMap.put(route, route);
         _balancer._routes.add(route);
 
@@ -418,7 +440,7 @@ public class DynamicBalancerTest {
 
     private Route AddSlaveRoute(int port, boolean isAlive, boolean isReady, Route master) {
         Route route = new Route("", port);
-        route.Role = ServerRole.Slave;
+        route.Role = ServerRole.SLAVE;
         route.IsAlive = isAlive;
         route.IsReady = isReady;
         route.Master = master;
@@ -428,29 +450,29 @@ public class DynamicBalancerTest {
         return route;
     }
 
-    private EvaluationResult<StringSizable, ServiceResult> GetPingExpectedResult()
+    private EvaluationResult<StringSizable, StringSizable> GetPingExpectedResult()
     {
         return GetPingExpectedResult(true, true);
     }
 
-    private EvaluationResult<StringSizable, ServiceResult> GetReplicateExpectedResult()
+    private EvaluationResult<StringSizable, StringSizable> GetReplicateExpectedResult()
     {
         return GetPingExpectedResult(true, true);
     }
 
-    private EvaluationResult<StringSizable, ServiceResult> GetPingExpectedResult(boolean isAlive, boolean isReady)
+    private EvaluationResult<StringSizable, StringSizable> GetPingExpectedResult(boolean isAlive, boolean isReady)
     {
         return GetPingExpectedResult(isAlive, isReady, false);
     }
 
-    private EvaluationResult<StringSizable, ServiceResult> GetPingExpectedResult(boolean isAlive, boolean isReady, boolean readyToBeRemoved)
+    private EvaluationResult<StringSizable, StringSizable> GetPingExpectedResult(boolean isAlive, boolean isReady, boolean readyToBeRemoved)
     {
-        EvaluationResult<StringSizable, ServiceResult> result = new EvaluationResult<StringSizable, ServiceResult>();
+        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
         result.HasReturnResult = true;
-        result.Result = new ServiceResult();
-        result.Result.IsAlive = isAlive;
-        result.Result.IsReady = isReady;
-        result.Result.ReadyToBeRemoved = readyToBeRemoved;
+        result.ServiceResult = new ServiceResult();
+        result.ServiceResult.IsAlive = isAlive;
+        result.ServiceResult.IsReady = isReady;
+        result.ServiceResult.ReadyToBeRemoved = readyToBeRemoved;
         return result;
     }
 }

@@ -12,12 +12,12 @@ import java.io.Serializable;
  * To change this template use File | Settings | File Templates.
  */
 public class EvaluationResult<TKey extends ISizable, TValue extends ISizable> implements Serializable {
-    public String ExecutionString;
     public Query ExecutionQuery;
-    public Route Route;
     public TValue Result;
+    public boolean HasBalancerResult;
     public boolean HasReturnResult;
     public boolean HasError;
     public String ErrorDescription;
     public boolean Quit;
+    public ServiceResult ServiceResult;
 }

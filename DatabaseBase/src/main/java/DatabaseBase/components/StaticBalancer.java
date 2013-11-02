@@ -53,12 +53,22 @@ public class StaticBalancer implements IBalancer {
     }
 
     @Override
-    public void Replicate(Route from, Route to, int fromId, boolean removeFromCluster) throws BalancerException {
+    public void Replicate(Route from, Route to, int fromId, int endId, boolean removeFromCluster) throws BalancerException {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public boolean Ping(Route clientRoute) {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<Route> GetServersList() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void Close() {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

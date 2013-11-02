@@ -4,7 +4,6 @@ import DatabaseBase.commands.CommandKeyNode;
 import DatabaseBase.commands.RequestCommand;
 import DatabaseBase.commands.service.ReplicateCommand;
 import DatabaseBase.commands.service.ServiceCommand;
-import DatabaseBase.components.ServiceResult;
 import DatabaseBase.components.TcpSender;
 import DatabaseBase.entities.*;
 import DatabaseBase.exceptions.BalancerException;
@@ -24,17 +23,26 @@ import java.util.concurrent.ConcurrentHashMap;
  * Time: 5:52 AM
  * To change this template use File | Settings | File Templates.
  */
-public class DynamicBalancer implements IBalancer {
+public class DynamicBalancer implements IBalancer, Runnable {
     ConsistentHash<Route> _routes;
     ConcurrentHashMap<Route, Route> _clientToServerRouteMap;
     //TcpListener<TKey, TValue> _routesListener;
-    TcpSender<StringSizable, ServiceResult> _sender;
+    TcpSender<StringSizable, StringSizable> _sender;
+    int _heartbeatTimeout;
+    Thread _heartBeatThread;
+    private boolean _stopRequest;
+    private boolean _isWorking;
 
-    public DynamicBalancer(TcpSender<StringSizable, ServiceResult> sender, int heartbeatTimeout) {
+    public DynamicBalancer(TcpSender<StringSizable, StringSizable> sender, int heartbeatTimeout) {
         _routes = new ConsistentHash<Route>(new HashFunction(), new ArrayList<Route>());
         _clientToServerRouteMap = new ConcurrentHashMap<Route, Route>();
         _sender = sender;
-        //TODO: start heartbeat timer
+        _heartbeatTimeout = heartbeatTimeout;
+        if(_heartbeatTimeout > 0)
+        {
+            _heartBeatThread = new Thread(this);
+            _heartBeatThread.start();
+        }
     }
 
     public Route GetRoute(CommandKeyNode command, List<Route> triedRoutes) throws BalancerException {
@@ -47,6 +55,7 @@ public class DynamicBalancer implements IBalancer {
         Route route = firstRoute = _routes.get(command.Key);
         if (route == null)
             return null;
+        //if master is busy - slaves can not have actual info
         while (!route.IsReady) {
             route = _routes.getNext(route);
             if (route.equals(firstRoute)) {
@@ -69,32 +78,47 @@ public class DynamicBalancer implements IBalancer {
             _clientToServerRouteMap.remove(clientRoute);
             throw new BalancerException("Route " + clientRoute + " is not responded");
         }
-        if (clientRoute.Role == ServerRole.Slave) {
+        if (clientRoute.Role == ServerRole.SLAVE) {
             if (clientRoute.Master == null)
                 throw new BalancerException("Master route for slave can not be null");
             if (!_clientToServerRouteMap.containsKey(clientRoute.Master))
                 throw new BalancerException("Unknown master route: " + clientRoute.Master);
             Route master = _clientToServerRouteMap.get(clientRoute.Master);
+            if (!Ping(master)) {
+                FailedStartReplication(route);
+            }
             route.Master = master;
-            route.Index = master.Index;
+            route.StartIndex = master.StartIndex;
+            route.EndIndex = master.EndIndex;
             master.Slaves.add(route);
+            UpdateServerRole(route.Master);
         } else {
-            route.Index = _routes.getIndex(route);
-            _routes.add(route, route.Index);
+            route.EndIndex = route.StartIndex = _routes.getIndex(route);
+            Route oldRoute = _routes.get(route.StartIndex);
+            _routes.add(route, route.StartIndex);
+            //update end index
+            if (oldRoute != null) {
+                if (!Ping(oldRoute)) {
+                    FailedStartReplication(route);
+                }
+                route.EndIndex = oldRoute.EndIndex;
+                oldRoute.EndIndex = route.StartIndex;
+                UpdateServerRole(oldRoute);
+            }
         }
-        if(!ReplicateTo(route))
-        {
+        UpdateServerRole(route);
+        if (!ReplicateTo(route)) {
             FailedStartReplication(route);
         }
     }
 
     public void RemoveServer(Route clientRoute) throws BalancerException {
         Route route = GetInternalRoute(clientRoute);
-        if (route.Role == ServerRole.Slave) {
+        if (route.Role == ServerRole.SLAVE) {
             _clientToServerRouteMap.remove(route);
             route.Master.Slaves.remove(route);
         } else {
-            route.Role = ServerRole.Slave;
+            route.Role = ServerRole.SLAVE;
             Route firstSlave = GetFirstSlave(route, null);
             if (firstSlave != null) {
                 firstSlave.Master = null;
@@ -118,19 +142,21 @@ public class DynamicBalancer implements IBalancer {
         UpdateServerRole(route);
     }
 
-    public void Replicate(Route clientRouteFrom, Route clientRouteTo, int fromId, boolean removeFromCluster) throws BalancerException {
+    public void Replicate(Route clientRouteFrom, Route clientRouteTo, int fromId, int endId, boolean removeFromCluster) throws BalancerException {
         Route from = GetInternalRoute(clientRouteFrom);
         Route to = GetInternalRoute(clientRouteTo);
-        ReplicateInternal(from, to, fromId, removeFromCluster);
+        ReplicateInternal(from, to, fromId, endId, removeFromCluster);
     }
 
     public boolean Ping(Route clientRoute) {
         if (!_clientToServerRouteMap.containsKey(clientRoute))
             return false;
         Route route = _clientToServerRouteMap.get(clientRoute);
-        EvaluationResult<StringSizable, ServiceResult> serverAnswer;
+        EvaluationResult<StringSizable, StringSizable> serverAnswer;
         try {
-            serverAnswer = _sender.Send(new ServiceCommand(RequestCommand.PING, route), route);
+            Query query = new Query();
+            query.Command = new ServiceCommand(RequestCommand.PING, route);
+            serverAnswer = _sender.Send(query, route, 1000);
         } catch (ConnectionException e) {
             route.IsAlive = false;
             return route.IsAlive;
@@ -140,10 +166,10 @@ public class DynamicBalancer implements IBalancer {
             return route.IsAlive;
         }
 
-        route.IsAlive = serverAnswer.Result.IsAlive;
-        route.IsReady = serverAnswer.Result.IsReady;
+        route.IsAlive = serverAnswer.ServiceResult.IsAlive;
+        route.IsReady = serverAnswer.ServiceResult.IsReady;
 
-        if(serverAnswer.Result.ReadyToBeRemoved){
+        if (serverAnswer.ServiceResult.ReadyToBeRemoved) {
             _routes.remove(route);
             _clientToServerRouteMap.remove(route);
             return false;
@@ -152,13 +178,15 @@ public class DynamicBalancer implements IBalancer {
         return route.IsAlive;
     }
 
+    public List<Route> GetServersList() {
+        return _routes.getListOfValues();
+    }
+
     private void FailedStartReplication(Route addedRoute) throws BalancerException {
-        if(addedRoute.Role == ServerRole.Slave){
+        if (addedRoute.Role == ServerRole.SLAVE) {
             addedRoute.Master.Slaves.remove(addedRoute);
             _clientToServerRouteMap.remove(addedRoute);
-        }
-        else
-        {
+        } else {
             _clientToServerRouteMap.remove(addedRoute);
             _routes.remove(addedRoute);
         }
@@ -179,33 +207,30 @@ public class DynamicBalancer implements IBalancer {
         Iterator<Route> iterator = route.Slaves.iterator();
         while (iterator.hasNext()) {
             Route current = iterator.next();
-            if ((triedRoutes == null || !triedRoutes.contains(current)) && current.IsAlive && current.IsReady && Ping(current))
+            if ((triedRoutes == null || !triedRoutes.contains(current)) && Ping(current) && current.IsAlive && current.IsReady)
                 return current;
         }
 
         return null;
     }
 
-    private void ReplicateInternal(Route from, Route to, int fromId, boolean removeFromCluster) throws BalancerException {
+    private void ReplicateInternal(Route from, Route to, int fromId, int endId, boolean removeFromCluster) throws BalancerException {
         try {
-            _sender.Send(new ReplicateCommand(from, to, fromId, removeFromCluster), from);
+            to.IsReady = false;
+            Query query = new Query();
+            query.Command = new ReplicateCommand(from, to, fromId, endId, removeFromCluster);
+            _sender.Send(query, from);
         } catch (ConnectionException e) {
             throw new BalancerException(e.getMessage(), e);
         }
     }
 
     private boolean ReplicateTo(Route addedRoute) throws BalancerException {
-        if (addedRoute.Role == ServerRole.Slave) {
-            if(!Ping(addedRoute.Master))
-                return false;
-            ReplicateInternal(addedRoute.Master, addedRoute, 0, false);
+        if (addedRoute.Role == ServerRole.SLAVE) {
+            ReplicateInternal(addedRoute.Master, addedRoute, 0, 0, false);
         } else {
             Route from = _routes.getPrevious(addedRoute);
-            if (from.equals(addedRoute))
-                return true;
-            if(!Ping(from))
-                return false;
-            ReplicateInternal(from, addedRoute, addedRoute.Index, false);
+            ReplicateInternal(from, addedRoute, addedRoute.StartIndex, addedRoute.EndIndex, false);
         }
 
         return true;
@@ -215,17 +240,19 @@ public class DynamicBalancer implements IBalancer {
         Route to = _routes.getNext(removedRoute);
         if (to.equals(removedRoute))
             return true;
-        if(!Ping(to))
+        if (!Ping(to))
             return false;
         //throw new BalancerException("Warning! Data can be loss");
-        ReplicateInternal(removedRoute, to, 0, true);
+        ReplicateInternal(removedRoute, to, 0, 0, true);
 
         return true;
     }
 
     private void UpdateServerRole(Route route) throws BalancerException {
         try {
-            _sender.Send(new ServiceCommand(RequestCommand.UPDATE_SERVER, route), route);
+            Query query = new Query();
+            query.Command = new ServiceCommand(RequestCommand.UPDATE_SERVER, route);
+            _sender.Send(query, route);
         } catch (ConnectionException e) {
             throw new BalancerException(e.getMessage(), e);
         }
@@ -239,7 +266,7 @@ public class DynamicBalancer implements IBalancer {
             case ADD_OR_UPDATE:
             case DELETE:
             case UPDATE:
-                if (master.Role == ServerRole.Slave || triedRoutes.contains(master) || !master.IsAlive || !Ping(master))
+                if (master.Role == ServerRole.SLAVE || triedRoutes.contains(master) || !master.IsAlive || !Ping(master))
                     return null;
                 return master;
             case GET:
@@ -266,5 +293,31 @@ public class DynamicBalancer implements IBalancer {
         }
 
         return route;
+    }
+
+    @Override
+    public void run() {
+        _isWorking = true;
+        while (!_stopRequest){
+            Heartbeat();
+            try {
+                Thread.sleep(_heartbeatTimeout);
+            } catch (InterruptedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+        _isWorking = false;
+    }
+
+    public void Close(){
+        _stopRequest = true;
+        do {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }while (_isWorking);
+        //TODO: store balancer data
     }
 }

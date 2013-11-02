@@ -2,6 +2,9 @@ package DatabaseBase.entities;
 
 import DatabaseBase.interfaces.IHashFunction;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -13,8 +16,14 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class HashFunction implements IHashFunction {
     ConcurrentHashMap<Object, Integer> _customHashes;
+    MessageDigest _md;
 
     public HashFunction() {
+        try {
+            _md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         _customHashes = new ConcurrentHashMap<Object, Integer>();
         Recover();
     }
@@ -25,12 +34,17 @@ public class HashFunction implements IHashFunction {
             return 0;
         if(_customHashes.containsKey(key))
             return _customHashes.get(key);
-        return key.hashCode();
+        BigInteger md5 = new BigInteger(_md.digest(key.toString().getBytes()));
+        return Math.abs(md5.intValue());
     }
 
     @Override
     public void associate(Object key, Integer hash) {
         if(key == null)
+            return;
+        if(hash == null)
+            return;
+        if(hash < 0)
             return;
         _customHashes.put(key, hash);
     }

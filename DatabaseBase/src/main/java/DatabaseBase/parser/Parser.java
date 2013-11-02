@@ -77,7 +77,7 @@ public abstract class Parser<TKey extends ISizable, TValue extends ISizable> {
     }
 
     protected CommandNode ParseADD_SERVER(Iterator<Lexem> lexems, String wholeRequest) throws ParserException {
-        String serverHost = ParseNextLiteral(lexems);
+        String serverHost = ParseNextString(lexems);
         String serverRole = ParseNextLiteral(lexems);
         ServerRole role;
         try {
@@ -89,9 +89,9 @@ public abstract class Parser<TKey extends ISizable, TValue extends ISizable> {
         try {
             Route server = new Route(serverHost, role, null);
             Route master = null;
-            if (role == ServerRole.Slave) {
-                String masterHost = ParseNextLiteral(lexems);
-                master = new Route(masterHost, ServerRole.Master, null);
+            if (role == ServerRole.SLAVE) {
+                String masterHost = ParseNextString(lexems);
+                master = new Route(masterHost, ServerRole.MASTER, null);
             }
             server.Master = master;
             CheckEnd(lexems);
@@ -103,10 +103,10 @@ public abstract class Parser<TKey extends ISizable, TValue extends ISizable> {
     }
 
     protected CommandNode ParseREMOVE_SERVER(Iterator<Lexem> lexems, String wholeRequest) throws ParserException {
-        String serverHost = ParseNextLiteral(lexems);
+        String serverHost = ParseNextString(lexems);
 
         try {
-            Route server = new Route(serverHost, ServerRole.Master, null);
+            Route server = new Route(serverHost, ServerRole.MASTER, null);
             CheckEnd(lexems);
 
             return new ServiceCommand(RequestCommand.REMOVE_SERVER, server);
@@ -122,10 +122,10 @@ public abstract class Parser<TKey extends ISizable, TValue extends ISizable> {
     }
 
     protected CommandNode ParsePING(Iterator<Lexem> lexems, String wholeRequest) throws ParserException {
-        String serverHost = ParseNextLiteral(lexems);
+        String serverHost = ParseNextString(lexems);
 
         try {
-            Route server = new Route(serverHost, ServerRole.Master, null);
+            Route server = new Route(serverHost, ServerRole.MASTER, null);
             CheckEnd(lexems);
 
             return new ServiceCommand(RequestCommand.PING, server);
@@ -135,19 +135,21 @@ public abstract class Parser<TKey extends ISizable, TValue extends ISizable> {
     }
 
     protected CommandNode ParseREPLICATE(Iterator<Lexem> lexems, String wholeRequest) throws ParserException {
-        String serverHostFrom = ParseNextLiteral(lexems);
-        String serverHostTo = ParseNextLiteral(lexems);
-        String startIndex = ParseNextLiteral(lexems);
+        String serverHostFrom = ParseNextString(lexems);
+        String serverHostTo = ParseNextString(lexems);
+        String startIndexString = ParseNextLiteral(lexems);
+        String endIndexString = ParseNextLiteral(lexems);
         String removeAfterReplicationCompleted = ParseNextLiteral(lexems);
 
         try {
-            Route serverFrom = new Route(serverHostFrom, ServerRole.Master, null);
-            Route serverTo = new Route(serverHostTo, ServerRole.Master, null);
-            int index = Integer.parseInt(startIndex);
+            Route serverFrom = new Route(serverHostFrom, ServerRole.MASTER, null);
+            Route serverTo = new Route(serverHostTo, ServerRole.MASTER, null);
+            int startIndex = Integer.parseInt(startIndexString);
+            int endIndex = Integer.parseInt(endIndexString);
             boolean remove = Boolean.parseBoolean(removeAfterReplicationCompleted);
             CheckEnd(lexems);
 
-            return new ReplicateCommand(serverFrom, serverTo, index, remove);
+            return new ReplicateCommand(serverFrom, serverTo, startIndex, endIndex, remove);
         } catch (NumberFormatException e) {
             throw new ParserException("startIndex should be integer, removeAfterReplicationCompleted should be boolean");
         } catch (IllegalArgumentException e) {
@@ -156,10 +158,10 @@ public abstract class Parser<TKey extends ISizable, TValue extends ISizable> {
     }
 
     protected CommandNode ParseUPDATE_SERVER(Iterator<Lexem> lexems, String wholeRequest) throws ParserException {
-        String serverHost = ParseNextLiteral(lexems);
+        String serverHost = ParseNextString(lexems);
 
         try {
-            Route server = new Route(serverHost, ServerRole.Master, null);
+            Route server = new Route(serverHost, ServerRole.MASTER, null);
             CheckEnd(lexems);
 
             return new ServiceCommand(RequestCommand.UPDATE_SERVER, server);
@@ -248,6 +250,22 @@ public abstract class Parser<TKey extends ISizable, TValue extends ISizable> {
                     break;
                 case LITERAL:
                     return lexem.Value;
+                default:
+                    throw new ParserException("Unexpected lexemType: " + lexem.LexemType);
+            }
+        }
+    }
+
+    protected String ParseNextString(Iterator<Lexem> lexems) throws ParserException {
+        while (true) {
+            if (!lexems.hasNext())
+                throw new ParserException("Unexpactable count of parameters");
+            Lexem lexem = lexems.next();
+            switch (lexem.LexemType) {
+                case WHITESPACE:
+                    break;
+                case STRING:
+                    return lexem.Value.substring(1, lexem.Value.length() - 1);
                 default:
                     throw new ParserException("Unexpected lexemType: " + lexem.LexemType);
             }

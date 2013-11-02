@@ -3,13 +3,14 @@ package DatabaseClient.api;
 import DatabaseBase.commands.CommandKeyNode;
 import DatabaseBase.commands.CommandSingleNode;
 import DatabaseBase.commands.RequestCommand;
+import DatabaseBase.commands.service.ServiceCommand;
 import DatabaseBase.components.Evaluator;
 import DatabaseBase.components.TcpSender;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Query;
 import DatabaseBase.entities.Route;
-import DatabaseBase.exceptions.*;
-import DatabaseBase.interfaces.IBalancer;
+import DatabaseBase.exceptions.ConnectionException;
+import DatabaseBase.exceptions.EvaluateException;
 import DatabaseBase.interfaces.ISizable;
 import DatabaseBase.parser.Parser;
 import DatabaseBase.utils.ArgumentsHelper;
@@ -23,29 +24,12 @@ import DatabaseBase.utils.ArgumentsHelper;
  */
 public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> extends Evaluator<TKey, TValue> {
     private TcpSender<TKey, TValue> _sender;
-    private IBalancer _balancer;
-    private Parser _parser;
+    private Route _balancer;
 
-    public ClientEvaluator(TcpSender<TKey, TValue> sender, Parser parser, IBalancer balancer) {
+    public ClientEvaluator(TcpSender<TKey, TValue> sender, Parser parser, Route balancer) {
+        super(parser);
         _sender = sender;
-        _parser = parser;
         _balancer = balancer;
-    }
-
-    private void Evaluate(Query tree, EvaluationResult<TKey, TValue> evaluationResult) {
-        evaluationResult.HasReturnResult = true;
-        try {
-            if (tree.Command instanceof CommandKeyNode)
-                Evaluate((CommandKeyNode<TKey>) tree.Command, evaluationResult);
-            else if (tree.Command instanceof CommandSingleNode) {
-                Evaluate((CommandSingleNode) tree.Command, evaluationResult);
-                evaluationResult.HasReturnResult = false;
-            }
-        } catch (EvaluateException evaluateException) {
-            evaluationResult.HasReturnResult = false;
-            evaluationResult.HasError = true;
-            evaluationResult.ErrorDescription = evaluateException.getMessage();
-        }
     }
 
     private void Evaluate(CommandSingleNode command, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
@@ -62,21 +46,33 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         }
     }
 
-    private void Evaluate(CommandKeyNode<TKey> command, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
+    private void EvaluateSend(Query query, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
         evaluationResult.HasReturnResult = false;
         try {
             //TODO: analyze
-            Route route = _balancer.GetRoute(command, null);
-            if(route == null)
-                throw new EvaluateException("Can not execute " + command.GetCommand() + " for a while");
-            EvaluationResult<TKey, TValue> serverEvaluationResult = _sender.Send(command, route);
+            EvaluationResult<TKey, TValue> balancerResult = _sender.Send(query, _balancer);
+            EvaluationResult<TKey, TValue> serverEvaluationResult;
+            if(balancerResult == null)
+                throw new EvaluateException("Balancer " + _balancer + " is not available");
+            if(!balancerResult.HasError && !balancerResult.HasBalancerResult)
+            {
+                Route route = balancerResult.ServiceResult.Route;
+                CommandKeyNode<TKey> command = (CommandKeyNode<TKey>) query.Command;
+                if(route == null)
+                    throw new EvaluateException("Can not execute " + command.GetCommand() + " for a while");
+
+                serverEvaluationResult = _sender.Send(query, route);
+            } else{
+                serverEvaluationResult = balancerResult;
+            }
+
+            evaluationResult.HasBalancerResult = balancerResult.HasBalancerResult;
+            evaluationResult.ServiceResult = balancerResult.ServiceResult;
             evaluationResult.Result = serverEvaluationResult.Result;
             evaluationResult.HasReturnResult = serverEvaluationResult.HasReturnResult;
             evaluationResult.HasError = serverEvaluationResult.HasError;
             evaluationResult.ErrorDescription = serverEvaluationResult.ErrorDescription;
         } catch (ConnectionException e) {
-            throw new EvaluateException(e.getMessage(), e);
-        } catch (BalancerException e) {
             throw new EvaluateException(e.getMessage(), e);
         }
     }
@@ -87,21 +83,42 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
     }
 
     @Override
-    public EvaluationResult<TKey, TValue> Evaluate(String query) {
+    public EvaluationResult<TKey, TValue> Evaluate(Query query) {
         EvaluationResult<TKey, TValue> evaluationResult = new EvaluationResult<TKey, TValue>();
-        evaluationResult.ExecutionString = query;
-        try{
-           Evaluate(_parser.Parse(query), evaluationResult);
-        } catch (LexerException e) {
+        evaluationResult.ExecutionQuery = query;
+        evaluationResult.HasReturnResult = true;
+        if (query == null) {
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;
-            evaluationResult.ErrorDescription = e.getMessage();
-        } catch (ParserException e) {
+            evaluationResult.ErrorDescription = "Null query";
+            return evaluationResult;
+        }
+        if (query.Command == null) {
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;
-            evaluationResult.ErrorDescription = e.getMessage();
+            evaluationResult.ErrorDescription = "Null command";
+            return evaluationResult;
+        }
+
+        try {
+            if (query.Command instanceof CommandKeyNode)
+                EvaluateSend(query, evaluationResult);
+            else if (query.Command instanceof ServiceCommand)
+                EvaluateSend(query, evaluationResult);
+            else if (query.Command instanceof CommandSingleNode) {
+                Evaluate((CommandSingleNode) query.Command, evaluationResult);
+                evaluationResult.HasReturnResult = false;
+            }
+        } catch (EvaluateException evaluateException) {
+            evaluationResult.HasReturnResult = false;
+            evaluationResult.HasError = true;
+            evaluationResult.ErrorDescription = evaluateException.getMessage();
         }
 
         return evaluationResult;
+    }
+
+    @Override
+    public void Close() {
     }
 }

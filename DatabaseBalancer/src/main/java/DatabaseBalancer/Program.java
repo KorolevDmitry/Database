@@ -1,7 +1,6 @@
 package DatabaseBalancer;
 
 import DatabaseBalancer.api.BalancerEvaluator;
-import DatabaseBase.components.ServiceResult;
 import DatabaseBase.components.TcpListener;
 import DatabaseBase.components.TcpSender;
 import DatabaseBase.entities.StringSizable;
@@ -45,13 +44,13 @@ public class Program {
         } finally {
             if(listener != null)
             {
-                listener.Stop();
+                //listener.Stop();
             }
         }
     }
 
     private static IBalancer InitBalancer(HashMap<INameUsageDescriptionPattern, String> arguments) {
-        TcpSender<StringSizable, ServiceResult> tcpSender = new TcpSender<StringSizable, ServiceResult>();
-        return new DynamicBalancer(tcpSender, 0);
+        TcpSender<StringSizable, StringSizable> tcpSender = new TcpSender<StringSizable, StringSizable>();
+        return new DynamicBalancer(tcpSender, 1000);
     }
 }

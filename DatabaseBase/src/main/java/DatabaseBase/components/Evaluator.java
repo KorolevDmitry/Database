@@ -2,8 +2,11 @@ package DatabaseBase.components;
 
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Query;
+import DatabaseBase.exceptions.LexerException;
+import DatabaseBase.exceptions.ParserException;
 import DatabaseBase.interfaces.IEvaluator;
 import DatabaseBase.interfaces.ISizable;
+import DatabaseBase.parser.Parser;
 import DatabaseBase.utils.Observable;
 import DatabaseBase.utils.Observer;
 
@@ -17,10 +20,38 @@ import DatabaseBase.utils.Observer;
 public abstract class Evaluator<TKey extends ISizable, TValue extends ISizable> implements IEvaluator<TKey, TValue> {
     protected Observable<Query> _messageReceived;
     protected Observable<EvaluationResult<TKey, TValue>> _messageExecuted;
+    protected Parser<TKey, TValue> _parser;
 
-    protected Evaluator() {
+    protected Evaluator(Parser<TKey, TValue> parser) {
+        _parser = parser;
         _messageReceived = new Observable<Query>();
         _messageExecuted = new Observable<EvaluationResult<TKey, TValue>>();
+    }
+
+    public EvaluationResult<TKey, TValue> Evaluate(String query) {
+        EvaluationResult<TKey, TValue> evaluationResult;
+        if (query == null) {
+            evaluationResult = new EvaluationResult<TKey, TValue>();
+            evaluationResult.HasReturnResult = false;
+            evaluationResult.HasError = true;
+            evaluationResult.ErrorDescription = "Null query";
+            return evaluationResult;
+        }
+        try {
+            evaluationResult = Evaluate(_parser.Parse(query));
+        } catch (LexerException e) {
+            evaluationResult = new EvaluationResult<TKey, TValue>();
+            evaluationResult.HasReturnResult = false;
+            evaluationResult.HasError = true;
+            evaluationResult.ErrorDescription = e.getMessage();
+        } catch (ParserException e) {
+            evaluationResult = new EvaluationResult<TKey, TValue>();
+            evaluationResult.HasReturnResult = false;
+            evaluationResult.HasError = true;
+            evaluationResult.ErrorDescription = e.getMessage();
+        }
+
+        return evaluationResult;
     }
 
     @Override

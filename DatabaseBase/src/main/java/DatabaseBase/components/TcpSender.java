@@ -1,14 +1,14 @@
 package DatabaseBase.components;
 
-import DatabaseBase.commands.CommandNode;
 import DatabaseBase.entities.EvaluationResult;
+import DatabaseBase.entities.Query;
 import DatabaseBase.entities.Route;
 import DatabaseBase.exceptions.ConnectionException;
 import DatabaseBase.interfaces.ISizable;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -21,19 +21,20 @@ import java.net.UnknownHostException;
  */
 public class TcpSender<TKey extends ISizable, TValue extends ISizable> {
 
-    public EvaluationResult<TKey, TValue> Send(CommandNode command, Route route) throws ConnectionException {
-        if (command == null)
+    public EvaluationResult<TKey, TValue> Send(Query query, Route route, int timeout) throws ConnectionException {
+        if (query == null)
             throw new IllegalArgumentException("command can not be null");
         Socket clientSocket = null;
         try {
             clientSocket = new Socket(route.Host, route.Port);
-            DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-            outToServer.writeBytes(command.toString() + '\n');
+            clientSocket.setSoTimeout(timeout);
+            ObjectOutputStream outToServer = new ObjectOutputStream(clientSocket.getOutputStream());
+            outToServer.writeObject(query);
             ObjectInputStream inFromServer = new ObjectInputStream(clientSocket.getInputStream());
-            EvaluationResult<TKey, TValue> serverEvaluationResult = (EvaluationResult<TKey, TValue>) inFromServer.readObject();
-            if (serverEvaluationResult == null)
+            EvaluationResult<TKey, TValue> result = (EvaluationResult<TKey, TValue>) inFromServer.readObject();
+            if (result == null)
                 throw new ConnectionException("Null answer from: " + route.toString());
-            return serverEvaluationResult;
+            return result;
         } catch (UnknownHostException e) {
             throw new ConnectionException("Unknown host: " + route.toString(), e);
         } catch (IOException e) {
@@ -53,5 +54,9 @@ public class TcpSender<TKey extends ISizable, TValue extends ISizable> {
                 }
             }
         }
+    }
+
+    public EvaluationResult<TKey, TValue> Send(Query query, Route route) throws ConnectionException {
+        return Send(query, route, 0);
     }
 }

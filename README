@@ -3,32 +3,19 @@ Dmitry Korolev, Computer Science Center, 2013
 
 Database designed to use simple key-value (string-string for now) storage.
 
-Solution consists of 3 main parts: Base, Client and Server.
+Solution consists of 3 main parts: Base, Client, Server and Balancer.
 
 =====BASE=====
 Module that consists of common parts for others (exceptions, entities and some components).
-There are next components: Lexer, Parser, Evaluator, Balancer, TransactionLogger, TcpListener, TcpSender.
+There are next components: Lexer, Parser, Evaluator, TransactionLogger, TcpListener, TcpSender.
 -----Lexer-----
 Base implementation for splitting commands on lexemes.
 -----Parser-----
-Abstract class that implements some common methods for client and server parsers.
+Implements logic for parsing client requests.
 -----Evaluator-----
 Abstract class that implements some common methods for client, server and balancer evaluators.
------Balancer-----
-Component is responsible for routing commands between servers.
-For now it resides on client side. Then will be extracted to separate module.
-There are 2 implementations: StaticBalancer (use now) and DynamicBalancer.
-StaticBalancer routes commands based on hash code of key.
-DynamicBalancer features:
-1) pings servers to check its availability;
-2) can add/remove servers and request data replication if needed;
-3) use ConsistentHash to reduce replication data;
-4) can accept and execute commands from command line.
-For now: not added to release. Do not consider any fail scenarios (the only: node can be switched off for a while and then switched on,
-but without any additional replication). In testing...
 -----TransactionLogger-----
 Storage based on DataStorage that stores queries in key/value manner where key is unique id of query.
-For now: not added to release.
 -----TcpListener-----
 Component to listen tcp channel execute commands by given Evaluator and send EvaluationResult back.
 Use additional thread.
@@ -37,10 +24,8 @@ Send requests by tcp channel listen response. Parse it to EvaluationResult and g
 
 =====SERVER=====
 Console application that listen port and communicate with client by tcp channel via TcpListener.
-There are next components: ServerParser, DataStorage, ServerEvaluator.
+There are next components: DataStorage, ServerEvaluator.
 For now: will be added one nore component: ServerEngine, that will accumulate all components.
------ServerParser-----
-Concrete implementation of Parser that interprets string requests to server commands.
 -----DataStorage-----
 KeyValue storage with get, add, addOrUpdate, delete methods.
 There are 2 implementations:
@@ -53,6 +38,7 @@ There are 2 implementations:
                           FileBasedDataStorage synchronously.
 -----ServerEvaluator-----
 Analyse requested command and execute it by redirect request to given DataStorage.
+Also use TcpSender to handle replication requests between servers.
 For now: consider opportunity to reduce switches and move logic of executions to commands.
 ---===USAGE===---
 You can use program with next arguments:
@@ -72,12 +58,10 @@ You can use program with next arguments:
 
 =====CLIENT=====
 Console application that send requests to servers (choose server by Balancer) via TcpSender.
-There are next components: ClientParser, ClientEvaluator.
------ClientParser-----
-Concrete implementation of Parser that interprets string requests to client commands.
+There are next components: ClientEvaluator.
 -----ClientEvaluator-----
 Execute client requests.
-Use Balancer to get route where to send command.
+At first send request to Balancer to get route, than handle request directly to server with data.
 Use TcpSender to send request.
 Use Parser to parse request.
 ---===USAGE===---
@@ -91,3 +75,26 @@ There are number of commands:
         delete {key} - Delete value from storage.
         help - Print list of accessible commands.
         quit - Quit.
+        add_server "{serverHost}" {serverRole} {master} - Add serverHost to cluster. ServerHost - server:port, ServerRole - master/slave, MASTER - serverHost of master node if it is slave.
+        remove_server "{serverHost}" - Remove serverHost from cluster. If it was master - master will be one of slaves.
+        get_servers_list - Return cluster configuration
+        ping "{serverHost}" - Check if serverHost is alive
+        replicate "{serverHostFrom}" "{serverHostTo}" {startIndex} {endIndex} {removeAfterReplicationCompleted} - Replicate data
+        update_server "{serverHost}" - Force update server info about cluster
+
+=====Balancer=====
+Console application that is responsible for routing commands between client and servers.
+There are 2 implementations: StaticBalancer and DynamicBalancer.
+StaticBalancer routes commands based on hash code of key.
+DynamicBalancer features:
+1) pings servers to check its availability (for now once in second);
+2) can add/remove master/slave servers and request data replication if needed;
+3) use ConsistentHash to reduce replication data (master servers in a ring, each of them can contain number of slaves);
+4) can accept and execute commands from command line (for now from client);
+5) can watch and modify ring by adding/removing servers and changing server's index directly (in testing).
+Do not consider any fail scenarios (the only: node can be switched off for a while and then switched on,
+but without any additional replication).
+---===USAGE===---
+You can use program with next arguments:
+        --help - Print description of acceptable arguments
+        --port {port} - Port number to listen requests.

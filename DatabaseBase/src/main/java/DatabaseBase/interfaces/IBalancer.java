@@ -18,6 +18,8 @@ public interface IBalancer {
     void AddServer(Route route) throws BalancerException;
     void RemoveServer(Route route) throws BalancerException;
     void UpdateServer(Route route) throws BalancerException;
-    void Replicate(Route from, Route to, int fromId, boolean removeFromCluster) throws BalancerException;
+    void Replicate(Route from, Route to, int fromId, int endId, boolean removeFromCluster) throws BalancerException;
     boolean Ping(Route clientRoute);
+    List<Route> GetServersList();
+    void Close();
 }

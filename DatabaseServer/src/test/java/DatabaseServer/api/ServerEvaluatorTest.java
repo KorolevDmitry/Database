@@ -6,8 +6,10 @@ import DatabaseBase.commands.CommandSingleNode;
 import DatabaseBase.commands.RequestCommand;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Query;
+import DatabaseBase.entities.Route;
 import DatabaseBase.entities.StringSizable;
 import DatabaseBase.interfaces.IDataStorage;
+import DatabaseBase.mocks.TcpSenderMock;
 import DatabaseBase.parser.Lexer;
 import DatabaseBase.parser.ParserStringString;
 import DatabaseBase.utils.Observer;
@@ -34,7 +36,9 @@ public class ServerEvaluatorTest {
     @Before
     public void setUp() throws IOException {
         IDataStorage<StringSizable, StringSizable> dataStorage = new MemoryBasedDataStorage<StringSizable, StringSizable>();
-        _serverEvaluator = new ServerEvaluator<StringSizable, StringSizable>(dataStorage, new ParserStringString(new Lexer()));
+        Route route = new Route("localhost", 1111);
+        _serverEvaluator = new ServerEvaluator<StringSizable, StringSizable>(dataStorage,
+                new ParserStringString(new Lexer()), route, new TcpSenderMock<StringSizable, StringSizable>());
         _observerQuery = new ObserverQuery();
         _observerEvaluationResult = new ObserverEvaluationResult();
         _serverEvaluator.AddMessageReceivedObserver(_observerQuery);
@@ -46,7 +50,7 @@ public class ServerEvaluatorTest {
         //arrange
 
         //act
-        EvaluationResult<StringSizable, StringSizable> result = _serverEvaluator.Evaluate(null);
+        EvaluationResult<StringSizable, StringSizable> result = _serverEvaluator.Evaluate((Query)null);
 
         //assert
         assertTrue(result.HasError);
@@ -58,10 +62,9 @@ public class ServerEvaluatorTest {
     public void Evaluate_CommandNull_HasError() {
         //arrange
         Query query = new Query();
-        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
-        _serverEvaluator.Evaluate(query, result);
+        EvaluationResult<StringSizable, StringSizable> result = _serverEvaluator.Evaluate(query);
 
         //assert
         assertTrue(result.HasError);
@@ -74,10 +77,9 @@ public class ServerEvaluatorTest {
         //arrange
         Query query = new Query();
         query.Command = new CommandSingleNode(RequestCommand.QUIT);
-        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
-        _serverEvaluator.Evaluate(query, result);
+        EvaluationResult<StringSizable, StringSizable> result = _serverEvaluator.Evaluate(query);
 
         //assert
         assertFalse(result.HasError);
@@ -90,10 +92,9 @@ public class ServerEvaluatorTest {
         //arrange
         Query query = new Query();
         query.Command = new CommandSingleNode(RequestCommand.HELP);
-        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
-        _serverEvaluator.Evaluate(query, result);
+        EvaluationResult<StringSizable, StringSizable> result = _serverEvaluator.Evaluate(query);
 
         //assert
         assertFalse(result.HasError);
@@ -105,10 +106,9 @@ public class ServerEvaluatorTest {
         //arrange
         Query query = new Query();
         query.Command = new CommandSingleNode(RequestCommand.ADD);
-        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
-        _serverEvaluator.Evaluate(query, result);
+        EvaluationResult<StringSizable, StringSizable> result = _serverEvaluator.Evaluate(query);
 
         //assert
         assertTrue(result.HasError);
@@ -120,10 +120,9 @@ public class ServerEvaluatorTest {
         //arrange
         Query query = new Query();
         query.Command = new CommandKeyNode<StringSizable>(RequestCommand.GET, new StringSizable("x"));
-        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
-        _serverEvaluator.Evaluate(query, result);
+        EvaluationResult<StringSizable, StringSizable> result = _serverEvaluator.Evaluate(query);
 
         //assert
         assertFalse(result.HasError);
@@ -137,10 +136,9 @@ public class ServerEvaluatorTest {
         //arrange
         Query query = new Query();
         query.Command = new CommandKeyNode<StringSizable>(RequestCommand.DELETE, new StringSizable("x"));
-        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
-        _serverEvaluator.Evaluate(query, result);
+        EvaluationResult<StringSizable, StringSizable> result = _serverEvaluator.Evaluate(query);
 
         //assert
         assertFalse(result.HasError);
@@ -153,10 +151,9 @@ public class ServerEvaluatorTest {
         //arrange
         Query query = new Query();
         query.Command = new CommandKeyNode<StringSizable>(RequestCommand.ADD, new StringSizable("x"));
-        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
-        _serverEvaluator.Evaluate(query, result);
+        EvaluationResult<StringSizable, StringSizable> result = _serverEvaluator.Evaluate(query);
 
         //assert
         assertTrue(result.HasError);
@@ -168,10 +165,9 @@ public class ServerEvaluatorTest {
         //arrange
         Query query = new Query();
         query.Command = new CommandKeyValueNode<StringSizable, StringSizable>(RequestCommand.ADD, new StringSizable("x"), new StringSizable("x"));
-        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
-        _serverEvaluator.Evaluate(query, result);
+        EvaluationResult<StringSizable, StringSizable> result = _serverEvaluator.Evaluate(query);
 
         //assert
         assertFalse(result.HasError);
@@ -184,10 +180,9 @@ public class ServerEvaluatorTest {
         //arrange
         Query query = new Query();
         query.Command = new CommandKeyValueNode<StringSizable, StringSizable>(RequestCommand.GET, new StringSizable("x"), new StringSizable("x"));
-        EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
 
         //act
-        _serverEvaluator.Evaluate(query, result);
+        EvaluationResult<StringSizable, StringSizable> result = _serverEvaluator.Evaluate(query);
 
         //assert
         assertTrue(result.HasError);
@@ -200,26 +195,26 @@ public class ServerEvaluatorTest {
         assertEquals(query, _observerQuery.ReceivedQuery);
         assertEquals(result, _observerEvaluationResult.ReceivedResult);
     }
+}
 
-    class ObserverQuery implements Observer<Query> {
-        Query ReceivedQuery;
-        boolean Received;
+class ObserverQuery implements Observer<Query> {
+    Query ReceivedQuery;
+    boolean Received;
 
-        @Override
-        public void update(Query data) {
-            ReceivedQuery = data;
-            Received = true;
-        }
+    @Override
+    public void update(Query data) {
+        ReceivedQuery = data;
+        Received = true;
     }
+}
 
-    class ObserverEvaluationResult implements Observer<EvaluationResult<StringSizable, StringSizable>> {
-        EvaluationResult<StringSizable, StringSizable> ReceivedResult;
-        boolean Received;
+class ObserverEvaluationResult implements Observer<EvaluationResult<StringSizable, StringSizable>> {
+    EvaluationResult<StringSizable, StringSizable> ReceivedResult;
+    boolean Received;
 
-        @Override
-        public void update(EvaluationResult<StringSizable, StringSizable> data) {
-            ReceivedResult = data;
-            Received = true;
-        }
+    @Override
+    public void update(EvaluationResult<StringSizable, StringSizable> data) {
+        ReceivedResult = data;
+        Received = true;
     }
 }

@@ -1,16 +1,18 @@
 package DatabaseBase.components;
 
 import DatabaseBase.entities.EvaluationResult;
+import DatabaseBase.entities.Query;
 import DatabaseBase.interfaces.ISizable;
 
-import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,8 +26,8 @@ public class TcpListener<TKey extends ISizable, TValue extends ISizable> impleme
     private int _port;
 
     private Thread _thread;
-    private static boolean _stopRequest;
-    private static boolean _isWorking;
+    private boolean _stopRequest;
+    private boolean _isWorking;
 
     public TcpListener(Evaluator<TKey, TValue> serverEvaluator, int port) {
         _Evaluator = serverEvaluator;
@@ -41,19 +43,19 @@ public class TcpListener<TKey extends ISizable, TValue extends ISizable> impleme
 
     public void Stop() {
         _stopRequest = true;
-        while (_isWorking) {
+        do {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return;
             }
-        }
+        } while (_isWorking);
     }
 
     @Override
     public void run() {
-        String clientSentence;
+        Query query;
         ServerSocket welcomeSocket = null;
         EvaluationResult result = null;
         try {
@@ -63,13 +65,12 @@ public class TcpListener<TKey extends ISizable, TValue extends ISizable> impleme
                 Socket connectionSocket = null;
                 try {
                     connectionSocket = welcomeSocket.accept();
-                    BufferedReader inFromClient =
-                            new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-                    clientSentence = inFromClient.readLine();
-                    if (clientSentence == null || clientSentence.isEmpty())
+                    ObjectInputStream inFromClient = new ObjectInputStream(connectionSocket.getInputStream());
+                    query = (Query) inFromClient.readObject();
+                    if (query == null)
                         continue;
-                    System.out.println(_port + " received: " + clientSentence);
-                    result = _Evaluator.Evaluate(clientSentence);
+                    System.out.println(new Date().toString() + " " + _port + " received: " + query);
+                    result = _Evaluator.Evaluate(query);
                     if (result.Quit) {
                         Stop();
                     }
@@ -83,6 +84,12 @@ public class TcpListener<TKey extends ISizable, TValue extends ISizable> impleme
                     continue;
                 } catch (SocketException e) {
                     e.printStackTrace();
+                    continue;
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    continue;
+                } catch (EOFException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     continue;
                 } finally {
                     if (connectionSocket != null) {
@@ -104,7 +111,6 @@ public class TcpListener<TKey extends ISizable, TValue extends ISizable> impleme
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            _isWorking = false;
             if (welcomeSocket != null) {
                 try {
                     welcomeSocket.close();
@@ -112,6 +118,11 @@ public class TcpListener<TKey extends ISizable, TValue extends ISizable> impleme
                     e.printStackTrace();
                 }
             }
+            if (_Evaluator != null) {
+                _Evaluator.Close();
+                _Evaluator = null;
+            }
+            _isWorking = false;
         }
     }
 }

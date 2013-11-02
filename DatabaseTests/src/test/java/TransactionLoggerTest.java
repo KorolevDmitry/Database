@@ -1,3 +1,5 @@
+import DatabaseBase.commands.CommandSingleNode;
+import DatabaseBase.commands.RequestCommand;
 import DatabaseBase.components.TransactionLogger;
 import DatabaseBase.entities.IntegerSizable;
 import DatabaseBase.entities.Query;
@@ -30,6 +32,7 @@ public class TransactionLoggerTest {
     public void AddTransaction_Default_Added() throws IOException, TransactionException {
         //arrange
         Query query = new Query();
+        query.Command = new CommandSingleNode(RequestCommand.ADD);
 
         //act
         _transactionLogger.AddTransaction(query);
@@ -43,6 +46,7 @@ public class TransactionLoggerTest {
     public void CommitTransaction_QueryNotAdded_TransactionException() throws IOException {
         //arrange
         Query query = new Query();
+        query.Command = new CommandSingleNode(RequestCommand.ADD);
         boolean hasException = false;
 
         //act
@@ -60,12 +64,13 @@ public class TransactionLoggerTest {
     public void GetCommittedTransactionsAfter_Uncommitted_ZeroSize() throws IOException, TransactionException {
         //arrange
         Query query = new Query();
+        query.Command = new CommandSingleNode(RequestCommand.ADD);
 
         //act
         _transactionLogger.AddTransaction(query);
 
         //assert
-        List<Query> transactions = _transactionLogger.GetCommittedTransactionsAfter(0);
+        List<Query> transactions = _transactionLogger.GetCommittedTransactionsAfter(0, 0);
         assertEquals(0, transactions.size());
     }
 
@@ -73,6 +78,7 @@ public class TransactionLoggerTest {
     public void GetUnCommittedTransactions_QueryNotAdded_TransactionException() throws IOException {
         //arrange
         Query query = new Query();
+        query.Command = new CommandSingleNode(RequestCommand.ADD);
         boolean hasException = false;
 
         //act
@@ -92,13 +98,14 @@ public class TransactionLoggerTest {
     public void GetCommittedTransactionsAfter_AddCommit_Committed() throws IOException, TransactionException {
         //arrange
         Query query = new Query();
+        query.Command = new CommandSingleNode(RequestCommand.ADD);
 
         //act
         _transactionLogger.AddTransaction(query);
         _transactionLogger.CommitTransaction(query, true);
 
         //assert
-        List<Query> transactions = _transactionLogger.GetCommittedTransactionsAfter(0);
+        List<Query> transactions = _transactionLogger.GetCommittedTransactionsAfter(0, 0);
         assertEquals(query, transactions.get(0));
     }
 
@@ -106,6 +113,7 @@ public class TransactionLoggerTest {
     public void GetUnCommittedTransactions_AddCommit_ZeroSize() throws IOException, TransactionException {
         //arrange
         Query query = new Query();
+        query.Command = new CommandSingleNode(RequestCommand.ADD);
 
         //act
         _transactionLogger.AddTransaction(query);

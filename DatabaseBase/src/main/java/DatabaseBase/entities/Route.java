@@ -20,7 +20,8 @@ public class Route implements ISizable {
     public Route Master;
     public boolean IsAlive;
     public boolean IsReady;
-    public Integer Index;
+    public Integer StartIndex;
+    public Integer EndIndex;
 
     public Route(String serverHost, ServerRole role, Route master) {
         if (serverHost == null) {
@@ -42,7 +43,7 @@ public class Route implements ISizable {
     }
 
     public Route(String host, int port) {
-        this(host, port, ServerRole.Master, null);
+        this(host, port, ServerRole.MASTER, null);
     }
 
     public Route(String host, int port, ServerRole role, Route master) {
@@ -57,7 +58,9 @@ public class Route implements ISizable {
 
     @Override
     public String toString() {
-        return Host + ":" + Port;
+        return Host + ":" + Port + (IsAlive ? " alive" : " not available")
+                + (IsReady ? " ready" : " busy") + " StartIndex:" + StartIndex + " EndIndex:" + EndIndex
+                + (Master == null ? "" : (" Master:" + Master.Host + ":" + Master.Port));
     }
 
     @Override

@@ -7,10 +7,9 @@ import DatabaseBase.commands.service.ServiceCommand;
 import DatabaseBase.components.Evaluator;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Query;
+import DatabaseBase.entities.ServiceResult;
 import DatabaseBase.exceptions.BalancerException;
 import DatabaseBase.exceptions.EvaluateException;
-import DatabaseBase.exceptions.LexerException;
-import DatabaseBase.exceptions.ParserException;
 import DatabaseBase.interfaces.IBalancer;
 import DatabaseBase.interfaces.ISizable;
 import DatabaseBase.parser.Parser;
@@ -23,61 +22,41 @@ import DatabaseBase.parser.Parser;
  * To change this template use File | Settings | File Templates.
  */
 public class BalancerEvaluator<TKey extends ISizable, TValue extends ISizable> extends Evaluator<TKey, TValue> {
-    Parser<TKey, TValue> _parser;
     IBalancer _balancer;
+    int _currentId;
 
     public BalancerEvaluator(IBalancer balanser, Parser<TKey, TValue> parser) {
+        super(parser);
         _balancer = balanser;
-        _parser = parser;
     }
 
     @Override
-    public EvaluationResult<TKey, TValue> Evaluate(String query) {
+    public EvaluationResult<TKey, TValue> Evaluate(Query query) {
         EvaluationResult<TKey, TValue> evaluationResult = new EvaluationResult<TKey, TValue>();
-        evaluationResult.ExecutionString = query;
+        evaluationResult.ExecutionQuery = query;
+        evaluationResult.HasReturnResult = true;
+        evaluationResult.ExecutionQuery.UniqueId = ++ _currentId;
         if (query == null) {
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;
             evaluationResult.ErrorDescription = "Null query";
             return evaluationResult;
         }
-        try {
-            Evaluate(_parser.Parse(query), evaluationResult);
-        } catch (LexerException e) {
-            evaluationResult.HasReturnResult = false;
-            evaluationResult.HasError = true;
-            evaluationResult.ErrorDescription = e.getMessage();
-        } catch (ParserException e) {
-            evaluationResult.HasReturnResult = false;
-            evaluationResult.HasError = true;
-            evaluationResult.ErrorDescription = e.getMessage();
-        }
-
-        return evaluationResult;
-    }
-
-    void Evaluate(Query tree, EvaluationResult<TKey, TValue> evaluationResult) {
-        evaluationResult.HasReturnResult = true;
-        if (tree == null) {
-            evaluationResult.HasReturnResult = false;
-            evaluationResult.HasError = true;
-            evaluationResult.ErrorDescription = "Null query";
-            return;
-        }
-        if (tree.Command == null) {
+        if (query.Command == null) {
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;
             evaluationResult.ErrorDescription = "Null command";
-            return;
+            return evaluationResult;
         }
+
         try {
-            QueryExecutionStarted(tree);
-            if (tree.Command instanceof ServiceCommand)
-                EvaluateServiceCommand((ServiceCommand) tree.Command, evaluationResult);
-            else if (tree.Command instanceof CommandKeyNode)
-                EvaluateDatabaseCommand((CommandKeyNode) tree.Command, evaluationResult);
-            else if (tree.Command instanceof CommandSingleNode) {
-                EvaluateInternalCommand((CommandSingleNode) tree.Command, evaluationResult);
+            QueryExecutionStarted(query);
+            if (query.Command instanceof ServiceCommand)
+                EvaluateServiceCommand((ServiceCommand) query.Command, evaluationResult);
+            else if (query.Command instanceof CommandKeyNode)
+                EvaluateDatabaseCommand((CommandKeyNode) query.Command, evaluationResult);
+            else if (query.Command instanceof CommandSingleNode) {
+                EvaluateInternalCommand((CommandSingleNode) query.Command, evaluationResult);
             }
             QueryExecutionEnded(evaluationResult);
         } catch (EvaluateException evaluateException) {
@@ -85,10 +64,23 @@ public class BalancerEvaluator<TKey extends ISizable, TValue extends ISizable> e
             evaluationResult.HasError = true;
             evaluationResult.ErrorDescription = evaluateException.getMessage();
         }
+
+        return evaluationResult;
+    }
+
+    @Override
+    public void Close() {
+        if(_balancer != null)
+        {
+            _balancer.Close();
+            _balancer = null;
+        }
     }
 
     private void EvaluateServiceCommand(ServiceCommand command, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
         try {
+            evaluationResult.HasReturnResult = false;
+            evaluationResult.HasBalancerResult = true;
             switch (command.GetCommand()) {
                 case ADD_SERVER:
                     _balancer.AddServer(command.Route);
@@ -104,19 +96,27 @@ public class BalancerEvaluator<TKey extends ISizable, TValue extends ISizable> e
                     break;
                 case REPLICATE:
                     ReplicateCommand replicateCommand = (ReplicateCommand) command;
-                    _balancer.Replicate(replicateCommand.Route, replicateCommand.ToRoute, replicateCommand.StartIndex, replicateCommand.RemoveFromCluster);
+                    _balancer.Replicate(replicateCommand.Route, replicateCommand.ToRoute, replicateCommand.StartIndex, replicateCommand.EndIndex, replicateCommand.RemoveFromCluster);
+                    break;
+                case GET_SERVERS_LIST:
+                    evaluationResult.HasReturnResult = true;
+                    evaluationResult.ServiceResult = new ServiceResult();
+                    evaluationResult.ServiceResult.Servers = _balancer.GetServersList();
                     break;
                 default:
-                    throw new EvaluateException("Unexpected requestCommand in SingleNode: " + command.GetCommand());
+                    throw new EvaluateException("Unexpected requestCommand in ServiceCommand: " + command.GetCommand());
             }
         } catch (BalancerException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new EvaluateException(e.getMessage(), e);
         }
     }
 
     private void EvaluateDatabaseCommand(CommandKeyNode command, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
         try {
-            evaluationResult.Route = _balancer.GetRoute(command, null);
+            evaluationResult.HasBalancerResult = false;
+            evaluationResult.HasReturnResult = true;
+            evaluationResult.ServiceResult = new ServiceResult();
+            evaluationResult.ServiceResult.Route = _balancer.GetRoute(command, null);
         } catch (BalancerException e) {
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;
@@ -125,6 +125,7 @@ public class BalancerEvaluator<TKey extends ISizable, TValue extends ISizable> e
     }
 
     private void EvaluateInternalCommand(CommandSingleNode command, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
+        evaluationResult.HasBalancerResult = true;
         switch (command.GetCommand()) {
             case QUIT:
                 //TODO: implement
@@ -134,10 +135,6 @@ public class BalancerEvaluator<TKey extends ISizable, TValue extends ISizable> e
                 break;
             case HELP:
                 PrintHelp();
-                break;
-            case GET_SERVERS_LIST:
-                evaluationResult.HasReturnResult = true;
-                //TODO: implement
                 break;
             default:
                 throw new EvaluateException("Unexpected requestCommand in SingleNode: " + command.GetCommand());

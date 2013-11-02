@@ -8,6 +8,6 @@ package DatabaseBase.entities;
  * To change this template use File | Settings | File Templates.
  */
 public enum  ServerRole {
-    Master,
-    Slave
+    MASTER,
+    SLAVE
 }

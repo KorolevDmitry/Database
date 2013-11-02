@@ -1,5 +1,7 @@
 package DatabaseBase.components;
 
+import DatabaseBase.commands.CommandKeyNode;
+import DatabaseBase.entities.HashFunction;
 import DatabaseBase.entities.IntegerSizable;
 import DatabaseBase.entities.Query;
 import DatabaseBase.entities.WrappedKeyValue;
@@ -8,6 +10,7 @@ import DatabaseBase.interfaces.IDataStorage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,6 +41,7 @@ public class TransactionLogger {
     public void CommitTransaction(Query query, boolean success) throws TransactionException {
         try {
             query.Completed = true;
+            query.Success = success;
             IntegerSizable key = new IntegerSizable(query.UniqueId);
             WrappedKeyValue<IntegerSizable, Query> value = _log.Get(key);
             if (value == null || value.IsDeleted)
@@ -61,17 +65,31 @@ public class TransactionLogger {
         return unCommittedElements;
     }
 
-    public List<Query> GetCommittedTransactionsAfter(int id) throws IOException {
+    public List<Query> GetCommittedTransactionsAfter(int startId, int endId) throws IOException {
         //TODO: Implement in different way
+        HashFunction hashFunction = new HashFunction();
         List<WrappedKeyValue<IntegerSizable, Query>> elements = _log.GetElements();
-        List<Query> unCommittedElements = new ArrayList<Query>();
+        Collections.sort(elements);
+        List<Query> committedElements = new ArrayList<Query>();
         for (int i = 0; i < elements.size(); ++i) {
             WrappedKeyValue<IntegerSizable, Query> element = elements.get(i);
-            if (!element.IsDeleted && (element.Value != null) && element.Value.Completed && element.Value.UniqueId > id) {
-                unCommittedElements.add(element.Value);
+            if (!element.IsDeleted && (element.Value != null) && element.Value.Completed) {
+                if(startId == endId)
+                {
+                    committedElements.add(element.Value);
+                }
+                else if (element.Value.Command instanceof CommandKeyNode) {
+                    int hash = hashFunction.hash(((CommandKeyNode) element.Value.Command).Key);
+                    if (hash >= startId && hash <= endId) {
+                        committedElements.add(element.Value);
+                    }
+                }
             }
         }
-        return unCommittedElements;
+        return committedElements;
+    }
+
+    public void Close() {
     }
 
     private int GetCurrentId() throws IOException {

@@ -1,6 +1,8 @@
 package DatabaseServer;
 
 import DatabaseBase.components.TcpListener;
+import DatabaseBase.components.TcpSender;
+import DatabaseBase.entities.Route;
 import DatabaseBase.entities.StringSizable;
 import DatabaseBase.interfaces.IDataStorage;
 import DatabaseBase.interfaces.INameUsageDescriptionPattern;
@@ -106,7 +108,9 @@ public class Program {
             System.out.println("Database initialized.");
             InitTestData(storage, arguments);
             ParserStringString parser = new ParserStringString(new Lexer());
-            ServerEvaluator<StringSizable, StringSizable> evaluator = new ServerEvaluator<StringSizable, StringSizable>(storage, parser);
+            Route route = new Route("localhost", port);
+            TcpSender<StringSizable, StringSizable> sender = new TcpSender<StringSizable, StringSizable>();
+            ServerEvaluator<StringSizable, StringSizable> evaluator = new ServerEvaluator<StringSizable, StringSizable>(storage, parser, route, sender);
             TcpListener<StringSizable, StringSizable> listener = new TcpListener<StringSizable, StringSizable>(evaluator, port);
             listener.Start();
         } catch (IllegalArgumentException exception) {

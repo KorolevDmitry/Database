@@ -14,6 +14,7 @@ public class Query implements ISizable {
     public CommandNode Command;
     public Integer UniqueId = 0;
     public boolean Completed;
+    public boolean Success;
 
 
     @Override
@@ -33,7 +34,9 @@ public class Query implements ISizable {
             return false;
         if(!(obj instanceof Query))
             return false;
-        return (UniqueId == ((Query)obj).UniqueId);
+        if(UniqueId == null)
+            return ((Query)obj).UniqueId == null;
+        return UniqueId.equals(((Query)obj).UniqueId);
     }
 
     @Override

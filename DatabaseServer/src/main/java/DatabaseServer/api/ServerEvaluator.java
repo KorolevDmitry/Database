@@ -3,16 +3,15 @@ package DatabaseServer.api;
 import DatabaseBase.commands.CommandKeyNode;
 import DatabaseBase.commands.CommandKeyValueNode;
 import DatabaseBase.commands.CommandSingleNode;
+import DatabaseBase.commands.RequestCommand;
+import DatabaseBase.commands.service.ReplicateCommand;
+import DatabaseBase.commands.service.ServiceCommand;
 import DatabaseBase.components.Evaluator;
+import DatabaseBase.components.ReplicationQueue;
+import DatabaseBase.components.TcpSender;
 import DatabaseBase.components.TransactionLogger;
-import DatabaseBase.entities.EvaluationResult;
-import DatabaseBase.entities.IntegerSizable;
-import DatabaseBase.entities.Query;
-import DatabaseBase.entities.WrappedKeyValue;
-import DatabaseBase.exceptions.EvaluateException;
-import DatabaseBase.exceptions.LexerException;
-import DatabaseBase.exceptions.ParserException;
-import DatabaseBase.exceptions.TransactionException;
+import DatabaseBase.entities.*;
+import DatabaseBase.exceptions.*;
 import DatabaseBase.interfaces.IDataStorage;
 import DatabaseBase.interfaces.ISizable;
 import DatabaseBase.parser.Parser;
@@ -20,6 +19,8 @@ import DatabaseServer.dataStorage.MemoryBasedDataStorage;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,67 +31,53 @@ import java.security.InvalidKeyException;
  */
 public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> extends Evaluator<TKey, TValue> {
     IDataStorage<TKey, TValue> _dataStorage;
-    Parser _parser;
     TransactionLogger _transactionLogger;
+    ReplicationQueue _replicationQueue;
+    Route _current;
+    boolean _isReadyToRemove;
 
-    public ServerEvaluator(IDataStorage<TKey, TValue> dataStorage, Parser parser) throws IOException {
-        this(dataStorage, parser, new TransactionLogger(new MemoryBasedDataStorage<IntegerSizable, Query>()));
+    public ServerEvaluator(IDataStorage<TKey, TValue> dataStorage, Parser parser, Route current, TcpSender<TKey, TValue> sender) throws IOException {
+        this(dataStorage, parser, current, sender, new TransactionLogger(new MemoryBasedDataStorage<IntegerSizable, Query>()));
     }
 
-    public ServerEvaluator(IDataStorage<TKey, TValue> dataStorage, Parser parser, TransactionLogger transactionLogger) {
+    public ServerEvaluator(IDataStorage<TKey, TValue> dataStorage, Parser parser, Route current, TcpSender<TKey, TValue> sender, TransactionLogger transactionLogger) {
+        super(parser);
         _dataStorage = dataStorage;
-        _parser = parser;
         _transactionLogger = transactionLogger;
+        _current = current;
+        _replicationQueue = new ReplicationQueue(sender);
+        _current.IsReady = false;
+        _current.IsAlive = true;
     }
 
     @Override
-    public EvaluationResult Evaluate(String query) {
+    public EvaluationResult Evaluate(Query query) {
         EvaluationResult<TKey, TValue> evaluationResult = new EvaluationResult<TKey, TValue>();
-        evaluationResult.ExecutionString = query;
+        evaluationResult.ExecutionQuery = query;
+        evaluationResult.HasReturnResult = true;
         if (query == null) {
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;
             evaluationResult.ErrorDescription = "Null query";
             return evaluationResult;
         }
-        try {
-            Evaluate(_parser.Parse(query), evaluationResult);
-        } catch (LexerException e) {
-            evaluationResult.HasReturnResult = false;
-            evaluationResult.HasError = true;
-            evaluationResult.ErrorDescription = e.getMessage();
-        } catch (ParserException e) {
-            evaluationResult.HasReturnResult = false;
-            evaluationResult.HasError = true;
-            evaluationResult.ErrorDescription = e.getMessage();
-        }
-
-        return evaluationResult;
-    }
-
-    void Evaluate(Query tree, EvaluationResult<TKey, TValue> evaluationResult) {
-        evaluationResult.ExecutionQuery = tree;
-        evaluationResult.HasReturnResult = true;
-        if (tree == null) {
-            evaluationResult.HasReturnResult = false;
-            evaluationResult.HasError = true;
-            evaluationResult.ErrorDescription = "Null query";
-            return;
-        }
-        if (tree.Command == null) {
+        if (query.Command == null) {
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;
             evaluationResult.ErrorDescription = "Null command";
-            return;
+            return evaluationResult;
         }
+
         try {
-            QueryExecutionStarted(tree);
-            if (tree.Command instanceof CommandKeyValueNode)
-                Evaluate((CommandKeyValueNode<TKey, TValue>) tree.Command, evaluationResult);
-            else if (tree.Command instanceof CommandKeyNode)
-                Evaluate((CommandKeyNode<TKey>) tree.Command, evaluationResult);
-            else if (tree.Command instanceof CommandSingleNode) {
-                Evaluate((CommandSingleNode) tree.Command, evaluationResult);
+            QueryExecutionStarted(query);
+            if (query.Command instanceof ServiceCommand)
+                EvaluateService((ServiceCommand) query.Command, evaluationResult);
+            else if (query.Command instanceof CommandKeyValueNode)
+                Evaluate((CommandKeyValueNode<TKey, TValue>) query.Command, evaluationResult);
+            else if (query.Command instanceof CommandKeyNode)
+                Evaluate((CommandKeyNode<TKey>) query.Command, evaluationResult);
+            else if (query.Command instanceof CommandSingleNode) {
+                Evaluate((CommandSingleNode) query.Command, evaluationResult);
             }
         } catch (EvaluateException evaluateException) {
             evaluationResult.HasReturnResult = false;
@@ -100,13 +87,34 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;
             evaluationResult.ErrorDescription = e.getMessage();
-        }
-        finally {
+        } finally {
             try {
                 QueryExecutionEnded(evaluationResult);
             } catch (TransactionException e) {
                 e.printStackTrace();
             }
+        }
+
+        return evaluationResult;
+    }
+
+    @Override
+    public void Close() {
+        if (_dataStorage != null) {
+            try {
+                _dataStorage.Close();
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            _dataStorage = null;
+        }
+        if (_replicationQueue != null) {
+            _replicationQueue.Stop();
+            _replicationQueue = null;
+        }
+        if (_transactionLogger != null) {
+            _transactionLogger.Close();
+            _transactionLogger = null;
         }
     }
 
@@ -198,6 +206,94 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
 
     private void QueryExecutionEnded(EvaluationResult<TKey, TValue> result) throws TransactionException {
         _transactionLogger.CommitTransaction(result.ExecutionQuery, !result.HasError);
+        RequestCommand command = result.ExecutionQuery.Command.GetCommand();
+        if (!result.HasError && (command == RequestCommand.ADD || command == RequestCommand.ADD_OR_UPDATE ||
+                command == RequestCommand.UPDATE || command == RequestCommand.DELETE)) {
+            for (int i = 0; i < _current.Slaves.size(); i++) {
+                try {
+                    SendReplicate(result.ExecutionQuery, _current.Slaves.get(i), false, result);
+                } catch (ConnectionException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+        }
         _messageExecuted.notifyObservers(result);
+    }
+
+    private void EvaluateService(ServiceCommand command, EvaluationResult<TKey, TValue> evaluationResult) {
+        if (command instanceof ReplicateCommand)
+            EvaluateReplication((ReplicateCommand) command, evaluationResult);
+        else if (command.GetCommand() == RequestCommand.PING) {
+            EvaluatePing(evaluationResult);
+        } else if (command.GetCommand() == RequestCommand.UPDATE_SERVER) {
+            EvaluateUpdateServer(command, evaluationResult);
+        }
+    }
+
+    private void EvaluateReplication(ReplicateCommand command, EvaluationResult<TKey, TValue> evaluationResult) {
+        if (command.ToRoute.equals(_current)) {
+            if (!command.Route.equals(_current)) {
+                _current.IsReady = false;
+                for (int i = 0; i < command.Queries.size(); i++) {
+                    Evaluate(command.Queries.get(i));
+                }
+                _current.IsReady = command.IsLast;
+            } else {
+                _current.IsReady = true;
+            }
+        } else if (command.Route.equals(_current)) {
+            try {
+                List<Query> queriesToReplicate = _transactionLogger.GetCommittedTransactionsAfter(command.StartIndex,
+                        command.EndIndex);
+                command.Queries = new ArrayList<Query>();
+                for (int i = 0; i < queriesToReplicate.size(); i++) {
+                    Query query = queriesToReplicate.get(i);
+                    if (query.Success && (query.Command.GetCommand() == RequestCommand.ADD ||
+                            query.Command.GetCommand() == RequestCommand.UPDATE ||
+                            query.Command.GetCommand() == RequestCommand.ADD_OR_UPDATE ||
+                            query.Command.GetCommand() == RequestCommand.DELETE)) {
+                        command.Queries.add(query);
+                    }
+                }
+                command.IsLast = true;
+                ProcessReplicate(command, true, evaluationResult);
+                _isReadyToRemove = command.RemoveFromCluster;
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+    }
+
+    private void EvaluatePing(EvaluationResult<TKey, TValue> evaluationResult) {
+        evaluationResult.HasReturnResult = true;
+        evaluationResult.ServiceResult = new ServiceResult();
+        evaluationResult.ServiceResult.IsReady = _current.IsReady;
+        evaluationResult.ServiceResult.IsAlive = _current.IsAlive;
+        evaluationResult.ServiceResult.ReadyToBeRemoved = _isReadyToRemove;
+    }
+
+    private void EvaluateUpdateServer(ServiceCommand command, EvaluationResult<TKey, TValue> evaluationResult) {
+        boolean isReady = _current.IsReady;
+        boolean isAlive = _current.IsAlive;
+        _current = command.Route;
+        evaluationResult.ServiceResult = new ServiceResult();
+        evaluationResult.ServiceResult.IsAlive = isAlive;
+        evaluationResult.ServiceResult.IsReady = isReady;
+    }
+
+    private void SendReplicate(Query query, Route route, boolean sync, EvaluationResult<TKey, TValue> evaluationResult) throws ConnectionException {
+        ReplicateCommand command = new ReplicateCommand(_current, route, 0, 0, false);
+        command.Queries = new ArrayList<Query>();
+        command.Queries.add(query);
+        command.IsLast = true;
+        ProcessReplicate(command, sync, evaluationResult);
+    }
+
+    private void ProcessReplicate(ReplicateCommand command, boolean sync, EvaluationResult<TKey, TValue> evaluationResult) {
+        if (sync) {
+            _replicationQueue.ExecuteSync(command);
+        } else {
+            _replicationQueue.AddToExecution(command);
+        }
     }
 }

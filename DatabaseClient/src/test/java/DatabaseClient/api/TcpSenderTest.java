@@ -1,26 +1,22 @@
 package DatabaseClient.api;
 
 import DatabaseBase.commands.CommandKeyNode;
+import DatabaseBase.commands.RequestCommand;
 import DatabaseBase.components.StaticBalancer;
 import DatabaseBase.components.TcpSender;
 import DatabaseBase.entities.EvaluationResult;
+import DatabaseBase.entities.Query;
 import DatabaseBase.entities.Route;
 import DatabaseBase.entities.StringSizable;
 import DatabaseBase.exceptions.ConnectionException;
-import DatabaseBase.commands.RequestCommand;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,7 +31,7 @@ public class TcpSenderTest implements Runnable {
     private final String _server = _serverHost + ":" + _serverPort;
     TcpSender<StringSizable, StringSizable> _sender;
     StaticBalancer _balancer;
-    private static String _messageReceivedOnServer;
+    private static Query _messageReceivedOnServer;
     private Thread _listenerThread;
 
     @Before
@@ -72,12 +68,14 @@ public class TcpSenderTest implements Runnable {
     @Test
     public void Send_NobodyListenTo_ConnectionException() throws Exception {
         //arrange
+        Query query = new Query();
         CommandKeyNode<StringSizable> command = new CommandKeyNode<StringSizable>(RequestCommand.ADD, new StringSizable(""));
+        query.Command = command;
         boolean hasException = false;
 
         //act
         try {
-            _sender.Send(command, _balancer.GetRoute(command, null));
+            _sender.Send(query, _balancer.GetRoute(command, null));
         } catch (ConnectionException e) {
             hasException = true;
         }
@@ -89,21 +87,23 @@ public class TcpSenderTest implements Runnable {
     @Test
     public void Send_Listening_ConnectionException() throws Exception {
         //arrange
+        Query query = new Query();
         String message = "test";
         CommandKeyNode<StringSizable> command = new CommandKeyNode<StringSizable>(RequestCommand.ADD, new StringSizable(message));
+        query.Command = command;
         boolean hasException = false;
         StartListen();
 
         //act
         try {
-            _sender.Send(command, _balancer.GetRoute(command, null));
+            _sender.Send(query, _balancer.GetRoute(command, null));
         } catch (ConnectionException e) {
             hasException = true;
         }
 
         //assert
         assertFalse(hasException);
-        assertEquals(command.toString(), _messageReceivedOnServer);
+        assertEquals(query, _messageReceivedOnServer);
     }
 
     @Override
@@ -112,9 +112,8 @@ public class TcpSenderTest implements Runnable {
         try {
             welcomeSocket = new ServerSocket(_serverPort);
             Socket connectionSocket = welcomeSocket.accept();
-            BufferedReader inFromClient =
-                    new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-            _messageReceivedOnServer = inFromClient.readLine();
+            ObjectInputStream inFromClient = new ObjectInputStream(connectionSocket.getInputStream());
+            _messageReceivedOnServer = (Query) inFromClient.readObject();
             ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
             outToClient.writeObject(new EvaluationResult<StringSizable, StringSizable>());
             connectionSocket.shutdownInput();
@@ -122,6 +121,8 @@ public class TcpSenderTest implements Runnable {
             connectionSocket.close();
             welcomeSocket.close();
         } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }

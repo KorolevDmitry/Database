@@ -1,6 +1,8 @@
-package DatabaseBase.components;
+package DatabaseBase.entities;
 
 import DatabaseBase.interfaces.ISizable;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,6 +15,8 @@ public class ServiceResult implements ISizable {
     public boolean IsAlive;
     public boolean IsReady;
     public boolean ReadyToBeRemoved;
+    public List<Route> Servers;
+    public Route Route;
 
     @Override
     public long GetSize() {

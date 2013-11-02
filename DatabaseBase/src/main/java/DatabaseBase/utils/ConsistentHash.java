@@ -2,9 +2,7 @@ package DatabaseBase.utils;
 
 import DatabaseBase.interfaces.IHashFunction;
 
-import java.util.Collection;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -75,5 +73,10 @@ public class ConsistentHash<T> {
 
     public int getIndex(T node){
         return _hashFunction.hash(node);
+    }
+
+    public List<T> getListOfValues()
+    {
+        return new ArrayList<T>(_circle.values());
     }
 }
