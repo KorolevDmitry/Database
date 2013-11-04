@@ -78,9 +78,17 @@ public class TransactionLogger {
                 {
                     committedElements.add(element.Value);
                 }
-                else if (element.Value.Command instanceof CommandKeyNode) {
+                else if(startId < endId && element.Value.Command instanceof CommandKeyNode)
+                {
                     int hash = hashFunction.hash(((CommandKeyNode) element.Value.Command).Key);
                     if (hash >= startId && hash <= endId) {
+                        committedElements.add(element.Value);
+                    }
+                }
+                else if(startId > endId && element.Value.Command instanceof CommandKeyNode)
+                {
+                    int hash = hashFunction.hash(((CommandKeyNode) element.Value.Command).Key);
+                    if (hash >= startId || hash <= endId) {
                         committedElements.add(element.Value);
                     }
                 }

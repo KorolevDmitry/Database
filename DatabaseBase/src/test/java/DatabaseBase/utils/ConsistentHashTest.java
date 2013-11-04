@@ -111,7 +111,7 @@ public class ConsistentHashTest {
         Object item = new Object();
         Route routeOfItem = _routes.get(item);
         int specificIndex;
-        if(routeOfItem.equals(route2)){
+        if(!routeOfItem.equals(route2)){
             specificIndex = index2 + 1;
         }else{
             specificIndex = index1 + 1;

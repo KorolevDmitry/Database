@@ -39,6 +39,11 @@ public class StaticBalancer implements IBalancer {
     }
 
     @Override
+    public int GetIndex(Object key) {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public Route GetRoute(CommandKeyNode command, List<Route> triedRoutes) {
         return _routs.get(GetIndex(command));
     }

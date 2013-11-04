@@ -52,17 +52,16 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
             //TODO: analyze
             EvaluationResult<TKey, TValue> balancerResult = _sender.Send(query, _balancer);
             EvaluationResult<TKey, TValue> serverEvaluationResult;
-            if(balancerResult == null)
+            if (balancerResult == null)
                 throw new EvaluateException("Balancer " + _balancer + " is not available");
-            if(!balancerResult.HasError && !balancerResult.HasBalancerResult)
-            {
+            if (!balancerResult.HasError && !balancerResult.HasBalancerResult) {
                 Route route = balancerResult.ServiceResult.Route;
                 CommandKeyNode<TKey> command = (CommandKeyNode<TKey>) query.Command;
-                if(route == null)
+                if (route == null)
                     throw new EvaluateException("Can not execute " + command.GetCommand() + " for a while");
 
                 serverEvaluationResult = _sender.Send(query, route);
-            } else{
+            } else {
                 serverEvaluationResult = balancerResult;
             }
 

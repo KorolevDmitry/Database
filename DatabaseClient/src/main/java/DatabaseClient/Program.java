@@ -62,11 +62,15 @@ public class Program {
                     System.out.println(result.ErrorDescription);
                 } else if (result.HasReturnResult) {
                     if (result.HasBalancerResult) {
-                        for(int i=0;i<result.ServiceResult.Servers.size();i++){
-                            System.out.println(result.ServiceResult.Servers.get(i));
-                            for(int j=0;j<result.ServiceResult.Servers.get(i).Slaves.size();j++){
-                                System.out.println("\t" + result.ServiceResult.Servers.get(i).Slaves.get(j));
+                        if (result.ServiceResult.Servers != null) {
+                            for (int i = 0; i < result.ServiceResult.Servers.size(); i++) {
+                                System.out.println(result.ServiceResult.Servers.get(i));
+                                for (int j = 0; j < result.ServiceResult.Servers.get(i).Slaves.size(); j++) {
+                                    System.out.println("\t" + result.ServiceResult.Servers.get(i).Slaves.get(j));
+                                }
                             }
+                        } else {
+                            System.out.println(result.ServiceResult.Index);
                         }
                     } else {
                         System.out.println(result.Result == null ? "There is no such element" : result.Result.Value);

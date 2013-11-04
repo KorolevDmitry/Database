@@ -20,8 +20,10 @@ public class Route implements ISizable {
     public Route Master;
     public boolean IsAlive;
     public boolean IsReady;
-    public Integer StartIndex;
-    public Integer EndIndex;
+    public Integer StartIndexPending;
+    public Integer EndIndexPending;
+    private Integer _startIndex;
+    private Integer _endIndex;
 
     public Route(String serverHost, ServerRole role, Route master) {
         if (serverHost == null) {
@@ -59,7 +61,7 @@ public class Route implements ISizable {
     @Override
     public String toString() {
         return Host + ":" + Port + (IsAlive ? " alive" : " not available")
-                + (IsReady ? " ready" : " busy") + " StartIndex:" + StartIndex + " EndIndex:" + EndIndex
+                + (IsReady ? " ready" : " busy") + " StartIndex:" + _startIndex + " EndIndex:" + _endIndex
                 + (Master == null ? "" : (" Master:" + Master.Host + ":" + Master.Port));
     }
 
@@ -81,5 +83,40 @@ public class Route implements ISizable {
     @Override
     public long GetSize() {
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public Integer getStartIndex() {
+        return _startIndex;
+    }
+
+    public void setStartIndex(Integer _startIndex) {
+        this._startIndex = _startIndex;
+    }
+
+    public Integer getEndIndex() {
+        return _endIndex;
+    }
+
+    public void setEndIndex(Integer _endIndex) {
+        this._endIndex = _endIndex;
+    }
+
+    public static Route Clone(Route route)
+    {
+        if(route == null)
+            return null;
+        Route clone = new Route(route.Host, route.Port);
+        clone.Role = route.Role;
+        //for(int i=0;i<route.Slaves.size();i++)
+        //    clone.Slaves.add(Route.Clone(route.Slaves.get(i)));
+        clone.Master = Route.Clone(route.Master);
+        clone.IsAlive = route.IsAlive;
+        clone.IsReady = route.IsReady;
+        clone.StartIndexPending = route.StartIndexPending;
+        clone.EndIndexPending = route.EndIndexPending;
+        clone.setEndIndex(route.getEndIndex());
+        clone.setStartIndex(route.getStartIndex());
+
+        return clone;
     }
 }

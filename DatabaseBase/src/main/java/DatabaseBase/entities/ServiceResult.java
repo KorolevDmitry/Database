@@ -12,9 +12,8 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class ServiceResult implements ISizable {
-    public boolean IsAlive;
-    public boolean IsReady;
     public boolean ReadyToBeRemoved;
+    public Integer Index;
     public List<Route> Servers;
     public Route Route;
 

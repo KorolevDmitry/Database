@@ -11,7 +11,9 @@ import DatabaseBase.components.ReplicationQueue;
 import DatabaseBase.components.TcpSender;
 import DatabaseBase.components.TransactionLogger;
 import DatabaseBase.entities.*;
-import DatabaseBase.exceptions.*;
+import DatabaseBase.exceptions.ConnectionException;
+import DatabaseBase.exceptions.EvaluateException;
+import DatabaseBase.exceptions.TransactionException;
 import DatabaseBase.interfaces.IDataStorage;
 import DatabaseBase.interfaces.ISizable;
 import DatabaseBase.parser.Parser;
@@ -200,20 +202,26 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
     }
 
     private void QueryExecutionStarted(Query query) throws TransactionException {
-        _transactionLogger.AddTransaction(query);
+        RequestCommand command = query.Command.GetCommand();
+        if ((command == RequestCommand.ADD || command == RequestCommand.ADD_OR_UPDATE ||
+                command == RequestCommand.UPDATE || command == RequestCommand.DELETE)) {
+            _transactionLogger.AddTransaction(query);
+        }
         _messageReceived.notifyObservers(query);
     }
 
     private void QueryExecutionEnded(EvaluationResult<TKey, TValue> result) throws TransactionException {
-        _transactionLogger.CommitTransaction(result.ExecutionQuery, !result.HasError);
         RequestCommand command = result.ExecutionQuery.Command.GetCommand();
-        if (!result.HasError && (command == RequestCommand.ADD || command == RequestCommand.ADD_OR_UPDATE ||
+        if ((command == RequestCommand.ADD || command == RequestCommand.ADD_OR_UPDATE ||
                 command == RequestCommand.UPDATE || command == RequestCommand.DELETE)) {
-            for (int i = 0; i < _current.Slaves.size(); i++) {
-                try {
-                    SendReplicate(result.ExecutionQuery, _current.Slaves.get(i), false, result);
-                } catch (ConnectionException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            _transactionLogger.CommitTransaction(result.ExecutionQuery, !result.HasError);
+            if (!result.HasError) {
+                for (int i = 0; i < _current.Slaves.size(); i++) {
+                    try {
+                        SendReplicate(result.ExecutionQuery, _current.Slaves.get(i), false, result);
+                    } catch (ConnectionException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
                 }
             }
         }
@@ -267,9 +275,13 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
     private void EvaluatePing(EvaluationResult<TKey, TValue> evaluationResult) {
         evaluationResult.HasReturnResult = true;
         evaluationResult.ServiceResult = new ServiceResult();
-        evaluationResult.ServiceResult.IsReady = _current.IsReady;
-        evaluationResult.ServiceResult.IsAlive = _current.IsAlive;
+        evaluationResult.ServiceResult.Route = Route.Clone(_current);
         evaluationResult.ServiceResult.ReadyToBeRemoved = _isReadyToRemove;
+        System.out.println(_current.toString());
+        if (_isReadyToRemove) {
+            _isReadyToRemove = false;
+            _current.IsReady = false;
+        }
     }
 
     private void EvaluateUpdateServer(ServiceCommand command, EvaluationResult<TKey, TValue> evaluationResult) {
@@ -277,8 +289,10 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         boolean isAlive = _current.IsAlive;
         _current = command.Route;
         evaluationResult.ServiceResult = new ServiceResult();
-        evaluationResult.ServiceResult.IsAlive = isAlive;
-        evaluationResult.ServiceResult.IsReady = isReady;
+        _current.IsReady = isReady;
+        _current.IsAlive = isAlive;
+        evaluationResult.ServiceResult.Route = _current;
+        System.out.println(_current.toString());
     }
 
     private void SendReplicate(Query query, Route route, boolean sync, EvaluationResult<TKey, TValue> evaluationResult) throws ConnectionException {

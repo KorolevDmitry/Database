@@ -208,7 +208,7 @@ public class DynamicBalancerTest {
         _balancer.Ping(master);
         result = _balancer.GetRoute(new CommandKeyNode(RequestCommand.ADD, null), null);
         assertEquals(master, result);
-        assertEquals(5, _senderMock.SequenceOfSentCommands.size());
+        assertEquals(6, _senderMock.SequenceOfSentCommands.size());
         assertEquals(RequestCommand.PING, _senderMock.SequenceOfSentCommands.get(0).GetCommand());
         assertEquals(RequestCommand.UPDATE_SERVER, _senderMock.SequenceOfSentCommands.get(1).GetCommand());
         assertEquals(RequestCommand.REPLICATE, _senderMock.SequenceOfSentCommands.get(2).GetCommand());
@@ -267,6 +267,7 @@ public class DynamicBalancerTest {
         //arrange
         Route master1 = AddMasterRoute(1111, true, true);
         Route master2 = AddMasterRoute(2222, true, true);
+        _senderMock.AddExpectedBehavior(master1, RequestCommand.UPDATE_SERVER, GetPingExpectedResult());
         _senderMock.AddExpectedBehavior(master1, RequestCommand.PING, GetPingExpectedResult());
         _senderMock.AddExpectedBehavior(master2, RequestCommand.REPLICATE, GetReplicateExpectedResult());
         _senderMock.AddExpectedBehavior(master2, RequestCommand.PING, GetPingExpectedResult(true, true));
@@ -299,6 +300,7 @@ public class DynamicBalancerTest {
         Route master1 = AddMasterRoute(1111, true, true);
         Route master2 = AddMasterRoute(2222, true, true);
         _senderMock.AddExpectedBehavior(master1, RequestCommand.PING, GetPingExpectedResult());
+        _senderMock.AddExpectedBehavior(master1, RequestCommand.UPDATE_SERVER, GetPingExpectedResult());
         _senderMock.AddExpectedBehavior(master2, RequestCommand.REPLICATE, GetReplicateExpectedResult());
         _senderMock.AddExpectedBehavior(master2, RequestCommand.PING, GetPingExpectedResult(true, true));
 
@@ -431,7 +433,8 @@ public class DynamicBalancerTest {
         route.Role = ServerRole.MASTER;
         route.IsAlive = isAlive;
         route.IsReady = isReady;
-        route.EndIndex = route.StartIndex = _balancer._routes.getIndex(route);
+        route.setStartIndex(_balancer._routes.getIndex(route));
+        route.setEndIndex(route.getStartIndex());
         _balancer._clientToServerRouteMap.put(route, route);
         _balancer._routes.add(route);
 
@@ -470,8 +473,9 @@ public class DynamicBalancerTest {
         EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
         result.HasReturnResult = true;
         result.ServiceResult = new ServiceResult();
-        result.ServiceResult.IsAlive = isAlive;
-        result.ServiceResult.IsReady = isReady;
+        result.ServiceResult.Route = new Route("localhost:2222", ServerRole.MASTER, null);
+        result.ServiceResult.Route.IsAlive = isAlive;
+        result.ServiceResult.Route.IsReady = isReady;
         result.ServiceResult.ReadyToBeRemoved = readyToBeRemoved;
         return result;
     }

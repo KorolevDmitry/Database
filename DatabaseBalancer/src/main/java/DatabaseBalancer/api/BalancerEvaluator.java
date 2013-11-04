@@ -2,6 +2,7 @@ package DatabaseBalancer.api;
 
 import DatabaseBase.commands.CommandKeyNode;
 import DatabaseBase.commands.CommandSingleNode;
+import DatabaseBase.commands.RequestCommand;
 import DatabaseBase.commands.service.ReplicateCommand;
 import DatabaseBase.commands.service.ServiceCommand;
 import DatabaseBase.components.Evaluator;
@@ -35,7 +36,7 @@ public class BalancerEvaluator<TKey extends ISizable, TValue extends ISizable> e
         EvaluationResult<TKey, TValue> evaluationResult = new EvaluationResult<TKey, TValue>();
         evaluationResult.ExecutionQuery = query;
         evaluationResult.HasReturnResult = true;
-        evaluationResult.ExecutionQuery.UniqueId = ++ _currentId;
+        evaluationResult.ExecutionQuery.UniqueId = ++_currentId;
         if (query == null) {
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;
@@ -70,8 +71,7 @@ public class BalancerEvaluator<TKey extends ISizable, TValue extends ISizable> e
 
     @Override
     public void Close() {
-        if(_balancer != null)
-        {
+        if (_balancer != null) {
             _balancer.Close();
             _balancer = null;
         }
@@ -116,7 +116,12 @@ public class BalancerEvaluator<TKey extends ISizable, TValue extends ISizable> e
             evaluationResult.HasBalancerResult = false;
             evaluationResult.HasReturnResult = true;
             evaluationResult.ServiceResult = new ServiceResult();
-            evaluationResult.ServiceResult.Route = _balancer.GetRoute(command, null);
+            if (command.GetCommand() == RequestCommand.GET_KEY_INDEX) {
+                evaluationResult.HasBalancerResult = true;
+                evaluationResult.ServiceResult.Index = _balancer.GetIndex(command.Key);
+            } else {
+                evaluationResult.ServiceResult.Route = _balancer.GetRoute(command, null);
+            }
         } catch (BalancerException e) {
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;

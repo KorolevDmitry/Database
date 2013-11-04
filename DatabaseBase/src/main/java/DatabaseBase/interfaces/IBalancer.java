@@ -14,12 +14,13 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface IBalancer {
+    int GetIndex(Object key);
     Route GetRoute(CommandKeyNode command, List<Route> triedRoutes) throws BalancerException;
     void AddServer(Route route) throws BalancerException;
     void RemoveServer(Route route) throws BalancerException;
     void UpdateServer(Route route) throws BalancerException;
     void Replicate(Route from, Route to, int fromId, int endId, boolean removeFromCluster) throws BalancerException;
-    boolean Ping(Route clientRoute);
+    boolean Ping(Route clientRoute) throws BalancerException;
     List<Route> GetServersList();
     void Close();
 }

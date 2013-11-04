@@ -170,6 +170,17 @@ public abstract class Parser<TKey extends ISizable, TValue extends ISizable> {
         }
     }
 
+    protected CommandNode ParseGET_KEY_INDEX(Iterator<Lexem> lexems, String wholeRequest) throws ParserException {
+        String key = ParseNextLiteral(lexems);
+
+        try {
+            CheckEnd(lexems);
+            return new CommandKeyNode<TKey>(RequestCommand.GET_KEY_INDEX, GetKey(key));
+        } catch (IllegalArgumentException e) {
+            throw new ParserException(e.getMessage(), e);
+        }
+    }
+
     protected CommandNode ParseHELP(Iterator<Lexem> lexems, String wholeRequest) throws ParserException {
         CheckEnd(lexems);
         return new CommandSingleNode(RequestCommand.HELP);
@@ -233,6 +244,8 @@ public abstract class Parser<TKey extends ISizable, TValue extends ISizable> {
                             return ParseREPLICATE(lexems, wholeRequest);
                         case UPDATE_SERVER:
                             return ParseUPDATE_SERVER(lexems, wholeRequest);
+                        case GET_KEY_INDEX:
+                            return ParseGET_KEY_INDEX(lexems, wholeRequest);
                         default:
                             throw new ParserException("Unexpected requestCommand: " + requestCommand);
                     }

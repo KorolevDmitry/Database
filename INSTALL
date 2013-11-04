@@ -35,8 +35,36 @@ add_server "localhost:1107" master
 add_server "localhost:1108" master
 
 !!!!FR3!!!!
+--run server 1
+java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
+--run server 2
+java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1108 --mode memory
+--run balancer
+java -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
+--run client
+java -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
+add_server "localhost:1107" master
+add_server "localhost:1108" slave "localhost:1107"
+add/update/delete/get
 
 !!!!FR4!!!!
+--run server 1
+java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
+--run server 2
+java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1108 --mode memory
+--run balancer
+java -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
+--run client
+java -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
+add_server "localhost:1107" master
+add/update/delete/get
+add_server "localhost:1108" master
+add/update/delete/get
+    switch off "localhost:1108" (not a client command)
+add/update/delete/get
+
+!!!!FR5!!!!
+not implemented
 
 !!!!FR6!!!!
 --run server 1

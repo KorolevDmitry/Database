@@ -45,15 +45,17 @@ public class ConsistentHash<T> {
         }
         int hash = _hashFunction.hash(key);
         if (!_circle.containsKey(hash)) {
-            SortedMap<Integer, T> tailMap =
-                    _circle.tailMap(hash);
-            hash = tailMap.isEmpty() ?
-                    _circle.firstKey() : tailMap.firstKey();
+            SortedMap<Integer, T> headMap =
+                    _circle.headMap(hash);
+            hash = headMap.isEmpty() ?
+                    _circle.lastKey() : headMap.lastKey();
         }
         return _circle.get(hash);
     }
 
-    public T getNext(T node){
+    public T getNext(T node) {
+        if (_circle.isEmpty())
+            return null;
         int hash = _hashFunction.hash(node) + 1;
         SortedMap<Integer, T> tailMap =
                 _circle.tailMap(hash);
@@ -62,7 +64,9 @@ public class ConsistentHash<T> {
         return _circle.get(hash);
     }
 
-    public T getPrevious(T node){
+    public T getPrevious(T node) {
+        if (_circle.isEmpty())
+            return null;
         int hash = _hashFunction.hash(node);
         SortedMap<Integer, T> headMap =
                 _circle.headMap(hash);
@@ -71,12 +75,15 @@ public class ConsistentHash<T> {
         return _circle.get(hash);
     }
 
-    public int getIndex(T node){
-        return _hashFunction.hash(node);
+    public boolean contains(T node) {
+        return _circle.containsValue(node);
     }
 
-    public List<T> getListOfValues()
-    {
+    public int getIndex(Object key) {
+        return _hashFunction.hash(key);
+    }
+
+    public List<T> getListOfValues() {
         return new ArrayList<T>(_circle.values());
     }
 }

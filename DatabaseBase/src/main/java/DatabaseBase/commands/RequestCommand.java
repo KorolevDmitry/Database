@@ -22,7 +22,8 @@ public enum RequestCommand implements INameUsageDescriptionPattern {
     GET_SERVERS_LIST("get_servers_list", "get_servers_list", "Return cluster configuration"),
     PING("ping", "ping \"{serverHost}\"", "Check if serverHost is alive"),
     REPLICATE("replicate", "replicate \"{serverHostFrom}\" \"{serverHostTo}\" {startIndex} {endIndex} {removeAfterReplicationCompleted}", "Replicate data"),
-    UPDATE_SERVER("update_server", "update_server \"{serverHost}\"", "Force update server info about cluster");
+    UPDATE_SERVER("update_server", "update_server \"{serverHost}\"", "Force update server info about cluster"),
+    GET_KEY_INDEX("get_key_index", "get_key_index {key}", "Get index of key");
 
     private String _name;
     private String _usage;
