@@ -3,6 +3,9 @@ package DatabaseBase.entities;
 import DatabaseBase.commands.CommandNode;
 import DatabaseBase.interfaces.ISizable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: deemo_000
@@ -15,6 +18,13 @@ public class Query implements ISizable {
     public Integer UniqueId = 0;
     public boolean Completed;
     public boolean Success;
+    public int NumberToRead;
+    public int NumberToWrite;
+    public List<Route> ExecutionRoutes;
+
+    public Query(){
+        ExecutionRoutes = new ArrayList<Route>();
+    }
 
 
     @Override

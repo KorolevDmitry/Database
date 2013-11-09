@@ -21,4 +21,17 @@ public class ServiceResult implements ISizable {
     public long GetSize() {
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        //TODO: Implement!!!
+        if (obj == null)
+            return false;
+        if (!(obj instanceof ServiceResult))
+            return false;
+        ServiceResult temp = (ServiceResult) obj;
+        if(ReadyToBeRemoved != temp.ReadyToBeRemoved)
+            return false;
+        return true;
+    }
 }

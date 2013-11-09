@@ -32,6 +32,14 @@ public class Program {
         ArgumentsHelper.PrintDescription(ClientArguments.values());
     }
 
+    private static void InitDefaultParameters(HashMap<INameUsageDescriptionPattern, String> arguments){
+        if(!arguments.containsKey(ClientArguments.NUMBER_OF_ROUTES_TO_READ)){
+            arguments.put(ClientArguments.NUMBER_OF_ROUTES_TO_READ, "1");
+        }
+        if(!arguments.containsKey(ClientArguments.NUMBER_OF_ROUTES_TO_WRITE)){
+            arguments.put(ClientArguments.NUMBER_OF_ROUTES_TO_WRITE, "1");
+        }
+    }
 
     public static void main(String args[]) {
         String sentence;
@@ -42,11 +50,13 @@ public class Program {
         try {
             HashMap<INameUsageDescriptionPattern, String> arguments = ArgumentsHelper.ParseArguments(args, ClientArguments.values());
             String listOfServers = ArgumentsHelper.GetStringArgument(arguments, ClientArguments.LIST_OF_SERVERS);
+            int numberToRead = ArgumentsHelper.GetPositiveIntArgument(arguments, ClientArguments.NUMBER_OF_ROUTES_TO_READ);
+            int numberToWrite = ArgumentsHelper.GetPositiveIntArgument(arguments, ClientArguments.NUMBER_OF_ROUTES_TO_WRITE);
             //balancer = new StaticBalancer(listOfServers);
             Route balancer = new Route(listOfServers, ServerRole.MASTER, null);
             TcpSender<StringSizable, StringSizable> sender = new TcpSender<StringSizable, StringSizable>();
             parser = new ParserStringString(new Lexer());
-            evaluator = new ClientEvaluator<StringSizable, StringSizable>(sender, parser, balancer);
+            evaluator = new ClientEvaluator<StringSizable, StringSizable>(sender, parser, balancer, numberToRead, numberToWrite);
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
             PrintMainHelp();

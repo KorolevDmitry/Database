@@ -8,12 +8,15 @@ import DatabaseBase.commands.service.ServiceCommand;
 import DatabaseBase.components.Evaluator;
 import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Query;
+import DatabaseBase.entities.Route;
 import DatabaseBase.entities.ServiceResult;
 import DatabaseBase.exceptions.BalancerException;
 import DatabaseBase.exceptions.EvaluateException;
 import DatabaseBase.interfaces.IBalancer;
 import DatabaseBase.interfaces.ISizable;
 import DatabaseBase.parser.Parser;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -55,7 +58,7 @@ public class BalancerEvaluator<TKey extends ISizable, TValue extends ISizable> e
             if (query.Command instanceof ServiceCommand)
                 EvaluateServiceCommand((ServiceCommand) query.Command, evaluationResult);
             else if (query.Command instanceof CommandKeyNode)
-                EvaluateDatabaseCommand((CommandKeyNode) query.Command, evaluationResult);
+                EvaluateDatabaseCommand((CommandKeyNode) query.Command, query.ExecutionRoutes, evaluationResult);
             else if (query.Command instanceof CommandSingleNode) {
                 EvaluateInternalCommand((CommandSingleNode) query.Command, evaluationResult);
             }
@@ -111,7 +114,7 @@ public class BalancerEvaluator<TKey extends ISizable, TValue extends ISizable> e
         }
     }
 
-    private void EvaluateDatabaseCommand(CommandKeyNode command, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
+    private void EvaluateDatabaseCommand(CommandKeyNode command, List<Route> executionRoutes, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
         try {
             evaluationResult.HasBalancerResult = false;
             evaluationResult.HasReturnResult = true;
@@ -120,7 +123,7 @@ public class BalancerEvaluator<TKey extends ISizable, TValue extends ISizable> e
                 evaluationResult.HasBalancerResult = true;
                 evaluationResult.ServiceResult.Index = _balancer.GetIndex(command.Key);
             } else {
-                evaluationResult.ServiceResult.Route = _balancer.GetRoute(command, null);
+                evaluationResult.ServiceResult.Route = _balancer.GetRoute(command, executionRoutes);
             }
         } catch (BalancerException e) {
             evaluationResult.HasReturnResult = false;

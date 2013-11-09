@@ -214,18 +214,25 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         RequestCommand command = result.ExecutionQuery.Command.GetCommand();
         if ((command == RequestCommand.ADD || command == RequestCommand.ADD_OR_UPDATE ||
                 command == RequestCommand.UPDATE || command == RequestCommand.DELETE)) {
-            _transactionLogger.CommitTransaction(result.ExecutionQuery, !result.HasError);
             if (!result.HasError) {
+                int numberOfRoutesToReplicateSync = result.ExecutionQuery.NumberToWrite - 1;
                 for (int i = 0; i < _current.Slaves.size(); i++) {
                     try {
-                        SendReplicate(result.ExecutionQuery, _current.Slaves.get(i), false, result);
+                        SendReplicate(result.ExecutionQuery, _current.Slaves.get(i), numberOfRoutesToReplicateSync > 0, result);
                     } catch (ConnectionException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        e.printStackTrace();
+                        UndoQuery(result.ExecutionQuery);
                     }
+                    numberOfRoutesToReplicateSync--;
                 }
             }
+            _transactionLogger.CommitTransaction(result.ExecutionQuery, !result.HasError);
         }
         _messageExecuted.notifyObservers(result);
+    }
+
+    private void UndoQuery(Query query){
+
     }
 
     private void EvaluateService(ServiceCommand command, EvaluationResult<TKey, TValue> evaluationResult) {

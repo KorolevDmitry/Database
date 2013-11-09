@@ -82,3 +82,20 @@ add/update/delete/get
 remove_server "localhost:1108"
 add/update/delete/get
 get_servers_list
+
+!!!!FR7!!!!
+Return server error for not enough routes for read command
+Returning server error for not enough routes for write command - in process (implementing fail scenario)
+--run server 1
+java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
+--run server 2
+java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1108 --mode memory
+--run balancer
+java -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
+--run client
+java -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111 --number-of-routes-to-write 1 --number-of-routes-to-read 2
+add_server "localhost:1107" master
+add x x
+get x - got an error
+add_server "localhost:1108" slave "localhost:1107"
+get x - got
