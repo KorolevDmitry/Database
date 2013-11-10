@@ -75,9 +75,9 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
             if (query.Command instanceof ServiceCommand)
                 EvaluateService((ServiceCommand) query.Command, evaluationResult);
             else if (query.Command instanceof CommandKeyValueNode)
-                Evaluate((CommandKeyValueNode<TKey, TValue>) query.Command, evaluationResult);
+                Evaluate((CommandKeyValueNode<TKey, TValue>) query.Command, query.NumberToWrite, evaluationResult);
             else if (query.Command instanceof CommandKeyNode)
-                Evaluate((CommandKeyNode<TKey>) query.Command, evaluationResult);
+                Evaluate((CommandKeyNode<TKey>) query.Command, query.NumberToWrite, evaluationResult);
             else if (query.Command instanceof CommandSingleNode) {
                 Evaluate((CommandSingleNode) query.Command, evaluationResult);
             }
@@ -120,7 +120,7 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         }
     }
 
-    private void Evaluate(CommandKeyNode<TKey> command, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
+    private void Evaluate(CommandKeyNode<TKey> command, int numberToWrite, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
         try {
             switch (command.GetCommand()) {
                 case GET:
@@ -130,6 +130,7 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
                     evaluationResult.Result = value == null ? null : value.Value;
                     break;
                 case DELETE:
+                    CheckAvailableSlaves(numberToWrite);
                     _dataStorage.Delete(command.Key);
                     evaluationResult.HasReturnResult = false;
                     evaluationResult.Result = null;
@@ -164,16 +165,18 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         }
     }
 
-    private void Evaluate(CommandKeyValueNode<TKey, TValue> command, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
+    private void Evaluate(CommandKeyValueNode<TKey, TValue> command, int numberToWrite, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
         try {
             evaluationResult.HasReturnResult = false;
             WrappedKeyValue<TKey, TValue> item;
             switch (command.GetCommand()) {
                 case ADD_OR_UPDATE:
+                    CheckAvailableSlaves(numberToWrite);
                     _dataStorage.AddOrUpdate(command.Key, command.Value);
                     evaluationResult.Result = null;
                     break;
                 case ADD:
+                    CheckAvailableSlaves(numberToWrite);
                     item = _dataStorage.Get(command.Key);
                     if (item != null && !item.IsDeleted)
                         throw new InvalidKeyException("Key is already exist: " + command.Key);
@@ -181,6 +184,7 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
                     evaluationResult.Result = null;
                     break;
                 case UPDATE:
+                    CheckAvailableSlaves(numberToWrite);
                     item = _dataStorage.Get(command.Key);
                     if (item == null || item.IsDeleted)
                         throw new InvalidKeyException("Key does not exist: " + command.Key);
@@ -231,15 +235,31 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         _messageExecuted.notifyObservers(result);
     }
 
-    private void UndoQuery(Query query){
+    private void UndoQuery(Query query) {
 
+    }
+
+    private void CheckAvailableSlaves(int numberToWrite) throws EvaluateException {
+        if(_current.Role == ServerRole.SLAVE)
+            return;
+        int count = 0;
+        for(int i=0;i<_current.Slaves.size();i++){
+            if(_current.Slaves.get(i).IsAlive){
+                count++;
+            }
+        }
+
+        if(count < numberToWrite - 1){
+            throw new EvaluateException("Not enough routes to write in. Expected: " + numberToWrite +
+                    ". Actually: " + count);
+        }
     }
 
     private void EvaluateService(ServiceCommand command, EvaluationResult<TKey, TValue> evaluationResult) {
         if (command instanceof ReplicateCommand)
             EvaluateReplication((ReplicateCommand) command, evaluationResult);
         else if (command.GetCommand() == RequestCommand.PING) {
-            EvaluatePing(evaluationResult);
+            EvaluatePing(command, evaluationResult);
         } else if (command.GetCommand() == RequestCommand.UPDATE_SERVER) {
             EvaluateUpdateServer(command, evaluationResult);
         }
@@ -279,7 +299,11 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         }
     }
 
-    private void EvaluatePing(EvaluationResult<TKey, TValue> evaluationResult) {
+    private void EvaluatePing(ServiceCommand command, EvaluationResult<TKey, TValue> evaluationResult) {
+        for (int i = 0; i < command.Route.Slaves.size() && i < _current.Slaves.size(); i++) {
+            _current.Slaves.get(i).IsAlive = command.Route.Slaves.get(i).IsAlive;
+        }
+
         evaluationResult.HasReturnResult = true;
         evaluationResult.ServiceResult = new ServiceResult();
         evaluationResult.ServiceResult.Route = Route.Clone(_current);

@@ -107,9 +107,25 @@ public class Route implements ISizable {
             return null;
         Route clone = new Route(route.Host, route.Port);
         clone.Role = route.Role;
-        //for(int i=0;i<route.Slaves.size();i++)
-        //    clone.Slaves.add(Route.Clone(route.Slaves.get(i)));
-        clone.Master = Route.Clone(route.Master);
+        for(int i=0;i<route.Slaves.size();i++)
+            clone.Slaves.add(Route.CloneInternal(route.Slaves.get(i)));
+        clone.Master = Route.CloneInternal(route.Master);
+        clone.IsAlive = route.IsAlive;
+        clone.IsReady = route.IsReady;
+        clone.StartIndexPending = route.StartIndexPending;
+        clone.EndIndexPending = route.EndIndexPending;
+        clone.setEndIndex(route.getEndIndex());
+        clone.setStartIndex(route.getStartIndex());
+
+        return clone;
+    }
+
+    private static Route CloneInternal(Route route)
+    {
+        if(route == null)
+            return null;
+        Route clone = new Route(route.Host, route.Port);
+        clone.Role = route.Role;
         clone.IsAlive = route.IsAlive;
         clone.IsReady = route.IsReady;
         clone.StartIndexPending = route.StartIndexPending;

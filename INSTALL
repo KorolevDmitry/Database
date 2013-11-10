@@ -85,7 +85,7 @@ get_servers_list
 
 !!!!FR7!!!!
 Return server error for not enough routes for read command
-Returning server error for not enough routes for write command - in process (implementing fail scenario)
+Return server error for not enough routes for write command
 --run server 1
 java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
 --run server 2

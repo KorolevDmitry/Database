@@ -1,6 +1,7 @@
 package DatabaseBase.components;
 
 import DatabaseBase.commands.service.ReplicateCommand;
+import DatabaseBase.entities.EvaluationResult;
 import DatabaseBase.entities.Query;
 import DatabaseBase.exceptions.ConnectionException;
 
@@ -41,7 +42,7 @@ public class ReplicationQueue implements Runnable {
         try {
             Query query = new Query();
             query.Command = command;
-            _sender.Send(query, command.ToRoute);
+            EvaluationResult evaluationResult = _sender.Send(query, command.ToRoute);
         } catch (ConnectionException e) {
         }
     }
