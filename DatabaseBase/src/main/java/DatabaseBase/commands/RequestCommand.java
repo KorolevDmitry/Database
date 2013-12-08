@@ -10,11 +10,11 @@ import DatabaseBase.interfaces.INameUsageDescriptionPattern;
  * To change this template use File | Settings | File Templates.
  */
 public enum RequestCommand implements INameUsageDescriptionPattern {
-    GET ("get", "get {key}" , "Get value from storage."),
+    GET ("get", "get {key}\n\tget {startKey} {endKey}" , "Get value from storage."),
     ADD ("add", "add {key} {value}" , "Add value to storage."),
-    UPDATE ("update", "update {key} {value}" , "Update value from storage."),
+    UPDATE ("update", "update {key} {value}\n\tupdate {startKey} {endKey} {value}" , "Update value from storage."),
     ADD_OR_UPDATE ("add_or_update", "add_or_update {key} {value}" , "Add value to storage if it is not exists and update it in another case."),
-    DELETE ("delete", "delete {key}" , "Delete value from storage."),
+    DELETE ("delete", "delete {key}\n\tdelete {startKey} {endKey}" , "Delete value from storage."),
     HELP ("help", "help" , "Print list of accessible commands."),
     QUIT ("quit", "quit" , "Quit."),
     ADD_SERVER("add_server", "add_server \"{serverHost}\" {serverRole} {master}", "Add serverHost to cluster. ServerHost - server:port, ServerRole - master/slave, MASTER - serverHost of master node if it is slave."),

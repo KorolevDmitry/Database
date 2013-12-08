@@ -51,14 +51,9 @@ public abstract class Parser<TKey extends ISizable, TValue extends ISizable> {
 
     protected CommandNode ParseADD(Iterator<Lexem> lexems, String wholeRequest) throws ParserException {
         String key = ParseNextLiteral(lexems);
-        String middle = ParseNextLiteral(lexems);
-        if(!lexems.hasNext()){
-            return new CommandKeyValueNode(RequestCommand.ADD, GetKey(key), GetValue(middle));
-        }
-
         String value = ParseNextLiteral(lexems);
         CheckEnd(lexems);
-        return new CommandMultiKeyValueNode(RequestCommand.ADD, GetKey(key), GetKey(middle), GetValue(value));
+        return new CommandKeyValueNode(RequestCommand.ADD, GetKey(key), GetValue(value));
     }
 
     protected CommandNode ParseUPDATE(Iterator<Lexem> lexems, String wholeRequest) throws ParserException {
@@ -75,14 +70,9 @@ public abstract class Parser<TKey extends ISizable, TValue extends ISizable> {
 
     protected CommandNode ParseADD_OR_UPDATE(Iterator<Lexem> lexems, String wholeRequest) throws ParserException {
         String key = ParseNextLiteral(lexems);
-        String middle = ParseNextLiteral(lexems);
-        if(!lexems.hasNext()){
-            return new CommandKeyValueNode(RequestCommand.ADD_OR_UPDATE, GetKey(key), GetValue(middle));
-        }
-
         String value = ParseNextLiteral(lexems);
         CheckEnd(lexems);
-        return new CommandMultiKeyValueNode(RequestCommand.ADD_OR_UPDATE, GetKey(key), GetKey(middle), GetValue(value));
+        return new CommandKeyValueNode(RequestCommand.ADD_OR_UPDATE, GetKey(key), GetValue(value));
     }
 
     protected CommandNode ParseDELETE(Iterator<Lexem> lexems, String wholeRequest) throws ParserException {

@@ -199,9 +199,9 @@ public class ParserTest {
     }
 
     @Test
-    public void Parse_AddWithKeyRangeAndValueAndAdditionalLiteral_CommandMultiKeyValueNode() throws Exception {
+    public void Parse_UpdateWithKeyRangeAndValueAndAdditionalLiteral_CommandMultiKeyValueNode() throws Exception {
         //arrange
-        String str = "add x x x";
+        String str = "update x x x";
         boolean hasParseException = false;
 
         //act
@@ -209,7 +209,7 @@ public class ParserTest {
 
         //assert
         assertTrue(query.Command instanceof CommandMultiKeyValueNode);
-        assertEquals(RequestCommand.ADD, query.Command.GetCommand());
+        assertEquals(RequestCommand.UPDATE, query.Command.GetCommand());
     }
 
     @Test

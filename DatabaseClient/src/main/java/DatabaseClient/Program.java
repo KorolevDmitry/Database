@@ -49,6 +49,7 @@ public class Program {
         BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
         try {
             HashMap<INameUsageDescriptionPattern, String> arguments = ArgumentsHelper.ParseArguments(args, ClientArguments.values());
+            InitDefaultParameters(arguments);
             String listOfServers = ArgumentsHelper.GetStringArgument(arguments, ClientArguments.LIST_OF_SERVERS);
             int numberToRead = ArgumentsHelper.GetPositiveIntArgument(arguments, ClientArguments.NUMBER_OF_ROUTES_TO_READ);
             int numberToWrite = ArgumentsHelper.GetPositiveIntArgument(arguments, ClientArguments.NUMBER_OF_ROUTES_TO_WRITE);

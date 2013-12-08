@@ -99,3 +99,20 @@ add x x
 get x - got an error
 add_server "localhost:1108" slave "localhost:1107"
 get x - got
+
+!!!!FR11!!!!
+--run server
+java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
+--run balancer
+java -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
+--run client
+java -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
+add_server "localhost:1107" master
+add 1 1
+add 2 2
+add 3 3
+get 0 4 - got all values
+update 0 4 000
+get 0 4 - got all 000
+delete 0 2
+get 0 4 - got only 3 000
