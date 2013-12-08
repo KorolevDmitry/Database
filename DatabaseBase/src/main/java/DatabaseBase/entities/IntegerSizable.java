@@ -42,4 +42,15 @@ public class IntegerSizable implements ISizable {
     {
         return _value.toString();
     }
+
+    @Override
+    public int compareTo(Object obj) {
+        if (obj == null)
+            return -1;
+        if (!(obj instanceof IntegerSizable))
+            return -1;
+        if (_value == null)
+            return ((IntegerSizable) obj)._value == null ? 0 : -1;
+        return _value.compareTo(((IntegerSizable) obj)._value);
+    }
 }

@@ -183,9 +183,9 @@ public class ClientServerDynamicBalancerIntegrationTest {
         assertFalse(result3.HasError);
         assertTrue(result3.HasReturnResult);
         assertEquals(new StringSizable("x1"), result3.Result);
-        assertEquals(routeServer1, result1.ServiceResult.Route);
-        assertEquals(routeServer1, result2.ServiceResult.Route);
-        assertEquals(routeServer2, result3.ServiceResult.Route);
+        assertEquals(routeServer1, result1.ServiceResult.PingRoute);
+        assertEquals(routeServer1, result2.ServiceResult.PingRoute);
+        assertEquals(routeServer2, result3.ServiceResult.PingRoute);
 
         server1.Stop();
         server2.Stop();
@@ -247,9 +247,9 @@ public class ClientServerDynamicBalancerIntegrationTest {
         assertFalse(result3.ErrorDescription, result3.HasError);
         assertTrue(result3.HasReturnResult);
         assertEquals(new StringSizable("x1"), result3.Result);
-        assertEquals(routeServer1, result1.ServiceResult.Route);
-        assertEquals(routeServer1, result2.ServiceResult.Route);
-        assertEquals(routeServer2, result3.ServiceResult.Route);
+        assertEquals(routeServer1, result1.ServiceResult.PingRoute);
+        assertEquals(routeServer1, result2.ServiceResult.PingRoute);
+        assertEquals(routeServer2, result3.ServiceResult.PingRoute);
         server1.Stop();
         server2.Stop();
         balancer.Stop();

@@ -473,9 +473,9 @@ public class DynamicBalancerTest {
         EvaluationResult<StringSizable, StringSizable> result = new EvaluationResult<StringSizable, StringSizable>();
         result.HasReturnResult = true;
         result.ServiceResult = new ServiceResult();
-        result.ServiceResult.Route = new Route("localhost:2222", ServerRole.MASTER, null);
-        result.ServiceResult.Route.IsAlive = isAlive;
-        result.ServiceResult.Route.IsReady = isReady;
+        result.ServiceResult.PingRoute = new Route("localhost:2222", ServerRole.MASTER, null);
+        result.ServiceResult.PingRoute.IsAlive = isAlive;
+        result.ServiceResult.PingRoute.IsReady = isReady;
         result.ServiceResult.ReadyToBeRemoved = readyToBeRemoved;
         return result;
     }

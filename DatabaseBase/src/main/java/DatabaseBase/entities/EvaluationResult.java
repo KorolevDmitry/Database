@@ -3,6 +3,8 @@ package DatabaseBase.entities;
 import DatabaseBase.interfaces.ISizable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,13 +15,17 @@ import java.io.Serializable;
  */
 public class EvaluationResult<TKey extends ISizable, TValue extends ISizable> implements Serializable {
     public Query ExecutionQuery;
-    public TValue Result;
+    public List<WrappedKeyValue<TKey, TValue>> Result;
     public boolean HasBalancerResult;
     public boolean HasReturnResult;
     public boolean HasError;
     public String ErrorDescription;
     public boolean Quit;
     public ServiceResult ServiceResult;
+
+    public EvaluationResult(){
+        Result = new ArrayList<WrappedKeyValue<TKey, TValue>>();
+    }
 
     @Override
     public boolean equals(Object obj) {

@@ -53,4 +53,15 @@ public class Query implements ISizable {
     public int hashCode(){
         return UniqueId.hashCode();
     }
+
+    @Override
+    public int compareTo(Object obj) {
+        if(obj == null)
+            return -1;
+        if(!(obj instanceof Query))
+            return -1;
+        if(UniqueId == null)
+            return ((Query)obj).UniqueId == null ? 0 : -1;
+        return UniqueId.compareTo(((Query)obj).UniqueId);
+    }
 }

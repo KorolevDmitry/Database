@@ -9,6 +9,6 @@ import java.io.Serializable;
  * Time: 3:06 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface ISizable extends Serializable {
+public interface ISizable extends Serializable, Comparable {
     long GetSize();
 }

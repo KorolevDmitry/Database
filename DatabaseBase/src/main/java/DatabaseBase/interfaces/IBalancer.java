@@ -1,6 +1,7 @@
 package DatabaseBase.interfaces;
 
 import DatabaseBase.commands.CommandKeyNode;
+import DatabaseBase.commands.CommandMultiKeyNode;
 import DatabaseBase.entities.Route;
 import DatabaseBase.exceptions.BalancerException;
 
@@ -15,6 +16,7 @@ import java.util.List;
  */
 public interface IBalancer {
     int GetIndex(Object key);
+    List<Route> GetMultiKeyRoutes(CommandMultiKeyNode command, List<Route> triedRoutes) throws BalancerException;
     Route GetRoute(CommandKeyNode command, List<Route> triedRoutes) throws BalancerException;
     void AddServer(Route route) throws BalancerException;
     void RemoveServer(Route route) throws BalancerException;

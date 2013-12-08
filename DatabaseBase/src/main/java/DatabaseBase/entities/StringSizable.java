@@ -42,4 +42,15 @@ public class StringSizable implements ISizable {
     {
         return Value;
     }
+
+    @Override
+    public int compareTo(Object obj) {
+        if (obj == null)
+            return -1;
+        if (!(obj instanceof StringSizable))
+            return -1;
+        if (Value == null)
+            return ((StringSizable) obj).Value == null ? 0 : -1;
+        return (Value.compareTo(((StringSizable) obj).Value));
+    }
 }

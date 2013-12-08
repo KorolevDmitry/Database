@@ -1,9 +1,6 @@
 package DatabaseServer.api;
 
-import DatabaseBase.commands.CommandKeyNode;
-import DatabaseBase.commands.CommandKeyValueNode;
-import DatabaseBase.commands.CommandSingleNode;
-import DatabaseBase.commands.RequestCommand;
+import DatabaseBase.commands.*;
 import DatabaseBase.commands.service.ReplicateCommand;
 import DatabaseBase.commands.service.ServiceCommand;
 import DatabaseBase.components.Evaluator;
@@ -74,6 +71,10 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
             QueryExecutionStarted(query);
             if (query.Command instanceof ServiceCommand)
                 EvaluateService((ServiceCommand) query.Command, evaluationResult);
+            else if (query.Command instanceof CommandMultiKeyValueNode)
+                Evaluate((CommandMultiKeyValueNode<TKey, TValue>) query.Command, query.NumberToWrite, evaluationResult);
+            else if (query.Command instanceof CommandMultiKeyNode)
+                Evaluate((CommandMultiKeyNode<TKey>) query.Command, query.NumberToWrite, evaluationResult);
             else if (query.Command instanceof CommandKeyValueNode)
                 Evaluate((CommandKeyValueNode<TKey, TValue>) query.Command, query.NumberToWrite, evaluationResult);
             else if (query.Command instanceof CommandKeyNode)
@@ -127,7 +128,10 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
                     WrappedKeyValue<TKey, TValue> value = _dataStorage.Get(command.Key);
 //                    if (value == null || value.IsDeleted)
 //                        throw new InvalidKeyException();
-                    evaluationResult.Result = value == null ? null : value.Value;
+                    if(value != null && !value.IsDeleted)
+                    {
+                        evaluationResult.Result.add(value);
+                    }
                     break;
                 case DELETE:
                     CheckAvailableSlaves(numberToWrite);
@@ -201,6 +205,44 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         }
     }
 
+    private void Evaluate(CommandMultiKeyNode<TKey> command, int numberToWrite, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
+        try {
+            List<WrappedKeyValue<TKey, TValue>> elements = _dataStorage.GetElements();
+            CommandKeyNode<TKey> keyCommand = new CommandKeyNode<TKey>(command.GetCommand(), command.StartKey);
+            for (int i=0;i<elements.size();i++){
+                TKey key = elements.get(i).Key;
+                if(key.compareTo(command.StartKey) >= 0 && key.compareTo(command.EndKey) <= 0){
+                    keyCommand.Key = key;
+                    Evaluate(keyCommand, numberToWrite, evaluationResult);
+                }
+            }
+        } catch (IOException e) {
+            throw new EvaluateException("Internal database error occurred", e);
+        }
+    }
+
+    private void Evaluate(CommandMultiKeyValueNode<TKey, TValue> command, int numberToWrite, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
+        switch (command.GetCommand()) {
+            case ADD_OR_UPDATE:
+            case ADD:
+                throw new EvaluateException("Unexpected requestCommand in MultiKeyValueNode: " + command.GetCommand());
+        }
+
+        try {
+            List<WrappedKeyValue<TKey, TValue>> elements = _dataStorage.GetElements();
+            CommandKeyValueNode<TKey, TValue> keyCommand = new CommandKeyValueNode<TKey, TValue>(command.GetCommand(), command.StartKey, command.Value);
+            for (int i=0;i<elements.size();i++){
+                TKey key = elements.get(i).Key;
+                if(key.compareTo(command.StartKey) >= 0 && key.compareTo(command.EndKey) <= 0){
+                    keyCommand.Key = key;
+                    Evaluate(keyCommand, numberToWrite, evaluationResult);
+                }
+            }
+        } catch (IOException e) {
+            throw new EvaluateException("Internal database error occurred", e);
+        }
+    }
+
     private void PrintHelp() {
 
     }
@@ -242,14 +284,14 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
     private void CheckAvailableSlaves(int numberToWrite) throws EvaluateException {
         if(_current.Role == ServerRole.SLAVE)
             return;
-        int count = 0;
+        int count = 1;
         for(int i=0;i<_current.Slaves.size();i++){
             if(_current.Slaves.get(i).IsAlive){
                 count++;
             }
         }
 
-        if(count < numberToWrite - 1){
+        if(count < numberToWrite){
             throw new EvaluateException("Not enough routes to write in. Expected: " + numberToWrite +
                     ". Actually: " + count);
         }
@@ -306,7 +348,7 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
 
         evaluationResult.HasReturnResult = true;
         evaluationResult.ServiceResult = new ServiceResult();
-        evaluationResult.ServiceResult.Route = Route.Clone(_current);
+        evaluationResult.ServiceResult.PingRoute = Route.Clone(_current);
         evaluationResult.ServiceResult.ReadyToBeRemoved = _isReadyToRemove;
         System.out.println(_current.toString());
         if (_isReadyToRemove) {
@@ -322,7 +364,7 @@ public class ServerEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         evaluationResult.ServiceResult = new ServiceResult();
         _current.IsReady = isReady;
         _current.IsAlive = isAlive;
-        evaluationResult.ServiceResult.Route = _current;
+        evaluationResult.ServiceResult.PingRoute = _current;
         System.out.println(_current.toString());
     }
 

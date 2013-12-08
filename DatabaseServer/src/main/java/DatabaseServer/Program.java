@@ -123,7 +123,7 @@ public class Program {
         finally {
             if(storage != null)
             {
-                storage.Close();
+                //storage.Close();
             }
         }
     }

@@ -1,6 +1,7 @@
 package DatabaseBalancer;
 
 import DatabaseBase.commands.CommandKeyNode;
+import DatabaseBase.commands.CommandMultiKeyNode;
 import DatabaseBase.commands.RequestCommand;
 import DatabaseBase.commands.service.ReplicateCommand;
 import DatabaseBase.commands.service.ServiceCommand;
@@ -50,6 +51,31 @@ public class DynamicBalancer implements IBalancer, Runnable {
         return _routes.getIndex(key);
     }
 
+    public List<Route> GetMultiKeyRoutes(CommandMultiKeyNode command, List<Route> triedRoutes) throws BalancerException {
+        CommandKeyNode startKeyCommand = new CommandKeyNode(command.GetCommand(), command.StartKey);
+        CommandKeyNode endKeyCommand = new CommandKeyNode(command.GetCommand(), command.EndKey);
+        Route startRoute = GetRoute(startKeyCommand, triedRoutes);
+        Route endRoute = GetRoute(endKeyCommand, triedRoutes);
+        if (startRoute == null || endRoute == null)
+            return null;
+        if (startRoute.equals(endRoute)) {
+            int startIndex = _routes.getIndex(command.StartKey);
+            int endIndex = _routes.getIndex(command.EndKey);
+            if (startIndex > endIndex)
+                startRoute = _routes.getNext(startRoute);
+        }
+        List<Route> routes = new ArrayList<Route>();
+        routes.add(startRoute);
+        while (!startRoute.equals(endRoute)) {
+            startRoute = _routes.getNext(startRoute);
+            if (startRoute == null)
+                throw new BalancerException("Unexpected routes behavior. Try again later.");
+            routes.add(startRoute);
+        }
+
+        return routes;
+    }
+
     public Route GetRoute(CommandKeyNode command, List<Route> triedRoutes) throws BalancerException {
         if (command == null)
             throw new IllegalArgumentException("Command can not be null");
@@ -61,7 +87,7 @@ public class DynamicBalancer implements IBalancer, Runnable {
         if (route == null)
             return null;
         //if master is busy - slaves can not have actual info
-        if(!route.IsReady)
+        if (!route.IsReady)
             route = null;
         /*while (!route.IsReady) {
             route = _routes.getNext(route);
@@ -197,14 +223,13 @@ public class DynamicBalancer implements IBalancer, Runnable {
             return route.IsAlive;
         }
 
-        route.IsAlive = serverAnswer.ServiceResult.Route.IsAlive;
-        route.IsReady = serverAnswer.ServiceResult.Route.IsReady;
+        route.IsAlive = serverAnswer.ServiceResult.PingRoute.IsAlive;
+        route.IsReady = serverAnswer.ServiceResult.PingRoute.IsReady;
 
         if (_serversInReplicationState.contains(route) && route.IsReady && route.Role == ServerRole.MASTER) {
             _serversInReplicationState.remove(route);
             if (route.StartIndexPending != null || route.EndIndexPending != null) {
-                if (route.StartIndexPending != null)
-                {
+                if (route.StartIndexPending != null) {
                     route.setStartIndex(route.StartIndexPending);
                     _routes.remove(route);
                     _routes.add(route, route.getStartIndex());
@@ -220,8 +245,7 @@ public class DynamicBalancer implements IBalancer, Runnable {
             }
             Route previous = _routes.getPrevious(route);
             if (previous.StartIndexPending != null || previous.EndIndexPending != null) {
-                if (previous.StartIndexPending != null)
-                {
+                if (previous.StartIndexPending != null) {
                     previous.setStartIndex(previous.StartIndexPending);
                     _routes.remove(previous);
                     _routes.add(previous, previous.getStartIndex());

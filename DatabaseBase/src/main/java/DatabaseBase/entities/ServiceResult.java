@@ -15,7 +15,10 @@ public class ServiceResult implements ISizable {
     public boolean ReadyToBeRemoved;
     public Integer Index;
     public List<Route> Servers;
-    public Route Route;
+    //multi and single queries
+    public List<Route> Routes;
+    //ping
+    public Route PingRoute;
 
     @Override
     public long GetSize() {
@@ -33,5 +36,11 @@ public class ServiceResult implements ISizable {
         if(ReadyToBeRemoved != temp.ReadyToBeRemoved)
             return false;
         return true;
+    }
+
+    @Override
+    public int compareTo(Object obj) {
+        //TODO: Implement!!!
+        return equals(obj) ? 0 : -1;
     }
 }

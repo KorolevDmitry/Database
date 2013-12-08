@@ -106,8 +106,8 @@ public class TcpListener<TKey extends ISizable, TValue extends ISizable> impleme
                     }
                 }
             }
-        } catch (IllegalArgumentException exception) {
-            exception.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

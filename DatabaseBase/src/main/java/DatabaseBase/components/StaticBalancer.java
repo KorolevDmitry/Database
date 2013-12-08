@@ -1,10 +1,12 @@
 package DatabaseBase.components;
 
 import DatabaseBase.commands.CommandKeyNode;
+import DatabaseBase.commands.CommandMultiKeyNode;
 import DatabaseBase.commands.CommandNode;
 import DatabaseBase.entities.Route;
 import DatabaseBase.exceptions.BalancerException;
 import DatabaseBase.interfaces.IBalancer;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -41,6 +43,11 @@ public class StaticBalancer implements IBalancer {
     @Override
     public int GetIndex(Object key) {
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<Route> GetMultiKeyRoutes(CommandMultiKeyNode command, List<Route> triedRoutes) throws BalancerException {
+        throw new NotImplementedException();
     }
 
     @Override

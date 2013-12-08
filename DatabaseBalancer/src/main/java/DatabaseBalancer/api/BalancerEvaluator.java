@@ -1,6 +1,7 @@
 package DatabaseBalancer.api;
 
 import DatabaseBase.commands.CommandKeyNode;
+import DatabaseBase.commands.CommandMultiKeyNode;
 import DatabaseBase.commands.CommandSingleNode;
 import DatabaseBase.commands.RequestCommand;
 import DatabaseBase.commands.service.ReplicateCommand;
@@ -16,6 +17,7 @@ import DatabaseBase.interfaces.IBalancer;
 import DatabaseBase.interfaces.ISizable;
 import DatabaseBase.parser.Parser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,6 +59,8 @@ public class BalancerEvaluator<TKey extends ISizable, TValue extends ISizable> e
             QueryExecutionStarted(query);
             if (query.Command instanceof ServiceCommand)
                 EvaluateServiceCommand((ServiceCommand) query.Command, evaluationResult);
+            else if (query.Command instanceof CommandMultiKeyNode)
+                EvaluateDatabaseCommand((CommandMultiKeyNode) query.Command, query.ExecutionRoutes, evaluationResult);
             else if (query.Command instanceof CommandKeyNode)
                 EvaluateDatabaseCommand((CommandKeyNode) query.Command, query.ExecutionRoutes, evaluationResult);
             else if (query.Command instanceof CommandSingleNode) {
@@ -123,8 +127,25 @@ public class BalancerEvaluator<TKey extends ISizable, TValue extends ISizable> e
                 evaluationResult.HasBalancerResult = true;
                 evaluationResult.ServiceResult.Index = _balancer.GetIndex(command.Key);
             } else {
-                evaluationResult.ServiceResult.Route = _balancer.GetRoute(command, executionRoutes);
+                Route route = _balancer.GetRoute(command, executionRoutes);
+                if(route!=null){
+                    evaluationResult.ServiceResult.Routes = new ArrayList<Route>();
+                    evaluationResult.ServiceResult.Routes.add(route);
+                }
             }
+        } catch (BalancerException e) {
+            evaluationResult.HasReturnResult = false;
+            evaluationResult.HasError = true;
+            evaluationResult.ErrorDescription = e.getMessage();
+        }
+    }
+
+    private void EvaluateDatabaseCommand(CommandMultiKeyNode command, List<Route> executionRoutes, EvaluationResult<TKey, TValue> evaluationResult) throws EvaluateException {
+        try {
+            evaluationResult.HasBalancerResult = false;
+            evaluationResult.HasReturnResult = true;
+            evaluationResult.ServiceResult = new ServiceResult();
+            evaluationResult.ServiceResult.Routes = _balancer.GetMultiKeyRoutes(command, executionRoutes);
         } catch (BalancerException e) {
             evaluationResult.HasReturnResult = false;
             evaluationResult.HasError = true;

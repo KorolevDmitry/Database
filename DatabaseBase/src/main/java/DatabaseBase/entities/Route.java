@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Route implements ISizable {
     public String Host;
-    public int Port;
+    public Integer Port;
     public ServerRole Role;
     public List<Route> Slaves;
     public Route Master;
@@ -72,7 +72,7 @@ public class Route implements ISizable {
         if (!(obj instanceof Route))
             return false;
         Route route = (Route) obj;
-        return Host.equals(route.Host) && Port == route.Port;
+        return Host.equals(route.Host) && Port.equals(route.Port);
     }
 
     @Override
@@ -134,5 +134,16 @@ public class Route implements ISizable {
         clone.setStartIndex(route.getStartIndex());
 
         return clone;
+    }
+
+    @Override
+    public int compareTo(Object obj) {
+        if (obj == null)
+            return -1;
+        if (!(obj instanceof Route))
+            return -1;
+        Route route = (Route) obj;
+        int result = Host.compareTo(route.Host);
+        return result != 0 ? result : Port.compareTo(route.Port);
     }
 }

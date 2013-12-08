@@ -15,6 +15,8 @@ import DatabaseBase.interfaces.ISizable;
 import DatabaseBase.parser.Parser;
 import DatabaseBase.utils.ArgumentsHelper;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: deemo_000
@@ -104,11 +106,13 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         if (balancerResult.HasError) {
             throw new EvaluateException(balancerResult.ErrorDescription);
         }
-        Route route = balancerResult.ServiceResult.Route;
-        if (route == null)
+        List<Route> routes = balancerResult.ServiceResult.Routes;
+        if (routes == null || routes.isEmpty())
             throw new EvaluateException("Route for save info is not available for a while");
         try {
-            serverEvaluationResult = _sender.Send(query, route);
+            for (int j = 0; j < routes.size(); j++){
+                serverEvaluationResult = _sender.Send(query, routes.get(j));
+            }
         } catch (ConnectionException e) {
             serverEvaluationResult = new EvaluationResult<TKey, TValue>();
             evaluationResult.HasReturnResult = false;
@@ -136,13 +140,15 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
             if (balancerResult.HasError) {
                 throw new EvaluateException(balancerResult.ErrorDescription);
             }
-            Route route = balancerResult.ServiceResult.Route;
-            if (route == null)
+            List<Route> routes = balancerResult.ServiceResult.Routes;
+            if (routes == null || routes.isEmpty())
                 throw new EvaluateException("There are " + i + " available routes of " +
                         query.NumberToRead + " requested");
 
             try {
-                serverEvaluationResult = _sender.Send(query, route);
+                for (int j = 0; j < routes.size(); j++){
+                    serverEvaluationResult = _sender.Send(query, routes.get(j));
+                }
             } catch (ConnectionException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -151,7 +157,7 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
                     throw new EvaluateException("Different answer from routes");
                 }
                 previousEvaluationResult = serverEvaluationResult;
-                query.ExecutionRoutes.add(balancerResult.ServiceResult.Route);
+                query.ExecutionRoutes.addAll(balancerResult.ServiceResult.Routes);
             }
         }
         if (previousEvaluationResult == null) {

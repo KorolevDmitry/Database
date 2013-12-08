@@ -68,29 +68,39 @@ public class Program {
                 EvaluationResult<StringSizable, StringSizable> result = evaluator.Evaluate(sentence);
                 if (result.Quit) {
                     return;
-                } else if (result.HasError) {
-                    System.out.println(result.ErrorDescription);
-                } else if (result.HasReturnResult) {
-                    if (result.HasBalancerResult) {
-                        if (result.ServiceResult.Servers != null) {
-                            for (int i = 0; i < result.ServiceResult.Servers.size(); i++) {
-                                System.out.println(result.ServiceResult.Servers.get(i));
-                                for (int j = 0; j < result.ServiceResult.Servers.get(i).Slaves.size(); j++) {
-                                    System.out.println("\t" + result.ServiceResult.Servers.get(i).Slaves.get(j));
-                                }
-                            }
-                        } else {
-                            System.out.println(result.ServiceResult.Index);
-                        }
-                    } else {
-                        System.out.println(result.Result == null ? "There is no such element" : result.Result.Value);
-                    }
-                } else {
-                    System.out.println("Done");
                 }
+                PrintResult(result);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private static void PrintResult(EvaluationResult<StringSizable, StringSizable> result){
+        if (result.HasError) {
+            System.out.println(result.ErrorDescription);
+        } else if (result.HasReturnResult) {
+            if (result.HasBalancerResult) {
+                if (result.ServiceResult.Servers != null) {
+                    for (int i = 0; i < result.ServiceResult.Servers.size(); i++) {
+                        System.out.println(result.ServiceResult.Servers.get(i));
+                        for (int j = 0; j < result.ServiceResult.Servers.get(i).Slaves.size(); j++) {
+                            System.out.println("\t" + result.ServiceResult.Servers.get(i).Slaves.get(j));
+                        }
+                    }
+                } else {
+                    System.out.println(result.ServiceResult.Index);
+                }
+            } else {
+                if(result.Result == null || result.Result.isEmpty()){
+                    System.out.println("There is no such elements");
+                }
+                for(int i = 0 ; i<result.Result.size();i++){
+                    System.out.println(result.Result.get(i).Key + " " + result.Result.get(i).Value);
+                }
+            }
+        } else {
+            System.out.println("Done");
         }
     }
 }
