@@ -1,6 +1,7 @@
 package DatabaseClient.api;
 
 import DatabaseBase.commands.CommandKeyNode;
+import DatabaseBase.commands.CommandMultiKeyNode;
 import DatabaseBase.commands.CommandSingleNode;
 import DatabaseBase.commands.RequestCommand;
 import DatabaseBase.commands.service.ServiceCommand;
@@ -71,6 +72,7 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
                 EvaluateRead(query, evaluationResult);
                 break;
             case ADD:
+            case UPDATE:
             case ADD_OR_UPDATE:
             case DELETE:
                 EvaluateWrite(query, evaluationResult);
@@ -147,7 +149,13 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
 
             try {
                 for (int j = 0; j < routes.size(); j++){
-                    serverEvaluationResult = _sender.Send(query, routes.get(j));
+                    serverEvaluationResult = AccumulateResults(serverEvaluationResult, _sender.Send(query, routes.get(j)));
+                    if(serverEvaluationResult.HasError){
+                        //implement properly
+                        CopyResults(balancerResult, evaluationResult, true);
+                        CopyResults(previousEvaluationResult, evaluationResult, false);
+                        return;
+                    }
                 }
             } catch (ConnectionException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -187,6 +195,22 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         }
     }
 
+    private EvaluationResult<TKey, TValue> AccumulateResults(EvaluationResult<TKey, TValue> oldOne, EvaluationResult<TKey, TValue> newOne) {
+        EvaluationResult<TKey, TValue> result = oldOne;
+        if (oldOne == null) {
+            result = newOne;
+        }
+        else if (newOne == null) {
+            result.HasReturnResult = false;
+            result.HasError = true;
+            result.ErrorDescription = "Null result";
+        } else {
+            result.Result.addAll(newOne.Result);
+        }
+
+        return result;
+    }
+
     private static void PrintHelp() {
         System.out.println("You can use next commands:");
         ArgumentsHelper.PrintDescription(RequestCommand.values());
@@ -213,7 +237,9 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
         query.NumberToWrite = _numberToWrite;
 
         try {
-            if (query.Command instanceof CommandKeyNode)
+            if (query.Command instanceof CommandMultiKeyNode)
+                EvaluateSend(query, evaluationResult);
+            else if (query.Command instanceof CommandKeyNode)
                 EvaluateSend(query, evaluationResult);
             else if (query.Command instanceof ServiceCommand)
                 EvaluateSend(query, evaluationResult);

@@ -1,9 +1,6 @@
 package DatabaseBase.parser;
 
-import DatabaseBase.commands.CommandKeyNode;
-import DatabaseBase.commands.CommandKeyValueNode;
-import DatabaseBase.commands.CommandSingleNode;
-import DatabaseBase.commands.RequestCommand;
+import DatabaseBase.commands.*;
 import DatabaseBase.entities.Query;
 import DatabaseBase.exceptions.ParserException;
 import org.junit.Before;
@@ -121,9 +118,23 @@ public class ParserTest {
     }
 
     @Test
-    public void Parse_GetWithKeyAndAdditionalLiteral_ParseException() throws Exception {
+    public void Parse_GetWithKeyRangeAndAdditionalLiteral_CommandMultiKeyNode() throws Exception {
         //arrange
         String str = "get x x";
+        boolean hasParseException = false;
+
+        //act
+        Query query = _parser.Parse(str);
+
+        //assert
+        assertTrue(query.Command instanceof CommandMultiKeyNode);
+        assertEquals(RequestCommand.GET, query.Command.GetCommand());
+    }
+
+    @Test
+    public void Parse_GetWithKeyAndAdditionalLiteral_ParseException() throws Exception {
+        //arrange
+        String str = "get x x x";
         boolean hasParseException = false;
 
         //act
@@ -188,9 +199,23 @@ public class ParserTest {
     }
 
     @Test
-    public void Parse_GetWithKeyAndValueAndAdditionalLiteral_ParseException() throws Exception {
+    public void Parse_AddWithKeyRangeAndValueAndAdditionalLiteral_CommandMultiKeyValueNode() throws Exception {
         //arrange
         String str = "add x x x";
+        boolean hasParseException = false;
+
+        //act
+        Query query = _parser.Parse(str);
+
+        //assert
+        assertTrue(query.Command instanceof CommandMultiKeyValueNode);
+        assertEquals(RequestCommand.ADD, query.Command.GetCommand());
+    }
+
+    @Test
+    public void Parse_AddWithKeyAndValueAndAdditionalLiteral_ParseException() throws Exception {
+        //arrange
+        String str = "add x x x x";
         boolean hasParseException = false;
 
         //act

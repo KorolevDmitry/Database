@@ -116,7 +116,7 @@ public class ServerEvaluatorTest {
     }
 
     @Test
-    public void Evaluate_CommandKeyNodeGet_NoErrorResultNull() {
+    public void Evaluate_CommandKeyNodeGet_NoErrorResultEmpty() {
         //arrange
         Query query = new Query();
         query.Command = new CommandKeyNode<StringSizable>(RequestCommand.GET, new StringSizable("x"));
@@ -127,7 +127,7 @@ public class ServerEvaluatorTest {
         //assert
         assertFalse(result.HasError);
         assertTrue(result.HasReturnResult);
-        assertNull(result.Result);
+        assertEquals(0, result.Result.size());
         AssertObservers(query, result);
     }
 

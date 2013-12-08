@@ -66,7 +66,7 @@ public class ClientServerStaticBalancerIntegrationTest {
         assertFalse(result2.HasError);
         assertFalse(result3.HasError);
         assertTrue(result3.HasReturnResult);
-        assertEquals(new StringSizable("x1"), result3.Result);
+        assertEquals(new StringSizable("x1"), result3.Result.get(0).Value);
     }
 
     @Test
@@ -109,7 +109,7 @@ public class ClientServerStaticBalancerIntegrationTest {
         assertFalse(result2.HasError);
         assertFalse(result3.HasError);
         assertTrue(result3.HasReturnResult);
-        assertEquals(new StringSizable("x1"), result3.Result);
+        assertEquals(new StringSizable("x1"), result3.Result.get(0).Value);
     }
 
     private TcpListener<StringSizable, StringSizable> CreateServer(int port) throws IOException {

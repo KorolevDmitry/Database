@@ -68,7 +68,7 @@ public class ClientServerDynamicBalancerIntegrationTest {
         assertFalse(result2.ErrorDescription, result2.HasError);
         assertFalse(result3.ErrorDescription, result3.HasError);
         assertTrue(result3.HasReturnResult);
-        assertEquals(new StringSizable("x1"), result3.Result);
+        assertEquals(new StringSizable("x1"), result3.Result.get(0).Value);
     }
 
     @Test
@@ -126,7 +126,7 @@ public class ClientServerDynamicBalancerIntegrationTest {
         assertFalse(result2.HasError);
         assertFalse(result3.HasError);
         assertTrue(result3.HasReturnResult);
-        assertEquals(new StringSizable("x1"), result3.Result);
+        assertEquals(new StringSizable("x1"), result3.Result.get(0).Value);
     }
 
     @Test
@@ -182,10 +182,10 @@ public class ClientServerDynamicBalancerIntegrationTest {
         assertFalse(result2.HasError);
         assertFalse(result3.HasError);
         assertTrue(result3.HasReturnResult);
-        assertEquals(new StringSizable("x1"), result3.Result);
-        assertEquals(routeServer1, result1.ServiceResult.PingRoute);
-        assertEquals(routeServer1, result2.ServiceResult.PingRoute);
-        assertEquals(routeServer2, result3.ServiceResult.PingRoute);
+        assertEquals(new StringSizable("x1"), result3.Result.get(0).Value);
+        assertEquals(routeServer1, result1.ServiceResult.Routes.get(0));
+        assertEquals(routeServer1, result2.ServiceResult.Routes.get(0));
+        assertEquals(routeServer2, result3.ServiceResult.Routes.get(0));
 
         server1.Stop();
         server2.Stop();
@@ -246,10 +246,10 @@ public class ClientServerDynamicBalancerIntegrationTest {
         assertFalse(result2.ErrorDescription, result2.HasError);
         assertFalse(result3.ErrorDescription, result3.HasError);
         assertTrue(result3.HasReturnResult);
-        assertEquals(new StringSizable("x1"), result3.Result);
-        assertEquals(routeServer1, result1.ServiceResult.PingRoute);
-        assertEquals(routeServer1, result2.ServiceResult.PingRoute);
-        assertEquals(routeServer2, result3.ServiceResult.PingRoute);
+        assertEquals(new StringSizable("x1"), result3.Result.get(0).Value);
+        assertEquals(routeServer1, result1.ServiceResult.Routes.get(0));
+        assertEquals(routeServer1, result2.ServiceResult.Routes.get(0));
+        assertEquals(routeServer2, result3.ServiceResult.Routes.get(0));
         server1.Stop();
         server2.Stop();
         balancer.Stop();
