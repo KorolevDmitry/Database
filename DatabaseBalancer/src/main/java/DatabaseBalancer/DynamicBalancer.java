@@ -54,8 +54,8 @@ public class DynamicBalancer implements IBalancer, Runnable {
     public List<Route> GetMultiKeyRoutes(CommandMultiKeyNode command, List<Route> triedRoutes) throws BalancerException {
         CommandKeyNode startKeyCommand = new CommandKeyNode(command.GetCommand(), command.StartKey);
         CommandKeyNode endKeyCommand = new CommandKeyNode(command.GetCommand(), command.EndKey);
-        Route startRoute = GetRoute(startKeyCommand, triedRoutes);
-        Route endRoute = GetRoute(endKeyCommand, triedRoutes);
+        Route startRoute = GetMasterRoute(startKeyCommand, triedRoutes);
+        Route endRoute = GetMasterRoute(endKeyCommand, triedRoutes);
         if (startRoute == null || endRoute == null)
             return null;
         if (startRoute.equals(endRoute)) {
@@ -73,6 +73,11 @@ public class DynamicBalancer implements IBalancer, Runnable {
             routes.add(startRoute);
         }
 
+        List<Route> routesFromMaster = new ArrayList<Route>(routes.size());
+        for(Route route : routes){
+            routesFromMaster.add(GetRouteFromMaster(route, startKeyCommand, triedRoutes));
+        }
+
         return routes;
     }
 
@@ -82,8 +87,13 @@ public class DynamicBalancer implements IBalancer, Runnable {
         if (triedRoutes == null) {
             triedRoutes = new ArrayList<Route>();
         }
-        Route firstRoute;
-        Route route = firstRoute = _routes.get(command.Key);
+
+        Route route = GetMasterRoute(command, triedRoutes);
+        return GetRouteFromMaster(route, command, triedRoutes);
+    }
+
+    private Route GetMasterRoute(CommandKeyNode command, List<Route> triedRoutes) throws BalancerException {
+        Route route = _routes.get(command.Key);
         if (route == null)
             return null;
         //if master is busy - slaves can not have actual info
@@ -96,7 +106,7 @@ public class DynamicBalancer implements IBalancer, Runnable {
                 break;
             }
         }*/
-        return GetRouteFromMaster(route, command, triedRoutes);
+        return route;
     }
 
     public void AddServer(Route clientRoute) throws BalancerException {

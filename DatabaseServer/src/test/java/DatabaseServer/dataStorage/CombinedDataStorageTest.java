@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Random;
 
 import static junit.framework.Assert.assertEquals;
@@ -224,8 +225,8 @@ public class CombinedDataStorageTest {
         {
             bytes[i]= (byte) (i%256);
         }
-        String str = new String(bytes);
-        str = str.replace("\0", "");
+        String str = new String(bytes, Charset.forName("UTF-8"));
+        //str = str.replace("\0", "");
 
         return str;
     }

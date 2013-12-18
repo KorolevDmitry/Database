@@ -15,47 +15,47 @@ In order to know about all {args} please see README
 !!!!FR1!!!!
 To generate initial big data you can use next command:
 --run server
-java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode combined --directory . --split-rate 10 --memory-max-size 104857600
+java -Xmx1g -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode combined --directory . --split-rate 10 --memory-max-size 104857600
 --run balancer
-java -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
+java -Xmx1g -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
 --run client
-java -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
+java -Xmx1g -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
 add_server "localhost:1107" master
 
 !!!!FR2!!!!
 --run server 1
-java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
+java -Xmx1g -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
 --run server 2
-java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1108 --mode memory
+java -Xmx1g -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1108 --mode memory
 --run balancer
-java -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
+java -Xmx1g -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
 --run client
-java -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
+java -Xmx1g -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
 add_server "localhost:1107" master
 add_server "localhost:1108" master
 
 !!!!FR3!!!!
 --run server 1
-java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
+java -Xmx1g -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
 --run server 2
-java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1108 --mode memory
+java -Xmx1g -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1108 --mode memory
 --run balancer
-java -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
+java -Xmx1g -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
 --run client
-java -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
+java -Xmx1g -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
 add_server "localhost:1107" master
 add_server "localhost:1108" slave "localhost:1107"
 add/update/delete/get
 
 !!!!FR4!!!!
 --run server 1
-java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
+java -Xmx1g -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
 --run server 2
-java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1108 --mode memory
+java -Xmx1g -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1108 --mode memory
 --run balancer
-java -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
+java -Xmx1g -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
 --run client
-java -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
+java -Xmx1g -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
 add_server "localhost:1107" master
 add/update/delete/get
 add_server "localhost:1108" master
@@ -68,13 +68,13 @@ not implemented
 
 !!!!FR6!!!!
 --run server 1
-java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
+java -Xmx1g -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
 --run server 2
-java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1108 --mode memory
+java -Xmx1g -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1108 --mode memory
 --run balancer
-java -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
+java -Xmx1g -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
 --run client
-java -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
+java -Xmx1g -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
 add_server "localhost:1107" master
 add/update/delete/get
 add_server "localhost:1108" master
@@ -87,13 +87,13 @@ get_servers_list
 Return server error for not enough routes for read command
 Return server error for not enough routes for write command
 --run server 1
-java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
+java -Xmx1g -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
 --run server 2
-java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1108 --mode memory
+java -Xmx1g -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1108 --mode memory
 --run balancer
-java -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
+java -Xmx1g -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
 --run client
-java -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111 --number-of-routes-to-write 1 --number-of-routes-to-read 2
+java -Xmx1g -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111 --number-of-routes-to-write 1 --number-of-routes-to-read 2
 add_server "localhost:1107" master
 add x x
 get x - got an error
@@ -102,11 +102,11 @@ get x - got
 
 !!!!FR11!!!!
 --run server
-java -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
+java -Xmx1g -jar DatabaseServer/target/DatabaseServer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1107 --mode memory
 --run balancer
-java -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
+java -Xmx1g -jar DatabaseBalancer/target/DatabaseBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar --port 1111
 --run client
-java -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
+java -Xmx1g -jar DatabaseClient/target/DatabaseClient-1.0-SNAPSHOT-jar-with-dependencies.jar --list-of-servers localhost:1111
 add_server "localhost:1107" master
 add 1 1
 add 2 2

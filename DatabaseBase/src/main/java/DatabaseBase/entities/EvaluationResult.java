@@ -4,6 +4,7 @@ import DatabaseBase.interfaces.ISizable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -51,7 +52,9 @@ public class EvaluationResult<TKey extends ISizable, TValue extends ISizable> im
         if (HasReturnResult && temp.HasReturnResult) {
             if (Result == null)
                 return temp.Result == null;
-            return Result.equals(temp.Result);
+            if (temp.Result == null)
+                return false;
+            return Arrays.equals(Result.toArray(), temp.Result.toArray());
         }
 
         return true;

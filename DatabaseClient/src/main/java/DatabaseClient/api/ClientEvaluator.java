@@ -165,6 +165,7 @@ public class ClientEvaluator<TKey extends ISizable, TValue extends ISizable> ext
                     throw new EvaluateException("Different answer from routes");
                 }
                 previousEvaluationResult = serverEvaluationResult;
+                serverEvaluationResult = null;
                 query.ExecutionRoutes.addAll(balancerResult.ServiceResult.Routes);
             }
         }

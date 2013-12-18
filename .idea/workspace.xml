@@ -2,17 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59c60c7b-bfeb-4ba9-a414-90177867c5c6" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/api/ClientEvaluator.java" afterPath="$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/api/ClientEvaluator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/CombinedDataStorageTest.java" afterPath="$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/CombinedDataStorageTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBalancer/src/main/java/DatabaseBalancer/DynamicBalancer.java" afterPath="$PROJECT_DIR$/DatabaseBalancer/src/main/java/DatabaseBalancer/DynamicBalancer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/EvaluationResult.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/EvaluationResult.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/INSTALL" afterPath="$PROJECT_DIR$/INSTALL" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/parser/Parser.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/parser/Parser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/MemoryBasedDataStorageTest.java" afterPath="$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/MemoryBasedDataStorageTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/test/java/DatabaseBase/parser/ParserTest.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/test/java/DatabaseBase/parser/ParserTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/Program.java" afterPath="$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/Program.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/commands/RequestCommand.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/commands/RequestCommand.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/WrappedKeyValue.java" afterPath="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/WrappedKeyValue.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Database.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Database.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1381068122892" ignored="false" />
-    <file path="/Dummy.txt" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386407238633" ignored="false" />
-    <file path="/fragment.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386534384610" ignored="false" />
+    <file path="/Dummy.txt" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1387316730470" ignored="false" />
+    <file path="/fragment.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1387350983907" ignored="false" />
     <file path="/FileBasedDataStorageTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382836610943" ignored="false" />
     <file path="/MemoryBasedDataStorageTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382835008552" ignored="false" />
     <file path="/CombinedDataStorageTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382835180896" ignored="false" />
@@ -35,12 +40,12 @@
     <file path="/CommandSingleNode.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1381565036751" ignored="false" />
     <file path="/EvaluateException.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1381421229476" ignored="false" />
     <file path="/RequestCommand.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383554122886" ignored="false" />
-    <file path="/pom.xml" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383396055423" ignored="false" />
+    <file path="/pom.xml" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1387349640689" ignored="false" />
     <file path="/LexerTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382455487186" ignored="false" />
     <file path="/IBalancer.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383417108706" ignored="false" />
     <file path="/Balancer.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382837909575" ignored="false" />
     <file path="/Route.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386527275576" ignored="false" />
-    <file path="/INSTALL" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386537158311" ignored="false" />
+    <file path="/INSTALL" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1387351948769" ignored="false" />
     <file path="/README" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383435116262" ignored="false" />
     <file path="/ClientArguments.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1384004825855" ignored="false" />
     <file path="/ServerArguments.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1381692844865" ignored="false" />
@@ -55,10 +60,10 @@
     <file path="$PROJECT_DIR$/DatabaseServer/target/surefire-reports/TEST-dataStorage.MemoryBasedDataStorageTest.xml" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382300476659" ignored="false" />
     <file path="/ClientParser.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383063311987" ignored="false" />
     <file path="/ServerParser.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383060162119" ignored="false" />
-    <file path="/EvaluationResult.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386531237383" ignored="false" />
+    <file path="/EvaluationResult.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1387350927181" ignored="false" />
     <file path="/Query.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386531079483" ignored="false" />
     <file path="/ServerEvaluator.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386528140841" ignored="false" />
-    <file path="/ClientEvaluator.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386534985651" ignored="false" />
+    <file path="/ClientEvaluator.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1387349328638" ignored="false" />
     <file path="/ServerCommand.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383063370814" ignored="false" />
     <file path="/FileUtils.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382532845583" ignored="false" />
     <file path="/ClientEvaluatorTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382522009726" ignored="false" />
@@ -80,14 +85,14 @@
     <file path="/TransactionLoggerTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383426403079" ignored="false" />
     <file path="/ISizable.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386526544888" ignored="false" />
     <file path="/StringSizable.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386527413386" ignored="false" />
-    <file path="/WrappedKeyValue.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383390772388" ignored="false" />
+    <file path="/WrappedKeyValue.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1387351318825" ignored="false" />
     <file path="/WrappedKeyValueTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382830497434" ignored="false" />
     <file path="/IntegerSizable.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386527359816" ignored="false" />
     <file path="/ClientServerIntegrationTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383392258082" ignored="false" />
     <file path="/DinamicBalancer.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382839526637" ignored="false" />
     <file path="/BalancerEvaluator.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386530955445" ignored="false" />
     <file path="/ServiceCommand.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383343969720" ignored="false" />
-    <file path="/DynamicBalancer.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386524539018" ignored="false" />
+    <file path="/DynamicBalancer.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1387348795749" ignored="false" />
     <file path="/ServiceResult.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386530524680" ignored="false" />
     <file path="/IHashFunction.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1382880686187" ignored="false" />
     <file path="/ConsistentHash.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383579528851" ignored="false" />
@@ -103,7 +108,7 @@
     <file path="/BalancerParserString.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383063787711" ignored="false" />
     <file path="/AddServerCommand.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383064264637" ignored="false" />
     <file path="/RemoveServerCommand.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383065335410" ignored="false" />
-    <file path="/ParserTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386537333378" ignored="false" />
+    <file path="/ParserTest.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1386580913555" ignored="false" />
     <file path="/BalancerArguments.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383068236267" ignored="false" />
     <file path="/ReplicationQueue.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1384082500567" ignored="false" />
     <file path="/MasterSlaveReplicationTests.java" changelist="59c60c7b-bfeb-4ba9-a414-90177867c5c6" time="1383345394474" ignored="false" />
@@ -207,7 +212,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/CombinedDataStorageTest.java" line="60" class="DatabaseServer.dataStorage.CombinedDataStorageTest" package="DatabaseServer.dataStorage">
+      <breakpoint url="file://$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/CombinedDataStorageTest.java" line="61" class="DatabaseServer.dataStorage.CombinedDataStorageTest" package="DatabaseServer.dataStorage">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -222,7 +227,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/CombinedDataStorageTest.java" line="72" class="DatabaseServer.dataStorage.CombinedDataStorageTest" package="DatabaseServer.dataStorage">
+      <breakpoint url="file://$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/CombinedDataStorageTest.java" line="73" class="DatabaseServer.dataStorage.CombinedDataStorageTest" package="DatabaseServer.dataStorage">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -237,7 +242,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/CombinedDataStorageTest.java" line="85" class="DatabaseServer.dataStorage.CombinedDataStorageTest" package="DatabaseServer.dataStorage">
+      <breakpoint url="file://$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/CombinedDataStorageTest.java" line="86" class="DatabaseServer.dataStorage.CombinedDataStorageTest" package="DatabaseServer.dataStorage">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -417,7 +422,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/DatabaseBalancer/src/main/java/DatabaseBalancer/DynamicBalancer.java" line="54" class="DatabaseBalancer.DynamicBalancer" package="DatabaseBalancer">
+      <breakpoint url="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/EvaluationResult.java" line="32" class="DatabaseBase.entities.EvaluationResult" package="DatabaseBase.entities">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -432,52 +437,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/DatabaseBalancer/src/main/java/DatabaseBalancer/api/BalancerEvaluator.java" line="58" class="DatabaseBalancer.api.BalancerEvaluator" package="DatabaseBalancer.api">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/DatabaseBalancer/src/main/java/DatabaseBalancer/api/BalancerEvaluator.java" line="40" class="DatabaseBalancer.api.BalancerEvaluator" package="DatabaseBalancer.api">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/Evaluator.java" line="40" class="DatabaseBase.components.Evaluator" package="DatabaseBase.components">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/TcpListener.java" line="72" class="DatabaseBase.components.TcpListener" package="DatabaseBase.components">
+      <breakpoint url="file://$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/api/ClientEvaluator.java" line="163" class="DatabaseClient.api.ClientEvaluator" package="DatabaseClient.api">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -502,106 +462,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="INSTALL" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="INSTALL" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/INSTALL">
           <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state line="103" column="12" selection-start="4586" selection-end="4586" vertical-scroll-proportion="-7.04">
+            <state line="117" column="24" selection-start="5286" selection-end="5286" vertical-scroll-proportion="0.894081">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ParserTest.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/DatabaseBase/src/test/java/DatabaseBase/parser/ParserTest.java">
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="211" column="36" selection-start="5311" selection-end="5311" vertical-scroll-proportion="0.75791436">
-              <folding>
-                <element signature="docComment;class#ParserTest#0" expanded="false" />
-                <element signature="method#setUp#0;class#ParserTest#0" expanded="false" />
-                <element signature="method#Parse_Help_HelpCommand#0;class#ParserTest#0" expanded="false" />
-                <element signature="method#Parse_Quit_QuitCommand#0;class#ParserTest#0" expanded="false" />
-                <element signature="method#Parse_Help1_ParseException#0;class#ParserTest#0" expanded="false" />
-                <element signature="method#Parse_QuitWithLiteral_ParseException#0;class#ParserTest#0" expanded="false" />
-                <element signature="method#Parse_GetWithoutKey_ParseException#0;class#ParserTest#0" expanded="false" />
-                <element signature="method#Parse_GetWithKey_CommandKeyNode#0;class#ParserTest#0" expanded="false" />
-                <element signature="method#Parse_GetWithKeyRangeAndAdditionalLiteral_CommandMultiKeyNode#0;class#ParserTest#0" expanded="false" />
-                <element signature="method#Parse_GetWithKeyAndAdditionalLiteral_ParseException#0;class#ParserTest#0" expanded="false" />
-                <element signature="method#Parse_AddWithoutKey_ParseException#0;class#ParserTest#0" expanded="false" />
-                <element signature="method#Parse_AddWithKey_ParseException#0;class#ParserTest#0" expanded="false" />
-                <element signature="method#Parse_AddWithKeyAndValue_CommandKeyValueNode#0;class#ParserTest#0" expanded="false" />
-                <element signature="method#Parse_AddWithKeyAndValueAndAdditionalLiteral_ParseException#0;class#ParserTest#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Program.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/Program.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="22" selection-start="1564" selection-end="1564" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="docComment;class#Program#0" expanded="false" />
-                <element signature="method#PrintMainHelp#0;class#Program#0" expanded="false" />
-                <element signature="method#PrintResult#0;class#Program#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RequestCommand.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/commands/RequestCommand.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="33" selection-start="605" selection-end="618" vertical-scroll-proportion="0.0">
+            <state line="25" column="32" selection-start="948" selection-end="948" vertical-scroll-proportion="-9.153846">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Parser.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/parser/Parser.java">
+      <file leaf-file-name="ClientServerStaticBalancerIntegrationTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseTests/src/test/java/ClientServerStaticBalancerIntegrationTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="96" selection-start="2859" selection-end="2859" vertical-scroll-proportion="0.0">
+            <state line="113" column="0" selection-start="5247" selection-end="5247" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="docComment;class#Parser#0" expanded="false" />
-                <element signature="method#Parser#0;class#Parser#0" expanded="false" />
-                <element signature="method#ParseGET#0;class#Parser#0" expanded="false" />
-                <element signature="method#ParseUPDATE#0;class#Parser#0" expanded="false" />
-                <element signature="method#ParseCommand#0;class#Parser#0" expanded="false" />
-                <element signature="method#ParseNextLiteral#0;class#Parser#0" expanded="false" />
-                <element signature="method#ParseNextString#0;class#Parser#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TcpSenderMock.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/mocks/TcpSenderMock.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="43" selection-start="1941" selection-end="1941" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClientEvaluator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/api/ClientEvaluator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="21" selection-start="2693" selection-end="2693" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="docComment;class#ClientEvaluator#0" expanded="false" />
-                <element signature="method#ClientEvaluator#0;class#ClientEvaluator#0" expanded="false" />
-                <element signature="method#ClientEvaluator#1;class#ClientEvaluator#0" expanded="false" />
-                <element signature="method#EvaluateInternal#0;class#ClientEvaluator#0" expanded="false" />
-                <element signature="method#EvaluateBalancerQuery#0;class#ClientEvaluator#0" expanded="false" />
-                <element signature="method#EvaluateWrite#0;class#ClientEvaluator#0" expanded="false" />
-                <element signature="method#CopyResults#0;class#ClientEvaluator#0" expanded="false" />
-                <element signature="method#AccumulateResults#0;class#ClientEvaluator#0" expanded="false" />
-                <element signature="method#PrintHelp#0;class#ClientEvaluator#0" expanded="false" />
-                <element signature="method#Evaluate#0;class#ClientEvaluator#0" expanded="false" />
-                <element signature="method#Close#0;class#ClientEvaluator#0" expanded="false" />
+                <element signature="method#Start_1Server1Client_NoErrors#0;class#ClientServerStaticBalancerIntegrationTest#0" expanded="false" />
+                <element signature="method#Start_2Servers1Client_NoErrors#0;class#ClientServerStaticBalancerIntegrationTest#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -610,22 +498,49 @@
       <file leaf-file-name="ClientServerMultiCommandsIntegrationTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DatabaseTests/src/test/java/ClientServerMultiCommandsIntegrationTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="88" column="7" selection-start="4326" selection-end="4326" vertical-scroll-proportion="0.0">
+            <state line="38" column="0" selection-start="1439" selection-end="1439" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientEvaluator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/api/ClientEvaluator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="163" column="0" selection-start="7056" selection-end="7056" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#MultiGet_1Server1Client_Got#0;class#ClientServerMultiCommandsIntegrationTest#0" expanded="false" />
-                <element signature="method#CreateServer#0;class#ClientServerMultiCommandsIntegrationTest#0" expanded="false" />
-                <element signature="method#CreateBalancer#0;class#ClientServerMultiCommandsIntegrationTest#0" expanded="false" />
-                <element signature="method#CreateClient#0;class#ClientServerMultiCommandsIntegrationTest#0" expanded="false" />
+                <element signature="method#CopyResults#0;class#ClientEvaluator#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClientArguments.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/utils/ClientArguments.java">
+      <file leaf-file-name="EvaluationResult.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/EvaluationResult.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="12" selection-start="263" selection-end="263" vertical-scroll-proportion="0.0">
+            <state line="30" column="4" selection-start="842" selection-end="2067" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="docComment;class#EvaluationResult#0" expanded="false" />
+                <element signature="method#EvaluationResult#0;class#EvaluationResult#0" expanded="false" />
+                <element signature="method#equals#0;class#EvaluationResult#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WrappedKeyValue.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/WrappedKeyValue.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="49" column="46" selection-start="1334" selection-end="1334" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Evaluator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/Evaluator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="40" column="0" selection-start="1514" selection-end="1514" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -637,8 +552,19 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="57.12">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="20.4">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatabaseServer/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="37" column="18" selection-start="1482" selection-end="1482" vertical-scroll-proportion="-7.1538463">
+              <folding>
+                <element signature="tag#plugin#0;tag#plugins#0;tag#build#0;tag#project#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -661,22 +587,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/DatabaseServer/src/main/java/DatabaseServer/api/ServerEvaluator.java" />
-        <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/ServiceResult.java" />
-        <option value="$PROJECT_DIR$/DatabaseBalancer/src/main/java/DatabaseBalancer/api/BalancerEvaluator.java" />
-        <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/Query.java" />
-        <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/StaticBalancer.java" />
-        <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/EvaluationResult.java" />
-        <option value="$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/api/ServerEvaluatorTest.java" />
-        <option value="$PROJECT_DIR$/DatabaseTests/src/test/java/ClientServerStaticBalancerIntegrationTest.java" />
-        <option value="$PROJECT_DIR$/DatabaseTests/src/test/java/ClientServerDynamicBalancerIntegrationTest.java" />
         <option value="$PROJECT_DIR$/DatabaseTests/src/test/java/ClientServerMultiCommandsIntegrationTest.java" />
-        <option value="$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/api/ClientEvaluator.java" />
         <option value="$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/Program.java" />
         <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/commands/RequestCommand.java" />
         <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/parser/Parser.java" />
-        <option value="$PROJECT_DIR$/INSTALL" />
+        <option value="C:/Program Files/Java/jdk1.7.0_40/src.zip!/java/lang/Character.java" />
+        <option value="C:/Program Files/Java/jdk1.7.0_40/src.zip!/java/lang/Double.java" />
+        <option value="C:/Program Files/Java/jdk1.7.0_40/src.zip!/java/lang/Float.java" />
         <option value="$PROJECT_DIR$/DatabaseBase/src/test/java/DatabaseBase/parser/ParserTest.java" />
+        <option value="$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/MemoryBasedDataStorageTest.java" />
+        <option value="$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/CombinedDataStorageTest.java" />
+        <option value="$PROJECT_DIR$/DatabaseBalancer/src/main/java/DatabaseBalancer/DynamicBalancer.java" />
+        <option value="$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/api/ClientEvaluator.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/EvaluationResult.java" />
+        <option value="$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/WrappedKeyValue.java" />
+        <option value="$PROJECT_DIR$/INSTALL" />
       </list>
     </option>
   </component>
@@ -721,6 +647,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -739,179 +666,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database_v3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database_v3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database_v3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database_v3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseBase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database_v3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseBase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database_v3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseBase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseBase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Database_v3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseBase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DatabaseBase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="entities" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Modules" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
-    <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="OverrideImplement.combined" value="true" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="MemberChooser.sorted" value="false" />
     <property name="recentsLimit" value="5" />
+    <property name="MemberChooser.sorted" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -927,8 +695,8 @@
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
@@ -961,76 +729,7 @@
       <recent name="C:\Study\Database_v2\DatabaseServer\src\main\java" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ClientServerMultiCommandsIntegrationTest.MultiUpdate_1Server1Client_Got">
-    <configuration default="false" name="ClientServerStaticBalancerIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="DatabaseTests" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ClientServerStaticBalancerIntegrationTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="TransactionLoggerTest" type="JUnit" factoryName="JUnit" temporary="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="DatabaseTests" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TransactionLoggerTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="ClientServerDynamicBalancerIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="DatabaseTests" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ClientServerDynamicBalancerIntegrationTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Application.Client">
     <configuration default="false" name="ClientServerMultiCommandsIntegrationTest.MultiGet_1Server1Client_Got" type="JUnit" factoryName="JUnit" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="DatabaseTests" />
@@ -1063,6 +762,86 @@
       <option name="MAIN_CLASS_NAME" value="ClientServerMultiCommandsIntegrationTest" />
       <option name="METHOD_NAME" value="MultiUpdate_1Server1Client_Got" />
       <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ParserTest.test" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="DatabaseBase.parser.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="DatabaseBase" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="DatabaseBase.parser" />
+      <option name="MAIN_CLASS_NAME" value="DatabaseBase.parser.ParserTest" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ClientServerStaticBalancerIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="DatabaseTests" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="ClientServerStaticBalancerIntegrationTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ClientServerMultiCommandsIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="DatabaseTests" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="ClientServerMultiCommandsIntegrationTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -1113,19 +892,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -1152,6 +918,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1217,7 +996,7 @@
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="DatabaseClient.Program" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value=" --list-of-servers localhost:1111 --number-of-routes-to-read 1 --number-of-routes-to-write 1" />
+      <option name="PROGRAM_PARAMETERS" value=" --list-of-servers localhost:1111 --number-of-routes-to-read 2 --number-of-routes-to-write 1" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -1288,20 +1067,20 @@
       <item index="0" class="java.lang.String" itemvalue="Application.Server" />
       <item index="1" class="java.lang.String" itemvalue="Application.Client" />
       <item index="2" class="java.lang.String" itemvalue="Application.Balancer" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.ClientServerStaticBalancerIntegrationTest" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.TransactionLoggerTest" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.ClientServerDynamicBalancerIntegrationTest" />
-      <item index="6" class="java.lang.String" itemvalue="Maven.Install" />
-      <item index="7" class="java.lang.String" itemvalue="JUnit.ClientServerMultiCommandsIntegrationTest.MultiGet_1Server1Client_Got" />
-      <item index="8" class="java.lang.String" itemvalue="JUnit.ClientServerMultiCommandsIntegrationTest.MultiUpdate_1Server1Client_Got" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.ClientServerMultiCommandsIntegrationTest.MultiGet_1Server1Client_Got" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.ClientServerMultiCommandsIntegrationTest.MultiUpdate_1Server1Client_Got" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.ParserTest.test" />
+      <item index="6" class="java.lang.String" itemvalue="JUnit.ClientServerStaticBalancerIntegrationTest" />
+      <item index="7" class="java.lang.String" itemvalue="JUnit.ClientServerMultiCommandsIntegrationTest" />
+      <item index="8" class="java.lang.String" itemvalue="Maven.Install" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.ClientServerMultiCommandsIntegrationTest.MultiUpdate_1Server1Client_Got" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.ClientServerMultiCommandsIntegrationTest.MultiGet_1Server1Client_Got" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.ClientServerDynamicBalancerIntegrationTest" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.TransactionLoggerTest" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.ClientServerStaticBalancerIntegrationTest" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.ClientServerMultiCommandsIntegrationTest" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.ClientServerStaticBalancerIntegrationTest" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.ParserTest.test" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.ClientServerMultiCommandsIntegrationTest.MultiUpdate_1Server1Client_Got" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.ClientServerMultiCommandsIntegrationTest.MultiGet_1Server1Client_Got" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -1365,7 +1144,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32534248" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33561644" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30479452" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1378,8 +1157,8 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30151516" sideWeight="0.6934931" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30650684" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30151516" sideWeight="0.69520545" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25171232" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16969697" sideWeight="0.72431505" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1453,6 +1232,35 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/MemoryBasedDataStorageTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="124" column="65" selection-start="4006" selection-end="4006" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="docComment;class#MemoryBasedDataStorageTest#0" expanded="false" />
+            <element signature="method#setUp#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+            <element signature="method#RemoveCompletely_ItemExist_GetReturnNull#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+            <element signature="method#Get_ItemExists_Returned#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+            <element signature="method#Get_ItemWasUpdated_ReturnedUpdatedValue#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+            <element signature="method#Delete_ItemExist_ItemMarkedAsDeleted#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+            <element signature="method#StressTest_16MbKeysAnd1KbValues#0;class#MemoryBasedDataStorageTest#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/FileBasedDataStorageTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="264" column="59" selection-start="9357" selection-end="9401" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/dataStorage/CombinedDataStorageTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="187" column="18" selection-start="6780" selection-end="6780" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/TcpListener.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="72" column="0" selection-start="2202" selection-end="2202" vertical-scroll-proportion="0.0">
@@ -1460,159 +1268,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseBalancer/src/main/java/DatabaseBalancer/DynamicBalancer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="22" selection-start="3052" selection-end="3052" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#2710#2717#0" expanded="true" />
-            <element signature="method#GetRoute#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#AddServer#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#RemoveServer#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#UpdateServer#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#Replicate#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#GetServersList#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#FailedStartReplication#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#Heartbeat#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#GetFirstSlave#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#ReplicateInternal#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#ReplicateTo#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#ReplicateFrom#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#UpdateServerRole#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#GetRouteFromMaster#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#GetInternalRoute#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#run#0;class#DynamicBalancer#0" expanded="false" />
-            <element signature="method#Close#0;class#DynamicBalancer#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DatabaseBalancer/src/main/java/DatabaseBalancer/api/BalancerEvaluator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="152" column="0" selection-start="6770" selection-end="6770" vertical-scroll-proportion="0.0">
+        <state line="58" column="0" selection-start="2100" selection-end="2100" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="docComment;class#BalancerEvaluator#0" expanded="false" />
-            <element signature="method#BalancerEvaluator#0;class#BalancerEvaluator#0" expanded="false" />
             <element signature="e#1418#1432#0" expanded="true" />
-            <element signature="method#Close#0;class#BalancerEvaluator#0" expanded="false" />
-            <element signature="method#EvaluateServiceCommand#0;class#BalancerEvaluator#0" expanded="false" />
-            <element signature="method#EvaluateDatabaseCommand#0;class#BalancerEvaluator#0" expanded="false" />
-            <element signature="method#EvaluateInternalCommand#0;class#BalancerEvaluator#0" expanded="false" />
-            <element signature="e#7061#7078#0" expanded="false" />
-            <element signature="method#QueryExecutionStarted#0;class#BalancerEvaluator#0" expanded="false" />
-            <element signature="method#QueryExecutionEnded#0;class#BalancerEvaluator#0" expanded="false" />
-            <element signature="method#PrintHelp#0;class#BalancerEvaluator#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/test/java/DatabaseServer/api/ServerEvaluatorTest.java">
+    <entry file="file://$PROJECT_DIR$/DatabaseBalancer/src/main/java/DatabaseBalancer/DynamicBalancer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="118" column="0" selection-start="3849" selection-end="3849" vertical-scroll-proportion="0.0">
+        <state line="83" column="59" selection-start="3344" selection-end="3344" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="docComment;class#ServerEvaluatorTest#0" expanded="false" />
-            <element signature="method#setUp#0;class#ServerEvaluatorTest#0" expanded="false" />
-            <element signature="method#Evaluate_QueryNull_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
-            <element signature="e#1909#1918#0" expanded="false" />
-            <element signature="method#Evaluate_CommandNull_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
-            <element signature="method#Evaluate_CommandSingleNodeQuit_Quit#0;class#ServerEvaluatorTest#0" expanded="false" />
-            <element signature="method#Evaluate_CommandSingleNodeHelp_Help#0;class#ServerEvaluatorTest#0" expanded="false" />
-            <element signature="method#Evaluate_CommandSingleNodeOther_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
-            <element signature="method#Evaluate_CommandKeyNodeGet_NoErrorResultEmpty#0;class#ServerEvaluatorTest#0" expanded="false" />
-            <element signature="method#Evaluate_CommandKeyNodeDelete_NoErrorNoResult#0;class#ServerEvaluatorTest#0" expanded="false" />
-            <element signature="method#Evaluate_CommandKeyNodeOther_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
-            <element signature="method#Evaluate_CommandKeyValueNodeAdd_NoErrorNoResult#0;class#ServerEvaluatorTest#0" expanded="false" />
-            <element signature="method#Evaluate_CommandKeyValueNodeOther_HasError#0;class#ServerEvaluatorTest#0" expanded="false" />
-            <element signature="method#AssertObservers#0;class#ServerEvaluatorTest#0" expanded="false" />
-            <element signature="class#ObserverQuery#0" expanded="false" />
-            <element signature="method#update#0;class#ObserverQuery#0" expanded="false" />
-            <element signature="class#ObserverEvaluationResult#0" expanded="false" />
-            <element signature="method#update#0;class#ObserverEvaluationResult#0" expanded="false" />
+            <element signature="e#2722#2729#0" expanded="true" />
+            <element signature="e#3094#3101#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseTests/src/test/java/ClientServerDynamicBalancerIntegrationTest.java">
+    <entry file="file://$PROJECT_DIR$/DatabaseServer/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="184" column="75" selection-start="9101" selection-end="9168" vertical-scroll-proportion="0.0">
+        <state line="37" column="18" selection-start="1482" selection-end="1482" vertical-scroll-proportion="-7.1538463">
           <folding>
-            <element signature="docComment;class#ClientServerDynamicBalancerIntegrationTest#0" expanded="false" />
-            <element signature="method#Start_1Server1Client_NoErrors#0;class#ClientServerDynamicBalancerIntegrationTest#0" expanded="false" />
-            <element signature="method#Start_2MasterServers1Client_NoErrors#0;class#ClientServerDynamicBalancerIntegrationTest#0" expanded="false" />
-            <element signature="method#Start_1Master1SlaveServersWithReplication1Client_NoErrors#0;class#ClientServerDynamicBalancerIntegrationTest#0" expanded="false" />
-            <element signature="method#CreateServer#0;class#ClientServerDynamicBalancerIntegrationTest#0" expanded="false" />
-            <element signature="method#CreateBalancer#0;class#ClientServerDynamicBalancerIntegrationTest#0" expanded="false" />
-            <element signature="method#CreateClient#0;class#ClientServerDynamicBalancerIntegrationTest#0" expanded="false" />
+            <element signature="tag#plugin#0;tag#plugins#0;tag#build#0;tag#project#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseServer/src/main/java/DatabaseServer/api/ServerEvaluator.java">
+    <entry file="file://$PROJECT_DIR$/DatabaseTests/src/test/java/ClientServerStaticBalancerIntegrationTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="226" column="21" selection-start="10300" selection-end="10300" vertical-scroll-proportion="0.0">
+        <state line="113" column="0" selection-start="5247" selection-end="5247" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="docComment;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#ServerEvaluator#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#ServerEvaluator#1;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#Evaluate#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#Close#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#Evaluate#1;class#ServerEvaluator#0" expanded="false" />
-            <element signature="e#6182#6243#0" expanded="false" />
-            <element signature="method#Evaluate#2;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#Evaluate#3;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#Evaluate#4;class#ServerEvaluator#0" expanded="false" />
-            <element signature="e#9517#9523#0" expanded="true" />
-            <element signature="e#10615#10629#0" expanded="true" />
-            <element signature="method#PrintHelp#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#QueryExecutionStarted#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#QueryExecutionEnded#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#UndoQuery#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#CheckAvailableSlaves#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#EvaluateService#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#EvaluateReplication#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#EvaluatePing#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#EvaluateUpdateServer#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#SendReplicate#0;class#ServerEvaluator#0" expanded="false" />
-            <element signature="method#ProcessReplicate#0;class#ServerEvaluator#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/mocks/TcpSenderMock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="43" selection-start="1941" selection-end="1941" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/api/ClientEvaluator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="21" selection-start="2693" selection-end="2693" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="docComment;class#ClientEvaluator#0" expanded="false" />
-            <element signature="method#ClientEvaluator#0;class#ClientEvaluator#0" expanded="false" />
-            <element signature="method#ClientEvaluator#1;class#ClientEvaluator#0" expanded="false" />
-            <element signature="method#EvaluateInternal#0;class#ClientEvaluator#0" expanded="false" />
-            <element signature="method#EvaluateBalancerQuery#0;class#ClientEvaluator#0" expanded="false" />
-            <element signature="method#EvaluateWrite#0;class#ClientEvaluator#0" expanded="false" />
-            <element signature="method#CopyResults#0;class#ClientEvaluator#0" expanded="false" />
-            <element signature="method#AccumulateResults#0;class#ClientEvaluator#0" expanded="false" />
-            <element signature="method#PrintHelp#0;class#ClientEvaluator#0" expanded="false" />
-            <element signature="method#Evaluate#0;class#ClientEvaluator#0" expanded="false" />
-            <element signature="method#Close#0;class#ClientEvaluator#0" expanded="false" />
+            <element signature="method#Start_1Server1Client_NoErrors#0;class#ClientServerStaticBalancerIntegrationTest#0" expanded="false" />
+            <element signature="method#Start_2Servers1Client_NoErrors#0;class#ClientServerStaticBalancerIntegrationTest#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DatabaseTests/src/test/java/ClientServerMultiCommandsIntegrationTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="7" selection-start="4326" selection-end="4326" vertical-scroll-proportion="0.0">
+        <state line="38" column="0" selection-start="1439" selection-end="1439" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/components/Evaluator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="0" selection-start="1514" selection-end="1514" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/api/ClientEvaluator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="163" column="0" selection-start="7056" selection-end="7056" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#MultiGet_1Server1Client_Got#0;class#ClientServerMultiCommandsIntegrationTest#0" expanded="false" />
-            <element signature="method#CreateServer#0;class#ClientServerMultiCommandsIntegrationTest#0" expanded="false" />
-            <element signature="method#CreateBalancer#0;class#ClientServerMultiCommandsIntegrationTest#0" expanded="false" />
-            <element signature="method#CreateClient#0;class#ClientServerMultiCommandsIntegrationTest#0" expanded="false" />
+            <element signature="method#CopyResults#0;class#ClientEvaluator#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/EvaluationResult.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="4" selection-start="842" selection-end="2067" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="docComment;class#EvaluationResult#0" expanded="false" />
+            <element signature="method#EvaluationResult#0;class#EvaluationResult#0" expanded="false" />
+            <element signature="method#equals#0;class#EvaluationResult#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/entities/WrappedKeyValue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="46" selection-start="1334" selection-end="1334" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1621,41 +1352,15 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="57.12">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="20.4">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/utils/ClientArguments.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="12" selection-start="263" selection-end="263" vertical-scroll-proportion="0.0">
+        <state line="25" column="32" selection-start="948" selection-end="948" vertical-scroll-proportion="-9.153846">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseClient/src/main/java/DatabaseClient/Program.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="22" selection-start="1564" selection-end="1564" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="docComment;class#Program#0" expanded="false" />
-            <element signature="method#PrintMainHelp#0;class#Program#0" expanded="false" />
-            <element signature="method#PrintResult#0;class#Program#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/parser/Parser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="96" selection-start="2859" selection-end="2859" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="docComment;class#Parser#0" expanded="false" />
-            <element signature="method#Parser#0;class#Parser#0" expanded="false" />
-            <element signature="method#ParseGET#0;class#Parser#0" expanded="false" />
-            <element signature="method#ParseUPDATE#0;class#Parser#0" expanded="false" />
-            <element signature="method#ParseCommand#0;class#Parser#0" expanded="false" />
-            <element signature="method#ParseNextLiteral#0;class#Parser#0" expanded="false" />
-            <element signature="method#ParseNextString#0;class#Parser#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1664,37 +1369,8 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="12" selection-start="4586" selection-end="4586" vertical-scroll-proportion="-7.04">
+        <state line="117" column="24" selection-start="5286" selection-end="5286" vertical-scroll-proportion="0.894081">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseBase/src/main/java/DatabaseBase/commands/RequestCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="33" selection-start="605" selection-end="618" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatabaseBase/src/test/java/DatabaseBase/parser/ParserTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="211" column="36" selection-start="5311" selection-end="5311" vertical-scroll-proportion="0.75791436">
-          <folding>
-            <element signature="docComment;class#ParserTest#0" expanded="false" />
-            <element signature="method#setUp#0;class#ParserTest#0" expanded="false" />
-            <element signature="method#Parse_Help_HelpCommand#0;class#ParserTest#0" expanded="false" />
-            <element signature="method#Parse_Quit_QuitCommand#0;class#ParserTest#0" expanded="false" />
-            <element signature="method#Parse_Help1_ParseException#0;class#ParserTest#0" expanded="false" />
-            <element signature="method#Parse_QuitWithLiteral_ParseException#0;class#ParserTest#0" expanded="false" />
-            <element signature="method#Parse_GetWithoutKey_ParseException#0;class#ParserTest#0" expanded="false" />
-            <element signature="method#Parse_GetWithKey_CommandKeyNode#0;class#ParserTest#0" expanded="false" />
-            <element signature="method#Parse_GetWithKeyRangeAndAdditionalLiteral_CommandMultiKeyNode#0;class#ParserTest#0" expanded="false" />
-            <element signature="method#Parse_GetWithKeyAndAdditionalLiteral_ParseException#0;class#ParserTest#0" expanded="false" />
-            <element signature="method#Parse_AddWithoutKey_ParseException#0;class#ParserTest#0" expanded="false" />
-            <element signature="method#Parse_AddWithKey_ParseException#0;class#ParserTest#0" expanded="false" />
-            <element signature="method#Parse_AddWithKeyAndValue_CommandKeyValueNode#0;class#ParserTest#0" expanded="false" />
-            <element signature="method#Parse_AddWithKeyAndValueAndAdditionalLiteral_ParseException#0;class#ParserTest#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>

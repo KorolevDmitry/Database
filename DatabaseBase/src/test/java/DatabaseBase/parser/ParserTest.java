@@ -57,10 +57,9 @@ public class ParserTest {
         boolean hasParseException = false;
 
         //act
-        try{
-        Query query = _parser.Parse(str);
-        }catch (ParserException exception)
-        {
+        try {
+            Query query = _parser.Parse(str);
+        } catch (ParserException exception) {
             hasParseException = true;
         }
 
@@ -75,10 +74,9 @@ public class ParserTest {
         boolean hasParseException = false;
 
         //act
-        try{
+        try {
             Query query = _parser.Parse(str);
-        }catch (ParserException exception)
-        {
+        } catch (ParserException exception) {
             hasParseException = true;
         }
 
@@ -93,10 +91,9 @@ public class ParserTest {
         boolean hasParseException = false;
 
         //act
-        try{
+        try {
             Query query = _parser.Parse(str);
-        }catch (ParserException exception)
-        {
+        } catch (ParserException exception) {
             hasParseException = true;
         }
 
@@ -138,10 +135,9 @@ public class ParserTest {
         boolean hasParseException = false;
 
         //act
-        try{
+        try {
             Query query = _parser.Parse(str);
-        }catch (ParserException exception)
-        {
+        } catch (ParserException exception) {
             hasParseException = true;
         }
 
@@ -156,10 +152,9 @@ public class ParserTest {
         boolean hasParseException = false;
 
         //act
-        try{
+        try {
             Query query = _parser.Parse(str);
-        }catch (ParserException exception)
-        {
+        } catch (ParserException exception) {
             hasParseException = true;
         }
 
@@ -174,10 +169,9 @@ public class ParserTest {
         boolean hasParseException = false;
 
         //act
-        try{
+        try {
             Query query = _parser.Parse(str);
-        }catch (ParserException exception)
-        {
+        } catch (ParserException exception) {
             hasParseException = true;
         }
 
@@ -219,10 +213,9 @@ public class ParserTest {
         boolean hasParseException = false;
 
         //act
-        try{
+        try {
             Query query = _parser.Parse(str);
-        }catch (ParserException exception)
-        {
+        } catch (ParserException exception) {
             hasParseException = true;
         }
 

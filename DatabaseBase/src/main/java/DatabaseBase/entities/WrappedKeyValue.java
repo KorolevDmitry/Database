@@ -42,4 +42,22 @@ public class WrappedKeyValue<TKey extends ISizable, TValue extends ISizable> imp
         else
             return -1;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (!(obj instanceof WrappedKeyValue))
+            return false;
+        WrappedKeyValue temp = (WrappedKeyValue) obj;
+
+        if (Key == null)
+            if(temp.Key != null)
+                return false;
+        if (Value == null)
+            if(temp.Value != null)
+                return false;
+
+        return Key.equals(temp.Key) && Value.equals(temp.Value);
+    }
 }
