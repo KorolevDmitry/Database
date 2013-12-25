@@ -2,6 +2,7 @@ package DatabaseServer.dataStorage;
 
 import DatabaseBase.entities.StringSizable;
 import DatabaseBase.entities.WrappedKeyValue;
+import DatabaseBase.exceptions.DataStorageException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +26,7 @@ import static junit.framework.Assert.assertTrue;
  * To change this template use File | Settings | File Templates.
  */
 public class CombinedDataStorageTest {
-    private CombinedDataStorage<StringSizable, StringSizable> _storage;
+    protected CombinedDataStorage<StringSizable, StringSizable> _storage;
     private StringSizable defaultKey1 = new StringSizable("defaultKey1");
     private StringSizable defaultKey2 = new StringSizable("defaultKey2");
     private StringSizable defaultValue1 = new StringSizable("defaultValue1");
@@ -34,7 +35,7 @@ public class CombinedDataStorageTest {
 
     @Before
     public void setUp() throws Exception {
-        _storage = new CombinedDataStorage<StringSizable, StringSizable>(System.getProperty("user.dir"), "_fileStorage", 1, 1024);
+        InitStorage(1024);
     }
 
     @After
@@ -125,8 +126,9 @@ public class CombinedDataStorageTest {
     }
 
     @Test
-    public void StressTest_MemoryIsZero_Working() throws IOException, ClassNotFoundException {
+    public void StressTest_MemoryIsZero_Working() throws IOException, ClassNotFoundException, DataStorageException {
         //extend memory size for this test 4x16Mb
+        InitStorage(0);
         _storage = new CombinedDataStorage<StringSizable, StringSizable>(System.getProperty("user.dir"), "fileStorage", 1, 0);
         int keyBytes = 1024; //1Kb
         int valueBytes = 1024; //1Kb
@@ -150,9 +152,9 @@ public class CombinedDataStorageTest {
     }
 
     @Test
-    public void StressTest_MemoryIsEnoughOnlyForOneElement_Working() throws IOException, ClassNotFoundException {
+    public void StressTest_MemoryIsEnoughOnlyForOneElement_Working() throws IOException, ClassNotFoundException, DataStorageException {
         //extend memory size for this test 4x16Mb
-        _storage = new CombinedDataStorage<StringSizable, StringSizable>(System.getProperty("user.dir"), "fileStorage", 1, 3072);
+        InitStorage(3072);
         int keyBytes = 1024; //1Kb
         int valueBytes = 1024; //1Kb
         int elementsCount = 10;
@@ -175,9 +177,9 @@ public class CombinedDataStorageTest {
     }
 
     @Test
-    public void StressTest_16MbKeysAnd1KbValues() throws IOException, ClassNotFoundException {
+    public void StressTest_16MbKeysAnd1KbValues() throws IOException, ClassNotFoundException, DataStorageException {
         //extend memory size for this test 4x16Mb
-        _storage = new CombinedDataStorage<StringSizable, StringSizable>(System.getProperty("user.dir"), "fileStorage", 1, 67108864);
+        InitStorage(67108864);
         int keyBytes = 16777216; //16Mb
         int valueBytes = 1024; //1Kb
         int elementsCount = 10;
@@ -209,6 +211,12 @@ public class CombinedDataStorageTest {
             assertEquals(arrayOfValues[i], value.Value);
         }
     }
+
+
+    protected void InitStorage(int memorySize) throws IOException, ClassNotFoundException, DataStorageException {
+        _storage = new CombinedDataStorage<StringSizable, StringSizable>(System.getProperty("user.dir"), "fileStorage", 1, memorySize);
+    }
+
 
     /*private String GenerateString(int countOfBytes)    {
         byte[] bytes = new byte[countOfBytes];

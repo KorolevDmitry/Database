@@ -4,13 +4,14 @@ import DatabaseBase.components.TcpListener;
 import DatabaseBase.components.TcpSender;
 import DatabaseBase.entities.Route;
 import DatabaseBase.entities.StringSizable;
+import DatabaseBase.exceptions.DataStorageException;
 import DatabaseBase.interfaces.IDataStorage;
 import DatabaseBase.interfaces.INameUsageDescriptionPattern;
 import DatabaseBase.parser.Lexer;
 import DatabaseBase.parser.ParserStringString;
 import DatabaseBase.utils.ArgumentsHelper;
 import DatabaseServer.api.ServerEvaluator;
-import DatabaseServer.dataStorage.CombinedDataStorage;
+import DatabaseServer.dataStorage.CombinedDataStorageWithMemoryProfiling;
 import DatabaseServer.dataStorage.DataStorageType;
 import DatabaseServer.dataStorage.FileBasedDataStorage;
 import DatabaseServer.dataStorage.MemoryBasedDataStorage;
@@ -36,7 +37,7 @@ public class Program {
         ArgumentsHelper.PrintDescription(ServerArguments.values());
     }
 
-    private static IDataStorage<StringSizable, StringSizable> InitDatabase(HashMap<INameUsageDescriptionPattern, String> arguments) throws IOException, ClassNotFoundException {
+    private static IDataStorage<StringSizable, StringSizable> InitDatabase(HashMap<INameUsageDescriptionPattern, String> arguments) throws IOException, ClassNotFoundException, DataStorageException {
         IDataStorage<StringSizable, StringSizable> storage = null;
         if (!arguments.containsKey(ServerArguments.Mode))
             throw new IllegalArgumentException("Missed required argument: " + ServerArguments.Mode.GetName());
@@ -63,7 +64,7 @@ public class Program {
                 int memoryMaxSize = ArgumentsHelper.GetPositiveIntArgument(arguments, ServerArguments.MemoryMaxSize);
                 port = ArgumentsHelper.GetPositiveIntArgument(arguments, ServerArguments.Port);
                 prefix = "_fileStorage" + port;
-                storage = new CombinedDataStorage<StringSizable, StringSizable>(fileBaseDirectory, prefix, fileSplitSize, memoryMaxSize);
+                storage = new CombinedDataStorageWithMemoryProfiling<StringSizable, StringSizable>(fileBaseDirectory, prefix, fileSplitSize, memoryMaxSize);
                 break;
         }
         return storage;
@@ -119,8 +120,10 @@ public class Program {
         } catch (ClassNotFoundException e) {
             System.out.println(e.getMessage());
             PrintMainHelp();
-        }
-        finally {
+        } catch (DataStorageException e) {
+            System.out.println(e.getMessage());
+            PrintMainHelp();
+        } finally {
             if(storage != null)
             {
                 //storage.Close();

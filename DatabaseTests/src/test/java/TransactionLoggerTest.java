@@ -123,4 +123,34 @@ public class TransactionLoggerTest {
         List<Query> transactions = _transactionLogger.GetUnCommittedTransactions();
         assertEquals(0, transactions.size());
     }
+
+    @Test
+    public void test(){
+        int mb = 1024*1024;
+        Runtime runtime = Runtime.getRuntime();
+
+        System.out.println("Total memory: " + runtime.totalMemory()/mb);
+        System.out.println("Free memory: " + runtime.freeMemory()/mb);
+        System.out.println("Used memory: " + (runtime.totalMemory() - runtime.freeMemory())/mb);
+        System.out.println("Max memory: " + runtime.maxMemory()/mb);
+
+        int[] test = new int[(int)Math.pow(10,7)];
+        System.out.println("---------------------------");
+
+        System.out.println("Total memory: " + runtime.totalMemory()/mb);
+        System.out.println("Free memory: " + runtime.freeMemory()/mb);
+        System.out.println("Used memory: " + (runtime.totalMemory() - runtime.freeMemory())/mb);
+        System.out.println("Max memory: " + runtime.maxMemory()/mb);
+
+        int[] test2 = new int[(int)Math.pow(10,7)];
+        System.out.println("---------------------------");
+
+        System.out.println("Total memory: " + runtime.totalMemory()/mb);
+        System.out.println("Free memory: " + runtime.freeMemory()/mb);
+        System.out.println("Used memory: " + (runtime.totalMemory() - runtime.freeMemory())/mb);
+        System.out.println("Max memory: " + runtime.maxMemory()/mb);
+
+        test[0]=1;
+        test2[0]=1;
+    }
 }

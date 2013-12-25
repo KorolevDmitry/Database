@@ -17,11 +17,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * To change this template use File | Settings | File Templates.
  */
 public class CombinedDataStorage<TKey extends ISizable, TValue extends ISizable> implements IDataStorage<TKey, TValue> {
-    private MemoryBasedDataStorage<TKey, TValue> _memoryStorage;
-    private FileBasedDataStorage<TKey, TValue> _fileStorage;
-    private ConcurrentLinkedQueue<TKey> _freqElements;
-    private int _maxMemorySize;
-    private int _currentMemorySize;
+    protected MemoryBasedDataStorage<TKey, TValue> _memoryStorage;
+    protected FileBasedDataStorage<TKey, TValue> _fileStorage;
+    protected ConcurrentLinkedQueue<TKey> _freqElements;
+    protected long _maxMemorySize;
+    private long _currentMemorySize;
 
     public CombinedDataStorage(String baseDirectory, String filePrefix, int fileSplitSize, int memorySize) throws IOException, ClassNotFoundException {
         _memoryStorage = new MemoryBasedDataStorage<TKey, TValue>();
@@ -30,7 +30,7 @@ public class CombinedDataStorage<TKey extends ISizable, TValue extends ISizable>
         _maxMemorySize = memorySize;
     }
 
-    private void AddItemToMemory(WrappedKeyValue<TKey, TValue> item) throws IOException {
+    protected void AddItemToMemory(WrappedKeyValue<TKey, TValue> item) throws IOException {
         if (item.IsDeleted) {
             WrappedKeyValue oldItem = _memoryStorage.Get(item.Key);
             _currentMemorySize -= oldItem == null ? 0 : oldItem.Size;
